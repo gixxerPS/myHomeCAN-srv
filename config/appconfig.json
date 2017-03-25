@@ -1,0 +1,10 @@
+{
+  "PATH":{
+	  "LOG":"logs"
+  },
+  "SERVER":{
+	  "HTTP":{
+		  "port": 8080
+	  }
+  }
+}
