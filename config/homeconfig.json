@@ -1,0 +1,13 @@
+{
+  "EG":{
+	  "licht": {
+	   "desc"      : "kueche spuele",
+	   "out_addr"  : "10000001",
+	   "out_offs"  : 1,
+	   "rm_addr"   : "01100001",
+	   "rm_offs"   : 1,
+	   "man_addr"  : "011",
+	   "man_offs"  : 1
+	  }
+  }
+}
