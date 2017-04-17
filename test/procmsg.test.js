@@ -2,10 +2,11 @@
  * http://usejsdoc.org/
  */
 var assert = require('chai').assert;
+var sinon = require('sinon');
 
 var msghlp = require('../lib/msghlp.js');
 var mu = require('../lib/myutil.js');
-var procmsg = require('../lib/procmsg.js');
+var ProcMsg = require('../lib/procmsg.js');
 /*
  * msg = header || prio || sender unit id || sender num || 
  * 		receiver unit id || receiver num || code ||
@@ -72,11 +73,12 @@ var getSamples = {
 
 
 suite('PROCMSG', function() {
+  var procmsg;
 	setup(function() {
-		// ...
+		procmsg = new ProcMsg(function () {});
 	});
 	teardown(function() {
-		// ...
+	  procmsg = undefined;
 	});
 
 	test('parse iu', function() {
@@ -135,9 +137,10 @@ suite('PROCMSG', function() {
       done();
     });
 	});
-	test('switch output unknown pu', function() {
-    var dataStr = procmsg.switchOutput(10, 1, '10000001');
-    assert.deepEqual(dataStr, '');
+	test('switch output unknown pu registers unit', function() {
+    var outArr = procmsg.switchOutput(10, 1, '10000001');
+    assert.deepEqual(outArr[10], 1);
+    assert.deepEqual(Object.keys(procmsg.staticOutMap).length, 1);
   });
 	test('register output units', function() {
     assert.ok(!procmsg.registerOutUnit('10000001'));
@@ -152,6 +155,33 @@ suite('PROCMSG', function() {
     var outArr = procmsg.switchOutput(10, 1, '10000001');
     assert.deepEqual(outArr.length, 64);
     assert.deepEqual(outArr[10], 1);
+  });
+	test('send alive msg', function() {
+	  var spy = sinon.spy(procmsg, 'sendFcn');
+    procmsg.sendAlive();
+    assert.ok(spy.calledOnce);
+    assert.deepEqual(spy.getCall(0).args[0], msghlp.ids.alive);
+    assert.deepEqual(spy.getCall(0).args[1].length, 64);
+    assert.deepEqual(spy.getCall(0).args[1], 
+        msghlp.msgs.aliveHeader + '00000001' + '00000000000000000000000000000000');
+  });
+	test('send alive msg count alive', function() {
+    var spy = sinon.spy(procmsg, 'sendFcn');
+    procmsg.sendAlive();
+    procmsg.sendAlive();
+    assert.deepEqual(spy.callCount, 2);
+    assert.deepEqual(spy.getCall(1).args[1].length, 64);
+    assert.deepEqual(spy.getCall(1).args[1], 
+        msghlp.msgs.aliveHeader + '00000010' + '00000000000000000000000000000000');
+  });
+	test('send alive msg 8 bit counter overflow', function() {
+    var spy = sinon.spy(procmsg, 'sendFcn');
+    for (var i = 0; i < 258; i++) {
+      procmsg.sendAlive();
+    }
+    assert.deepEqual(spy.callCount, 258);
+    assert.deepEqual(spy.lastCall.args[1], 
+        msghlp.msgs.aliveHeader + '00000010' + '00000000000000000000000000000000');
   });
 });
 

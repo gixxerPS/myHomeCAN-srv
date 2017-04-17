@@ -1,0 +1,23 @@
+html
+  head
+    title= title
+    include includes/head.pug
+  body
+    include includes/toc.pug
+    header Alle Botschaften
+        h1= message
+
+  table
+    thead
+      tr: th OUTPUTS
+    tbody
+      each out, i in outputs
+        tr
+          td
+            f #{out.disp} 
+          td 
+            button(onClick="buttonClick(this.id)" type="button" id= out.idON) ON
+          td 
+            button(onClick="buttonClick(this.id)" type="button" id= out.idOFF) OFF
+              
+    ul(id="content")

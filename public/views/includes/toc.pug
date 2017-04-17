@@ -1,0 +1,7 @@
+div(id="toc")
+  h2 Navigation
+  a(href='/') Hauptseite
+  ul(id="floors")
+  each room in rooms
+    li
+        a(href= 'room_' + room) #{room}

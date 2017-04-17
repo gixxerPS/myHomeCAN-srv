@@ -5,7 +5,7 @@ $(document).ready(function(){
     // neue Nachricht
     socket.on('chat', function (data) {
         var zeit = new Date(data.zeit);
-        $('#content').append(
+        $('#log').append(
             $('<li></li>').append(
                 // Uhrzeit
                 $('<span>').text('[' +

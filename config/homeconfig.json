@@ -1,13 +1,110 @@
 {
   "EG":{
-	  "licht": {
-	   "desc"      : "kueche spuele",
-	   "out_addr"  : "10000001",
-	   "out_offs"  : 1,
-	   "rm_addr"   : "01100001",
-	   "rm_offs"   : 1,
-	   "man_addr"  : "011",
-	   "man_offs"  : 1
-	  }
+    "Kueche": {
+      "light": {
+        "desc"      : "Spuele",
+        "out_addr"  : "10000001",
+        "out_offs"  : 1,
+        "rm_addr"   : "01100001",
+        "rm_offs"   : 1,
+        "man_addr"  : "01100001",
+        "man_offs"  : 2
+      },
+      "light": {
+        "desc"      : "Essbereich",
+        "out_addr"  : "10000001",
+        "out_offs"  : 2,
+        "rm_addr"   : "01100001",
+        "rm_offs"   : 3,
+        "man_addr"  : "01100001",
+        "man_offs"  : 4
+      }
+    },
+    "Flur": {
+      "light": {
+        "desc"      : "Flur",
+        "out_addr"  : "10000002",
+        "out_offs"  : 1,
+        "rm_addr"   : "01100002",
+        "rm_offs"   : 1,
+        "man_addr"  : "01100002",
+        "man_offs"  : 2
+      }
+    },
+    "Garderobe" : {},
+    "GaesteWC" : {},
+    "Wohnzimmer" : {},
+    "Wintergarten" : {},
+    "Wirtschaftsraum" : {},
+    "Vorrat" : {}
+  },
+  "OG":{
+    "Bad": {
+      "light": {
+        "desc"      : "Bad",
+        "out_addr"  : "10000001",
+        "out_offs"  : 1,
+        "rm_addr"   : "01100003",
+        "rm_offs"   : 1,
+        "man_addr"  : "01100003",
+        "man_offs"  : 2
+      }
+    },
+    "Flur": {
+      "light": {
+        "desc"      : "Flur",
+        "out_addr"  : "10000001",
+        "out_offs"  : 1,
+        "rm_addr"   : "01100001",
+        "rm_offs"   : 1,
+        "man_addr"  : "01100001",
+        "man_offs"  : 1
+      }
+    },
+    "Buero" : {},
+    "Eltern" : {},
+    "Ben" : {},
+    "Kind2" : {}
+  },
+  "UG":{
+    "Flur": {
+      "light": {
+        "desc"      : "Flur",
+        "out_addr"  : "10000001",
+        "out_offs"  : 1,
+        "rm_addr"   : "01100001",
+        "rm_offs"   : 1,
+        "man_addr"  : "01100001",
+        "man_offs"  : 1
+      }
+    },
+    "Waschraum": {
+      "light": {
+        "desc"      : "Waschraum",
+        "out_addr"  : "10000001",
+        "out_offs"  : 1,
+        "rm_addr"   : "01100001",
+        "rm_offs"   : 1,
+        "man_addr"  : "01100001",
+        "man_offs"  : 1
+      }
+    },
+    "Spielzimmer" : {},
+    "Heizungsraum" : {},
+    "Vorratskeller" : {}
+  },
+  "AUSSEN":{
+    "Garten": {
+      "light": {
+        "desc"      : "Huette",
+        "out_addr"  : "10000001",
+        "out_offs"  : 1,
+        "rm_addr"   : "01100001",
+        "rm_offs"   : 1,
+        "man_addr"  : "01100001",
+        "man_offs"  : 1
+      }
+    },
+    "Garage" : {}
   }
 }
