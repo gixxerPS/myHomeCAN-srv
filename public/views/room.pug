@@ -2,10 +2,31 @@ html
   head
     title= title
     include includes/head.pug
+    script(src='script/room.js')
   body
     include includes/toc.pug
-    header= room
+    header Raumbedienung
     div(id="content")
-        h1 Status Übersicht...
+        h1= roomtitle
+        #lights
+        
+        table
+            thead
+              tr: th Licht
+            tbody
+              each item in roomObj
+                tr
+                  td
+                    = item.str
+                  td 
+                    button(onClick="buttonClick(this.id)" type="button" id= item.id) ON
+                  td 
+                    button(onClick="buttonClick(this.id)" type="button" id= item.id) OFF
+         
+        
+        
+        
+        
+        
     include includes/footer.pug
 

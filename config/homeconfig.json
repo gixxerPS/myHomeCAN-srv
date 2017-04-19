@@ -1,8 +1,8 @@
 {
   "EG":{
     "Kueche": {
-      "light": {
-        "desc"      : "Spuele",
+      "Spuele": {
+        "type"      : "light",
         "out_addr"  : "10000001",
         "out_offs"  : 1,
         "rm_addr"   : "01100001",
@@ -10,8 +10,8 @@
         "man_addr"  : "01100001",
         "man_offs"  : 2
       },
-      "light": {
-        "desc"      : "Essbereich",
+      "Essbereich": {
+        "type"      : "light",
         "out_addr"  : "10000001",
         "out_offs"  : 2,
         "rm_addr"   : "01100001",
@@ -21,8 +21,8 @@
       }
     },
     "Flur": {
-      "light": {
-        "desc"      : "Flur",
+      "Flur": {
+        "type"      : "light",
         "out_addr"  : "10000002",
         "out_offs"  : 1,
         "rm_addr"   : "01100002",
@@ -40,8 +40,8 @@
   },
   "OG":{
     "Bad": {
-      "light": {
-        "desc"      : "Bad",
+      "Bad": {
+        "type"      : "light",
         "out_addr"  : "10000001",
         "out_offs"  : 1,
         "rm_addr"   : "01100003",
@@ -51,8 +51,8 @@
       }
     },
     "Flur": {
-      "light": {
-        "desc"      : "Flur",
+      "Flur": {
+        "type"      : "light",
         "out_addr"  : "10000001",
         "out_offs"  : 1,
         "rm_addr"   : "01100001",
@@ -68,8 +68,8 @@
   },
   "UG":{
     "Flur": {
-      "light": {
-        "desc"      : "Flur",
+      "Flur": {
+        "type"      : "light",
         "out_addr"  : "10000001",
         "out_offs"  : 1,
         "rm_addr"   : "01100001",
@@ -79,8 +79,8 @@
       }
     },
     "Waschraum": {
-      "light": {
-        "desc"      : "Waschraum",
+      "Waschraum": {
+        "type"      : "light",
         "out_addr"  : "10000001",
         "out_offs"  : 1,
         "rm_addr"   : "01100001",
@@ -95,8 +95,8 @@
   },
   "AUSSEN":{
     "Garten": {
-      "light": {
-        "desc"      : "Huette",
+      "Huette": {
+        "type"      : "light",
         "out_addr"  : "10000001",
         "out_offs"  : 1,
         "rm_addr"   : "01100001",
