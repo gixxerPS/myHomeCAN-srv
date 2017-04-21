@@ -3,21 +3,39 @@
     "Kueche": {
       "Spuele": {
         "type"      : "light",
-        "out_addr"  : "10000001",
-        "out_offs"  : 1,
-        "rm_addr"   : "01100001",
-        "rm_offs"   : 1,
-        "man_addr"  : "01100001",
-        "man_offs"  : 2
+        "out_addr"  : "10000001.1",
+        "rm_addr"   : "01100001.1",
+        "man_addr"  : "01100001.2"
       },
       "Essbereich": {
         "type"      : "light",
-        "out_addr"  : "10000001",
-        "out_offs"  : 2,
-        "rm_addr"   : "01100001",
-        "rm_offs"   : 3,
-        "man_addr"  : "01100001",
-        "man_offs"  : 4
+        "out_addr"  : "10000001.2",
+        "rm_addr"   : "01100001.3",
+        "man_addr"  : "01100001.4"
+      },
+      "Auffahrt": {
+        "type"          : "shutter",
+        "out_up_addr"   : "10000001.2",
+        "out_down_addr" : "01100001.3",
+        "man_up_addr"   : "01100001.4",
+        "man_down_addr" : "01100001.5"
+      },
+      "Spuele": {
+        "type"          : "shutter",
+        "out_up_addr"   : "10000001.2",
+        "out_down_addr" : "01100001.3",
+        "man_up_addr"   : "01100001.4",
+        "man_down_addr" : "01100001.5"
+      },
+      "Fenster_Auffahrt": {
+        "type"          : "heating",
+        "actval_addr"   : "01000001.1",
+        "ctrl_val_addr" : "01100001.6"
+      },
+      "Arbeitsflaeche": {
+        "type"          : "receptacle",
+        "out_addr"      : "10000001.2",
+        "man_addr"      : "01100001.4"
       }
     },
     "Flur": {

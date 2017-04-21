@@ -8,6 +8,9 @@ html
     header Raumbedienung
     div(id="content")
         h1= roomtitle
+        
+        hr
+        
         #lights
         
         table
@@ -15,18 +18,71 @@ html
               tr: th Licht
             tbody
               each item in roomObj
-                tr
+                  if item.type === 'light'
+                    tr
+                      td
+                        = item.str
+                      td 
+                        button(onClick="lightClick(this.id, 'ON')" type="button" id= item.id) AN
+                      td 
+                        button(onClick="lightClick(this.id, 'OFF')" type="button" id= item.id) AUS
+        hr
+        #shutter
+        table
+            thead
+              tr: th Rolladen
+            tbody
+              each item in roomObj
+                  if item.type === 'shutter'
+                    tr
+                      td
+                        = item.str
+                      td 
+                        button(onClick="shutterClick(this.id, 'DOWN')" type="button" id= item.id+'_down') AB
+                      td 
+                        button(onClick="shutterClick(this.id, 'UP')" type="button" id= item.id+'_up') AUF
+        hr
+        #heating
+        table
+            thead
+              tr: th Heizung/Temperatur
+            tbody
+              tr: td
+                  td Istwert
                   td
-                    = item.str
-                  td 
-                    button(onClick="buttonClick(this.id)" type="button" id= item.id) ON
-                  td 
-                    button(onClick="buttonClick(this.id)" type="button" id= item.id) OFF
-         
-        
-        
-        
-        
-        
+                  td Sollwert
+                  td
+                  td
+              each item in roomObj
+                  if item.type === 'heating'
+                    tr
+                      td
+                        = item.str
+                      td 
+                        input(type="text" id= item.id+'_act' readonly)
+                      td °C
+                      td 
+                        input(type="range" id= item.id+'_cmd' min= '0' max= '40' class= '_cmd')
+                      td 
+                        input(type="number" id= item.id+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
+                      td °C
+        hr
+        #receptacles
+        table
+            thead
+              tr: th Steckdosen
+            tbody
+              each item in roomObj
+                  if item.type === 'receptacle'
+                    tr
+                      td
+                        = item.str
+                      td 
+                        button(onClick="receptClick(this.id)" type="button" id= item.id) AN
+                      td 
+                        button(onClick="receptClick(this.id)" type="button" id= item.id) AUS
+                        
+
+      
     include includes/footer.pug
 

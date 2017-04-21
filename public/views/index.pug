@@ -8,4 +8,13 @@ html
     header Hauptseite
     div(id="content")
         h1 Status Übersicht...
+        
+        meter test
+
+        form(
+          oninput= "x.value=parseInt(a.value)"
+        )
+          input(type= 'range' name= 'a')
+          output(name= 'x')
+        
     include includes/footer.pug
