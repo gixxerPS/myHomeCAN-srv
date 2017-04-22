@@ -8,80 +8,106 @@ html
     header Raumbedienung
     div(id="content")
         h1= roomtitle
-        
         hr
-        
         #lights
-        
         table
-            thead
-              tr: th Licht
-            tbody
-              each item in roomObj
-                  if item.type === 'light'
-                    tr
-                      td
-                        = item.str
-                      td 
-                        button(onClick="lightClick(this.id, 'ON')" type="button" id= item.id) AN
-                      td 
-                        button(onClick="lightClick(this.id, 'OFF')" type="button" id= item.id) AUS
+          tbody
+            tr
+              td
+                img(src='./images/light.jpeg' height="42" width="42")
+              td
+                table(class= 'tableIO')
+                  thead
+                    tr: th Licht
+                  tbody
+                    each item in roomObj
+                        if item.type === 'light'
+                          tr
+                            td
+                              = item.str
+                            td 
+                              button(onClick="lightClick(this.id, 'ON')" type="button" id= item.id) AN
+                            td 
+                              button(onClick="lightClick(this.id, 'OFF')" type="button" id= item.id) AUS
+              td
+                p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
         #shutter
         table
-            thead
-              tr: th Rolladen
-            tbody
-              each item in roomObj
-                  if item.type === 'shutter'
-                    tr
-                      td
-                        = item.str
-                      td 
-                        button(onClick="shutterClick(this.id, 'DOWN')" type="button" id= item.id+'_down') AB
-                      td 
-                        button(onClick="shutterClick(this.id, 'UP')" type="button" id= item.id+'_up') AUF
+          tr
+            td
+              img(src='./images/jalousie.jpeg' height="42" width="42")
+            td
+              table(class= 'tableIO')
+                  thead
+                    tr: th Rolladen
+                  tbody
+                    each item in roomObj
+                        if item.type === 'shutter'
+                          tr
+                            td
+                              = item.str
+                            td 
+                              button(onClick="shutterClick(this.id, 'DOWN')" type="button" id= item.id+'_down') AB
+                            td 
+                              button(onClick="shutterClick(this.id, 'UP')" type="button" id= item.id+'_up') AUF
+            td
+              p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
         #heating
         table
-            thead
-              tr: th Heizung/Temperatur
-            tbody
-              tr: td
-                  td Istwert
-                  td
-                  td Sollwert
-                  td
-                  td
-              each item in roomObj
-                  if item.type === 'heating'
-                    tr
-                      td
-                        = item.str
-                      td 
-                        input(type="text" id= item.id+'_act' readonly)
-                      td °C
-                      td 
-                        input(type="range" id= item.id+'_cmd' min= '0' max= '40' class= '_cmd')
-                      td 
-                        input(type="number" id= item.id+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
-                      td °C
+          tr
+            td
+              img(src='./images/thermometer.png' height="54" width="42")
+            td
+              table(class= 'tableTemp')
+                  thead
+                    tr: th Heizung/Temperatur
+                  tbody
+                    tr: td
+                        td Istwert
+                        td
+                        td Sollwert
+                        td
+                        td
+                    each item in roomObj
+                        if item.type === 'heating'
+                          tr
+                            td
+                              = item.str
+                            td 
+                              input(type="text" id= item.id+'_act' readonly)
+                            td °C
+                            td 
+                              input(type="range" id= item.id+'_cmd' min= '0' max= '40' class= '_cmd')
+                            td 
+                              input(type="number" id= item.id+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
+                            td °C
+            td
+              p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
         #receptacles
         table
-            thead
-              tr: th Steckdosen
-            tbody
-              each item in roomObj
-                  if item.type === 'receptacle'
-                    tr
-                      td
-                        = item.str
-                      td 
-                        button(onClick="receptClick(this.id)" type="button" id= item.id) AN
-                      td 
-                        button(onClick="receptClick(this.id)" type="button" id= item.id) AUS
-                        
+          tbody
+            tr
+              td
+                img(src='./images/receptacle.jpeg' height="42" width="42")
+              td
+                table(class= 'tableIO')
+                    thead
+                      tr: th Steckdosen
+                    tbody
+                      each item in roomObj
+                          if item.type === 'receptacle'
+                            tr
+                              td
+                                = item.str
+                              td 
+                                button(onClick="receptClick(this.id)" type="button" id= item.id) AN
+                              td 
+                                button(onClick="receptClick(this.id)" type="button" id= item.id) AUS
+              td
+                p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
 
       
     include includes/footer.pug

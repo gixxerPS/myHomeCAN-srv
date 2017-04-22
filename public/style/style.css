@@ -54,3 +54,16 @@ input{
    top: 4em;
    left: 1em;
 }
+.tableIO {
+  border: 1px solid black;
+  table-layout: fixed;
+  width: 20em; /* must have this set */
+  border-collapse: collapse; 
+}
+.tableIO tr:nth-child(1) {
+    border: solid thin;
+ }
+.tableTemp {
+  border: 1px solid black;
+  rules: rows
+}
