@@ -8,6 +8,7 @@ html
     header Raumbedienung
     div(id="content")
         h1= roomtitle
+        
         hr
         #lights
         table
@@ -26,9 +27,11 @@ html
                             td
                               = item.str
                             td 
-                              button(onClick="lightClick(this.id, 'ON')" type="button" id= item.id) AN
+                              button(onClick="lightClick(this.id, 'ON')" type="button" id= item.out_addr) AN
                             td 
-                              button(onClick="lightClick(this.id, 'OFF')" type="button" id= item.id) AUS
+                              button(onClick="lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                            td
+                              div(class='output_circle' id= item.out_addr+'_output_circle')
               td
                 p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
@@ -48,9 +51,19 @@ html
                             td
                               = item.str
                             td 
-                              button(onClick="shutterClick(this.id, 'DOWN')" type="button" id= item.id+'_down') AB
+                              button(onClick="shutterClick(this.id, 'DOWN')" type="button" id= item.out_down_addr) AB
                             td 
-                              button(onClick="shutterClick(this.id, 'UP')" type="button" id= item.id+'_up') AUF
+                              button(onClick="shutterClick(this.id, 'UP')" type="button" id= item.out_up_addr) AUF
+                            td
+                              table
+                                tr
+                                  td 
+                                    svg(width=20 height=20)
+                                      polygon(class='output_delta' id= item.out_up_addr+'_output_delta' points="0,17.4 10,0 20,17.4" style="fill:white;stroke:black;stroke-width:1")
+                                tr
+                                  td
+                                    svg(width=20 height=20)
+                                      polygon(class='output_delta' id= item.out_down_addr+'_output_delta' points="0,0 10.0,17.4 20.0,0" style="fill:white;stroke:black;stroke-width:1")
             td
               p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
@@ -76,13 +89,15 @@ html
                             td
                               = item.str
                             td 
-                              input(type="text" id= item.id+'_act' readonly)
+                              input(type="text" id= item.out_addr+'_act' readonly)
                             td °C
                             td 
-                              input(type="range" id= item.id+'_cmd' min= '0' max= '40' class= '_cmd')
+                              input(type="range" id= item.out_addr+'_cmd' min= '0' max= '40' class= '_cmd')
                             td 
-                              input(type="number" id= item.id+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
+                              input(type="number" id= item.out_addr+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
                             td °C
+                            td
+                              div(class='output_circle' id= item.ctrl_val_addr+'_output_circle')
             td
               p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
@@ -103,9 +118,11 @@ html
                               td
                                 = item.str
                               td 
-                                button(onClick="receptClick(this.id)" type="button" id= item.id) AN
+                                button(onClick="receptClick(this.id, 'ON')" type="button" id= item.out_addr) AN
                               td 
-                                button(onClick="receptClick(this.id)" type="button" id= item.id) AUS
+                                button(onClick="receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                              td
+                                div(class='output_circle' id= item.out_addr+'_output_circle')
               td
                 p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
 

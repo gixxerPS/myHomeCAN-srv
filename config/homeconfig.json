@@ -15,15 +15,15 @@
       },
       "Auffahrt": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.2",
-        "out_down_addr" : "01100001.3",
+        "out_up_addr"   : "10000001.3",
+        "out_down_addr" : "10000001.4",
         "man_up_addr"   : ["01100001.4"],
         "man_down_addr" : ["01100001.5"]
       },
       "Spuele": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.2",
-        "out_down_addr" : "01100001.3",
+        "out_up_addr"   : "10000001.5",
+        "out_down_addr" : "10000001.6",
         "man_up_addr"   : ["01100001.4"],
         "man_down_addr" : ["01100001.5"]
       },
@@ -34,7 +34,7 @@
       },
       "Arbeitsflaeche": {
         "type"          : "receptacle",
-        "out_addr"      : "10000001.2",
+        "out_addr"      : "10000001.7",
         "man_addr"      : ["01100001.4"]
       }
     },

@@ -54,16 +54,25 @@ input{
    top: 4em;
    left: 1em;
 }
-.tableIO {
+table.tableIO {
   border: 1px solid black;
   table-layout: fixed;
-  width: 20em; /* must have this set */
+  width: 30em; /* must have this set */
   border-collapse: collapse; 
 }
-.tableIO tr:nth-child(1) {
-    border: solid thin;
- }
+table.tableIO tr:nth-child(1)  { border: solid thin; }
+/*table.tableIO td { overflow:hidden; }*/
+/* table.tableIO td:nth-of-type(1) { width: 20em; } */
+
 .tableTemp {
   border: 1px solid black;
   rules: rows
+}
+ .output_circle  {
+ width: 2em;
+ height: 2em;
+ -webkit-border-radius: 1em;
+ -moz-border-radius: 1em;
+ border-radius: 1em;
+  border: 1px solid;
 }

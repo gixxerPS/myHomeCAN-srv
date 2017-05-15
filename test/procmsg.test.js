@@ -137,25 +137,6 @@ suite('PROCMSG', function() {
       done();
     });
 	});
-	test('switch output unknown pu registers unit', function() {
-    var outArr = procmsg.switchOutput(10, 1, '10000001');
-    assert.deepEqual(outArr[10], 1);
-    assert.deepEqual(Object.keys(procmsg.staticOutMap).length, 1);
-  });
-	test('register output units', function() {
-    assert.ok(!procmsg.registerOutUnit('10000001'));
-    assert.deepEqual(procmsg.getOutMap()['10000001'].out.length, 64);
-  });
-	test('register same output unit twice', function() {
-    assert.ok(!procmsg.registerOutUnit('10000001'));
-    assert.ok(!procmsg.registerOutUnit('10000001'));
-    assert.deepEqual(Object.keys(procmsg.getOutMap()).length, 1);
-  });
-	test('switch output known pu', function() {
-    var outArr = procmsg.switchOutput(10, 1, '10000001');
-    assert.deepEqual(outArr.length, 64);
-    assert.deepEqual(outArr[10], 1);
-  });
 	test('send alive msg', function() {
 	  var spy = sinon.spy(procmsg, 'sendFcn');
     procmsg.sendAlive();

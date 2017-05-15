@@ -1,19 +1,30 @@
 var socket;
 $(document).ready(function(){
-    // WebSocket
     /*var */socket = io.connect();
-    // neue Nachricht
     socket.on('chat', function (data) {
-        
+        console.log('chat received: ' + data);
     });
-    
-    $('#lichtAn').click(function() {
-      socket.emit('ctrl', { name: 'licht_EG_Flur', state: 1});
+    // received output states
+    socket.on('output_res', function (data) {
+      if (data.circle) {
+        for (var id in data.states) {
+          if (data.states[id] && data.states[id].toString() === '1') {
+            document.getElementById(id).style.backgroundColor = 'green';
+          } else {
+            document.getElementById(id).style.backgroundColor = '';
+          }
+        } 
+      } else if (data.delta) {
+        for (var id in data.states) {
+          if (data.states[id] && data.states[id].toString() === '1') {
+            document.getElementById(id).style.fill = 'green';
+          } else {
+            document.getElementById(id).style.fill = 'white';
+          }
+        } 
+      }
+
     });
-    $('#lichtAus').click(function () {
-      socket.emit('ctrl', { name: 'licht_EG_Flur', state: 0});
-    });
-    
     // connect update event to temperature sliders
     var x = document.getElementsByClassName('_cmd');
     for (var i = 0; i < x.length; i++) {
@@ -24,15 +35,55 @@ $(document).ready(function(){
     for (var i = 0; i < x.length; i++) {
       x[i].addEventListener('input', updateTempCmdvals);
     }
+    
+    updateAllLightOutputStates();
 });
 function buttonClick (id) {
   socket.emit('ctrl', { id: id});
 };
-
 function sendNewTempCmdVal (id, value) {
   socket.emit('tempCmd', {id: id, value: value});
 }
+function lightClick (id, state) {
+  console.log('light ' + id + ' ' + state );
+  socket.emit('ctrl', { id: id, state: state, type:'light'});
+  updateAllLightOutputStates();
+};
+function receptClick (id, state) {
+  console.log('receptacle ' + id + ' ' + state );
+  socket.emit('ctrl', { id: id, state: state});
+  updateAllLightOutputStates();
+};
+function shutterClick (id, state) {
+  console.log('shutter ' + id + ' ' + state );
+  socket.emit('ctrl', { id: id, state: state});
+  updateAllShutterOutputStates();
+};
 
+/**
+ * for lights and receptacles */
+function updateAllLightOutputStates () {
+  var x = document.getElementsByClassName('output_circle');
+  var ids = [];
+  // collect outputs we need info for 
+  for (var i = 0; i < x.length; i++) {
+    ids.push(x[i].id)
+  }
+  // request info from server
+  socket.emit('output_req_c', ids);
+}
+/**
+ * for shutter */
+function updateAllShutterOutputStates () {
+  var x = document.getElementsByClassName('output_delta');
+  var ids = [];
+  // collect outputs we need info for 
+  for (var i = 0; i < x.length; i++) {
+    ids.push(x[i].id)
+  }
+  // request info from server
+  socket.emit('output_req_d', ids);
+}
 /**
  * Search correct element and update value in input number.
  * Send new temp cmd val to server.
