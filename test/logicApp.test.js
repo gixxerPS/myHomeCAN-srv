@@ -14,9 +14,9 @@ var testHomeConf = {
       Kueche: {
         Kochbereich: {
           type      : 'light',
-          out_addr  : '10000001.1',
-          rm_addr   : ['01100001.1', '01100001.3'],
-          man_addr  : ['01100001.2', '01100001.4']
+          out_addr  : '10000001.001.1',
+          rm_addr   : ['01100001.001.1', '01100001.001.3'],
+          man_addr  : ['01100001.001.2', '01100001.001.4']
         }
       }
     }
@@ -37,30 +37,30 @@ suite('LOGIC APP', function() {
   test('create light map', function() {
     logicApp.createInternalMaps(testHomeConf);
     assert.deepEqual(logicApp.lightMap, {
-      '01100001.2':['10000001.1', '01100001.1', '01100001.3'],
-      '01100001.4':['10000001.1', '01100001.1', '01100001.3']
+      '01100001.001.2':['10000001.001.1', '01100001.001.1', '01100001.001.3'],
+      '01100001.001.4':['10000001.001.1', '01100001.001.1', '01100001.001.3']
     });
   });
   test('create output rm map', function() {
     logicApp.createInternalMaps(testHomeConf);
     assert.deepEqual(logicApp.outNeighbourMap, {
-      '10000001.1':['01100001.1', '01100001.3']
+      '10000001.001.1':['01100001.001.1', '01100001.001.3']
     });
   });
   test('str2idOff', function() {
-    var ret = logicApp.str2IdOffs('10000001.1');
+    var ret = msghlp.str2IdOffs('10000001.001.1');
     assert.deepEqual(ret, {
-      id :'10000001',
+      id :'10000001.001',
       offs :1
     });
   });
   test('switch corresponding light outputs on', function() {
     this.getOutStub.returns(1);
     logicApp.createInternalMaps(testHomeConf);
-    logicApp.switchLight('10000001.1', 'ON');
-    assert.deepEqual( this.setOutSpy.args[0], ['10000001', 1, 1] );
-    assert.deepEqual( this.setOutSpy.args[1], ['01100001', 1, 1] );
-    assert.deepEqual( this.setOutSpy.args[2], ['01100001', 3, 1] );
+    logicApp.switchLight('10000001.001.1', 'ON');
+    assert.deepEqual( this.setOutSpy.args[0], ['10000001.001', 1, 1] );
+    assert.deepEqual( this.setOutSpy.args[1], ['01100001.001', 1, 1] );
+    assert.deepEqual( this.setOutSpy.args[2], ['01100001.001', 3, 1] );
   });
   test('onInput man light switches rm and output on', function() {
     this.getOutStub.returns(0);
@@ -72,9 +72,9 @@ suite('LOGIC APP', function() {
       states:[0,0,1,0, 0,0,0,0, 0,0,0,0, 0,0,0,0],
       tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
     });
-    assert.deepEqual( this.setOutSpy.args[0], ['10000001', 1, 1] );
-    assert.deepEqual( this.setOutSpy.args[1], ['01100001', 1, 1] );
-    assert.deepEqual( this.setOutSpy.args[2], ['01100001', 3, 1] );
+    assert.deepEqual( this.setOutSpy.args[0], ['10000001.001', 1, 1] );
+    assert.deepEqual( this.setOutSpy.args[1], ['01100001.001', 1, 1] );
+    assert.deepEqual( this.setOutSpy.args[2], ['01100001.001', 3, 1] );
   });
   test('onInput man light switches rm and output off', function() {
     this.getOutStub.returns(1);
@@ -86,9 +86,9 @@ suite('LOGIC APP', function() {
       states:[0,0,1,0, 0,0,0,0, 0,0,0,0, 0,0,0,0],
       tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
     });
-    assert.deepEqual( this.setOutSpy.args[3], ['10000001', 1, 0] );
-    assert.deepEqual( this.setOutSpy.args[4], ['01100001', 1, 0] );
-    assert.deepEqual( this.setOutSpy.args[5], ['01100001', 3, 0] );
+    assert.deepEqual( this.setOutSpy.args[3], ['10000001.001', 1, 0] );
+    assert.deepEqual( this.setOutSpy.args[4], ['01100001.001', 1, 0] );
+    assert.deepEqual( this.setOutSpy.args[5], ['01100001.001', 3, 0] );
   });
 });
 

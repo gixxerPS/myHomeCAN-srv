@@ -54,6 +54,8 @@ html
                               button(onClick="shutterClick(this.id, 'DOWN')" type="button" id= item.out_down_addr) AB
                             td 
                               button(onClick="shutterClick(this.id, 'UP')" type="button" id= item.out_up_addr) AUF
+                            td 
+                              button(onClick="shutterClick(this.id, 'STOP')" type="button" id= item.out_up_addr) STOP 
                             td
                               table
                                 tr
@@ -89,12 +91,12 @@ html
                             td
                               = item.str
                             td 
-                              input(type="text" id= item.out_addr+'_act' readonly)
+                              input(type="text" id= item.ctrl_val_addr+'_act' readonly)
                             td °C
                             td 
-                              input(type="range" id= item.out_addr+'_cmd' min= '0' max= '40' class= '_cmd')
+                              input(type="range" id= item.ctrl_val_addr+'_cmd' min= '0' max= '40' class= '_cmd')
                             td 
-                              input(type="number" id= item.out_addr+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
+                              input(type="number" id= item.ctrl_val_addr+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
                             td °C
                             td
                               div(class='output_circle' id= item.ctrl_val_addr+'_output_circle')

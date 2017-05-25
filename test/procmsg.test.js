@@ -164,5 +164,13 @@ suite('PROCMSG', function() {
     assert.deepEqual(spy.lastCall.args[1], 
         msghlp.msgs.aliveHeader + '00000010' + '00000000000000000000000000000000');
   });
+	test('send iu data', function() {
+	  var spy = sinon.spy(procmsg, 'sendFcn');
+	  procmsg.send({t:'bin', rxid:'10000001.001', outArr:[0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]});
+	  assert.deepEqual(spy.callCount, 1);
+	  assert.deepEqual(spy.lastCall.args[0], 
+	      msghlp.header + msghlp.defaultPrio + msghlp.ids.myTxTypeId + '10000001' + '001'); // code überprüfen!!!
+	  assert.deepEqual(spy.lastCall.args[1], '0001000000000000000000000000000000000000000000000000000000000000' );
+	});
 });
 

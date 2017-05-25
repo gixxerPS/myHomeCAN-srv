@@ -15,21 +15,21 @@ suite('PROC IMG', function() {
 	teardown(function() {
 	});
 	test('switch output unknown pu registers unit', function() {
-    var outArr = ProcImg.setOutput('10000001', 10, 1);
+    var outArr = ProcImg.setOutput('10000001.001', 10, 1);
     assert.deepEqual(outArr[10], 1);
     assert.deepEqual(Object.keys(ProcImg.getOutMap()).length, 1);
   });
 	test('register output units', function() {
-    assert.ok(!ProcImg.registerOutUnit('10000001'));
-    assert.deepEqual(ProcImg.getOutMap()['10000001'].out.length, 64);
+    assert.ok(!ProcImg.registerOutUnit('10000001.001'));
+    assert.deepEqual(ProcImg.getOutMap()['10000001.001'].out.length, 64);
   });
 	test('register same output unit twice', function() {
-    assert.ok(!ProcImg.registerOutUnit('10000001'));
-    assert.ok(!ProcImg.registerOutUnit('10000001'));
+    assert.ok(!ProcImg.registerOutUnit('10000001.001'));
+    assert.ok(!ProcImg.registerOutUnit('10000001.001'));
     assert.deepEqual(Object.keys(ProcImg.getOutMap()).length, 1);
   });
 	test('switch output known pu', function() {
-    var outArr = ProcImg.setOutput('10000001', 10, 1);
+    var outArr = ProcImg.setOutput('10000001.001', 10, 1);
     assert.deepEqual(outArr.length, 64);
     assert.deepEqual(outArr[10], 1);
   });

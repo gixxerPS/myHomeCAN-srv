@@ -51,12 +51,12 @@ function lightClick (id, state) {
 };
 function receptClick (id, state) {
   console.log('receptacle ' + id + ' ' + state );
-  socket.emit('ctrl', { id: id, state: state});
+  socket.emit('ctrl', { id: id, state: state, type:'receptacle'});
   updateAllLightOutputStates();
 };
 function shutterClick (id, state) {
   console.log('shutter ' + id + ' ' + state );
-  socket.emit('ctrl', { id: id, state: state});
+  socket.emit('ctrl', { id: id, state: state, type:'shutter'});
   updateAllShutterOutputStates();
 };
 
@@ -107,5 +107,6 @@ function updateTempCmdvals (ev) {
       x[i].value = ev.target.value;
     }
   }
+  console.log('rawId = ' + rawId);
   sendNewTempCmdVal(rawId, ev.target.value);
 };
