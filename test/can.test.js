@@ -2,51 +2,49 @@
  * http://usejsdoc.org/
  */
 var assert = require('chai').assert;
+var sinon = require('sinon');
 
 var msghlp = require('../lib/msghlp.js');
-/*
- * msg = header || prio || sender unit id || sender num || 
- * 		receiver unit id || receiver num || code ||
- *      8 byte data
- */
-
-// spaces will be removed. inserted just for readability
-var sampleMsg = {
-	ms : '',
-	su : '',
-	pu : '',
-	iu : {
-	  prio         : '0000',
-	  senderUnitId : '00010',
-	  senderNum    : '001',
-	  receiverUnitId : '001',
-	  receiverNum  : '00000',
-	  code         : '000',
-	  dataT        : '0000 1000 1000', // in5 , in9 = high
-	  dataTon      : '000 000 000 000 001 000 000 000 010 000 000 000', // Tin5=0.5s Tin9=1s
-	  footer       : '0000 0000 0000 0000'
-	}
-	                      
-}
-var getSamples = {
-    iu : function ()  {
-      var msg = msghlp.header + sampleMsg.iu.prio + sampleMsg.iu.senderUnitId+ sampleMsg.iu.senderNum
-      + sampleMsg.iu.receiverUnitId + sampleMsg.iu.receiverNum + sampleMsg.iu.code
-      + sampleMsg.iu.dataT + sampleMsg.iu.dataTon + sampleMsg.iu.footer;
-      return msg.replace(/ /g, '');
-    }
-}
-
+var mu = require('../lib/myutil.js');
+var Can = require('../lib/can.js');
 
 suite('CAN', function() {
 	setup(function() {
-		// ...
+	  this.spysend = sinon.spy(Can.obj, 'canSendFcn');
 	});
 	teardown(function() {
-		// ...
+	  Can.obj.canSendFcn.restore();
 	});
-
-	test('convert msg', function() {
+	test('send msg converts string to 1byte buffer', function() {
+	  var data = '00001111';
+	  var id = '00001111000011110000111100001'
+	  Can.sendMsg(id, data);
+	  var expectedBuf = Buffer.from([parseInt(data, 2)]);
+	  assert.deepEqual(expectedBuf.length, 1);
+	  assert.deepEqual(this.spysend.callCount, 1);
+	  assert.deepEqual(this.spysend.lastCall.args[0], {id:id, data:expectedBuf, ext:true});
 	});
+	 test('send msg converts string to 2byte buffer', function() {
+	   var id = '00001111000011110000111100001'
+	    var data = '0000111111110000';
+	    Can.sendMsg(id, data);
+	    var expectedBuf = Buffer.from([0xF, 0xF0]);
+	    assert.deepEqual(this.spysend.callCount, 1);
+	    assert.deepEqual(this.spysend.lastCall.args[0], {id:id, data:expectedBuf, ext:true});
+	  });
+   test('send msg converts string to 8byte buffer', function() {
+     var id = '00001111000011110000111100001'
+      var data = '0000111111110000000011111111000000001111111100000000111111110000';
+      Can.sendMsg(id, data);
+      var expectedBuf = Buffer.from([0xF, 0xF0, 0xF, 0xF0, 0xF, 0xF0, 0xF, 0xF0]);
+      assert.deepEqual(this.spysend.callCount, 1);
+      assert.deepEqual(this.spysend.lastCall.args[0], {id:id, data:expectedBuf, ext:true});
+    });
+   test('send msg does ignore sending more than 8byte', function() {
+     var id = '00001111000011110000111100001'
+      var data = '00000111111110000000011111111000000001111111100000000111111110000';
+      Can.sendMsg(id, data);
+      assert.deepEqual(this.spysend.callCount, 0);
+    });
 });
 
