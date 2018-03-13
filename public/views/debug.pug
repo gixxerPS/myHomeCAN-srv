@@ -7,19 +7,7 @@ html
     header Debug
     div(id="content")
         
-      table
-        thead
-          tr: th OUTPUTS
-        tbody
-          each out, i in outputs
-            tr
-              td
-                f #{out.disp} 
-              td 
-                button(onClick="buttonClick(this.id)" type="button" id= out.idON) ON
-              td 
-                button(onClick="buttonClick(this.id)" type="button" id= out.idOFF) OFF
-                  
+      
         ul(id="log")
         
         include includes/footer.pug

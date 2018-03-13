@@ -1,0 +1,29 @@
+html
+  head
+    include includes/head.pug
+    script(src='script/system.js')
+  body
+    include includes/toc.pug
+    header System Status
+    div(id="content")
+      h1 Status aktive Knoten
+      table(class= 'stdFormat' id='aliveTable')
+        thead
+          tr
+            th ID
+            th Zaehler
+            th SW-Version
+            th Letzter Empfangszeitpunkt
+        tbody
+          each item in aliveMap
+              tr
+                td
+                  = item
+                td 
+                  = item.cnt
+                td 
+                  = item.sw
+                td
+                  = item.last_rx_time
+      include includes/footer.pug
+        

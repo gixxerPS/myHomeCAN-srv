@@ -3,136 +3,184 @@
     "Kueche": {
       "Kochbereich": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.1",
-        "rm_addr"   : ["01100001.001.1"],
-        "man_addr"  : ["01100001.001.2"]
+        "out_addr"  : "01100010.001.10",
+        "rm_addr"   : ["10000010.001.1"],
+        "man_addr"  : ["10000010.001.1"]
       },
       "Essbereich": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01100010.001.11",
+        "rm_addr"   : ["10000001.001.1"],
+        "man_addr"  : ["10000001.001.1"]
+      },
+      "Spuele": {
+        "type"      : "light",
+        "out_addr"  : "01100010.001.12",
+        "rm_addr"   : ["10000001.001.7"],
+        "man_addr"  : ["10000001.001.7"]
+      },
+      "Oberschraenke": {
+        "type"      : "light",
+        "out_addr"  : "01100010.001.6",
+        "rm_addr"   : ["10000001.001.1"],
+        "man_addr"  : ["10000001.001.1"]
       },
       "Auffahrt": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.3",
-        "out_down_addr" : "10000001.001.4",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01100001.001.11",
+        "out_down_addr" : "01100001.001.12",
+        "man_up_addr"   : ["10000001.001.3"],
+        "man_down_addr" : ["10000001.001.4"]
       },
       "Spuele": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.5",
-        "out_down_addr" : "10000001.001.6",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01100001.001.9",
+        "out_down_addr" : "01100001.001.10",
+        "man_up_addr"   : ["10000001.001.5"],
+        "man_down_addr" : ["10000001.001.6"]
+      },
+      "Heiz_Essber": {
+        "type"          : "heating",
+        "actval_addr"   : "10001100.001.1",
+        "ctrl_val_addr" : "10001100.001.2"
       },
       "Fenster_Auffahrt": {
-        "type"          : "heating",
-        "actval_addr"   : "01000001.001.1",
-        "ctrl_val_addr" : "01100001.001.6"
-      },
-      "Arbeitsflaeche": {
         "type"          : "receptacle",
-        "out_addr"      : "10000001.001.7",
-        "man_addr"      : ["01100001.001.4"]
-      }
+        "out_addr"      : "01100011.001.2",
+        "man_addr"      : []
+      },
+      "Lastnetzteil": {
+       "type"          : "receptacle",
+       "out_addr"      : "01100011.001.13",
+       "man_addr"      : []
+     }
     },
     "Flur": {
       "Flur": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.1",
-        "rm_addr"   : ["01100001.001.1", "01100001.001.3"],
-        "man_addr"  : ["01100001.001.2", "01100001.001.4"]
+        "out_addr"  : "01100010.001.14",
+        "rm_addr"   : ["10000101.001.1"],
+        "man_addr"  : ["10000101.001.1"]
       },
       "Rollo_Garderobe": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01100001.001.13",
+        "out_down_addr" : "01100001.001.14",
+        "man_up_addr"   : ["10000101.001.1"],
+        "man_down_addr" : ["10000101.001.1"]
       },
-      "Garderobe": {
-        "type"      : "light",
-        "out_addr"  : "10000001.001.1",
-        "rm_addr"   : ["01100001.001.1", "01100001.001.3"],
-        "man_addr"  : ["01100001.001.2", "01100001.001.4"]
+      "Fenster": {
+        "type"          : "receptacle",
+        "out_addr"      : "01100011.001.1",
+        "man_addr"      : []
       }
     },
     "GaesteWC" : {
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01100001.001.15",
+        "out_down_addr" : "01100001.001.16",
+        "man_up_addr"   : ["10000101.001.1"],
+        "man_down_addr" : ["10000101.001.1"]
       },
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.1",
-        "rm_addr"   : ["01100001.001.1", "01100001.001.3"],
-        "man_addr"  : ["01100001.001.2", "01100001.001.4"]
+        "out_addr"  : "01100010.001.15",
+        "rm_addr"   : ["10000011.001.1"],
+        "man_addr"  : ["10000011.001.1"]
       }
     },
     "Wohnzimmer" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01100010.001.16",
+        "rm_addr"   : ["10000100.001.1"],
+        "man_addr"  : ["10000100.001.1"]
+      },
+      "Stehlampe": {
+        "type"      : "light",
+        "out_addr"  : "01100011.001.3",
+        "rm_addr"   : ["10000100.001.1"],
+        "man_addr"  : ["10000100.001.1"]
       },
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01100001.001.5",
+        "out_down_addr" : "01100001.001.6",
+        "man_up_addr"   : ["10000100.001.1"],
+        "man_down_addr" : ["10000100.001.1"]
       }
     },
     "Esszimmer" : {
-      "Licht": {
+      "Licht_Esstisch": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01100010.001.13",
+        "rm_addr"   : ["10000100.001.1"],
+        "man_addr"  : ["10000100.001.1"]
+      },
+      "Licht_Spots": {
+        "type"      : "light",
+        "out_addr"  : "01100010.001.8",
+        "rm_addr"   : ["10000100.001.1"],
+        "man_addr"  : ["10000100.001.1"]
+      },
+      "Licht_Rahmen": {
+        "type"      : "light",
+        "out_addr"  : "01100010.001.7",
+        "rm_addr"   : ["10000100.001.1"],
+        "man_addr"  : ["10000100.001.1"]
       },
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01100001.001.7",
+        "out_down_addr" : "01100001.001.8",
+        "man_up_addr"   : ["10000100.001.1"],
+        "man_down_addr" : ["10000100.001.1"]
+      },
+      "Rollo_Wintergarten": {
+        "type"          : "shutter",
+        "out_up_addr"   : "01100001.001.1",
+        "out_down_addr" : "01100001.001.2",
+        "man_up_addr"   : ["10000100.001.1"],
+        "man_down_addr" : ["10000100.001.1"]
       }
     },
     "Wintergarten" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01100010.001.9",
+        "rm_addr"   : [],
+        "man_addr"  : []
+      },
+      "Markise": {
+        "type"          : "shutter",
+        "out_up_addr"   : "01100010.001.1",
+        "out_down_addr" : "01100010.001.2",
+        "man_up_addr"   : [],
+        "man_down_addr" : []
       }
     },
-    "Wohnflur" : {
+    "Windfang" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01100010.001.3",
+        "rm_addr"   : ["10000010.001.1"],
+        "man_addr"  : ["10000010.001.1"]
       }
     },
     "Vorrat" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01100010.001.4",
+        "rm_addr"   : ["10000010.001.1"],
+        "man_addr"  : ["10000010.001.1"]
       },
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01100001.001.3",
+        "out_down_addr" : "01100001.001.4",
+        "man_up_addr"   : ["10000010.001.1"],
+        "man_down_addr" : ["10000010.001.1"]
       }
     }
   },
@@ -140,97 +188,112 @@
     "Bad": {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01110010.001.3",
+        "rm_addr"   : ["10010001.001.1"],
+        "man_addr"  : ["10010001.001.1"]
       },
-      "Rollo": {
-        "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+      "Licht_Spiegel": {
+        "type"      : "light",
+        "out_addr"  : "01110010.001.9",
+        "rm_addr"   : ["10010100.001.1"],
+        "man_addr"  : ["10010100.001.1"]
+      },
+      "LED": {
+        "type"      : "light",
+        "out_addr"  : "01110010.001.13",
+        "rm_addr"   : ["10010100.001.1"],
+        "man_addr"  : ["10010100.001.1"]
+      },
+      "Test": {
+        "type"          : "receptacle",
+        "out_addr"      : "01110010.001.10",
+        "man_addr"      : []
       }
     },
     "Flur": {
-      "Badseite": {
+      "Licht_1": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01110010.001.1",
+        "rm_addr"   : ["10010011.001.1"],
+        "man_addr"  : ["10010011.001.1"]
       },
-      "Schraege": {
+      "Licht_2": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01110010.001.2",
+        "rm_addr"   : ["10010011.001.1"],
+        "man_addr"  : ["10010011.001.1"]
       },
-      "Rollo": {
-        "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+      "Licht_Dachboden": {
+        "type"      : "light",
+        "out_addr"  : "01110001.001.13",
+        "rm_addr"   : ["10010011.001.1"],
+        "man_addr"  : ["10010011.001.1"]
       }
     },
     "Buero" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01110010.001.6",
+        "rm_addr"   : ["10010011.001.1"],
+        "man_addr"  : ["10010011.001.1"]
       },
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01110001.001.1",
+        "out_down_addr" : "01110001.001.2",
+        "man_up_addr"   : ["10010011.001.1"],
+        "man_down_addr" : ["10010011.001.1"]
       }
     },
     "Eltern" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01110010.001.5",
+        "rm_addr"   : ["10010010.001.1"],
+        "man_addr"  : ["10010010.001.1"]
+      },
+      "Licht_Bett": {
+        "type"      : "light",
+        "out_addr"  : "01110001.001.15",
+        "rm_addr"   : ["10010010.001.1"],
+        "man_addr"  : ["10010010.001.1"]
       },
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01110001.001.5",
+        "out_down_addr" : "01110001.001.6",
+        "man_up_addr"   : ["10010010.001.1"],
+        "man_down_addr" : ["10010010.001.1"]
       }
     },
     "Ben" : {      
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01110010.001.4",
+        "rm_addr"   : ["10010010.001.1"],
+        "man_addr"  : ["10010010.001.1"]
       },
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01110001.001.3",
+        "out_down_addr" : "01110001.001.4",
+        "man_up_addr"   : ["10010010.001.1"],
+        "man_down_addr" : ["10010010.001.1"]
       }
     },
     "Kind2" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "10000001.001.2",
-        "rm_addr"   : ["01100001.001.3"],
-        "man_addr"  : ["01100001.001.4"]
+        "out_addr"  : "01110001.001.14",
+        "rm_addr"   : ["10010001.001.1"],
+        "man_addr"  : ["10010001.001.1"]
       },
       "Rollo": {
         "type"          : "shutter",
-        "out_up_addr"   : "10000001.001.2",
-        "out_down_addr" : "01100001.001.3",
-        "man_up_addr"   : ["01100001.001.4"],
-        "man_down_addr" : ["01100001.001.5"]
+        "out_up_addr"   : "01110001.001.7",
+        "out_down_addr" : "01110001.001.8",
+        "man_up_addr"   : ["10010001.001.1"],
+        "man_down_addr" : ["10010001.001.1"]
       }
     }
   },

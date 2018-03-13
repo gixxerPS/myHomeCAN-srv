@@ -19,6 +19,7 @@ ProcImg.setSendIoFcn(procMsg.send, procMsg);
 
 var logicApp = new LogicApp();
 werbserver.setLogicObj(logicApp);
+werbserver.setProcMsgObj(procMsg);
 
 // keep alive once a second
 setInterval(function () {

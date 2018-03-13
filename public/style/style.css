@@ -54,6 +54,7 @@ input{
    top: 4em;
    left: 1em;
 }
+
 table.tableIO {
   border: 1px solid black;
   table-layout: fixed;
@@ -64,6 +65,20 @@ table.tableIO tr:nth-child(1)  { border: solid thin; }
 /*table.tableIO td { overflow:hidden; }*/
 /* table.tableIO td:nth-of-type(1) { width: 20em; } */
 
+table.stdFormat tr:nth-child(even) {
+    background-color: #dddddd;
+}
+table.stdFormat {
+  border: 1px solid black;
+  table-layout: fixed;
+  /*width: 30em; /* must have this set */*/
+  border-collapse: collapse; 
+}
+table.stdFormat tr, th, td {
+	border: 1px solid black;
+    text-align: left;
+    padding: 8px;
+}
 .tableTemp {
   border: 1px solid black;
   rules: rows
@@ -75,4 +90,7 @@ table.tableIO tr:nth-child(1)  { border: solid thin; }
  -moz-border-radius: 1em;
  border-radius: 1em;
   border: 1px solid;
+}
+.bottomright {
+    float: right;
 }
