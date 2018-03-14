@@ -6,5 +6,11 @@
   "SERVER":{
 	  "PORT": 8080,
 	  "DIR": "/home/mint/git/myHomeCAN-srv/public"
+  },
+  "COMM":{
+      "TIMING":{
+        "WARN":2000,
+        "ERR":5000
+      }
   }
 }

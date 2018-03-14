@@ -9,6 +9,8 @@ var mu = require('../lib/myutil.js');
 var LogicApp = require('../lib/logicApp.js');
 var procImg = require('../lib/processimage.js');
 
+require('log4js').getLogger('logic').setLevel('OFF');
+
 var testHomeConf = {
     EG:{
       Kueche: {

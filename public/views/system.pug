@@ -7,23 +7,20 @@ html
     header System Status
     div(id="content")
       h1 Status aktive Knoten
+      p Anzahl: 
+        span(id="aliveCnt") 0
+        span  letzte Aktualisierung: 
+        span(id="dateAct") 0
       table(class= 'stdFormat' id='aliveTable')
         thead
           tr
             th ID
+            th Zustand
             th Zaehler
             th SW-Version
             th Letzter Empfangszeitpunkt
         tbody
-          each item in aliveMap
-              tr
-                td
-                  = item
-                td 
-                  = item.cnt
-                td 
-                  = item.sw
-                td
-                  = item.last_rx_time
+          tr
+            td wird in 5 sek aktualisiert...
       include includes/footer.pug
         
