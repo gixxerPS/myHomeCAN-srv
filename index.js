@@ -17,7 +17,7 @@ Can.setReceiveCB(procMsg.onMsg, procMsg);
 // connect abstracted module to process image
 ProcImg.setSendIoFcn(procMsg.send, procMsg);
 
-var logicApp = new LogicApp();
+var logicApp = new LogicApp(true);
 werbserver.setLogicObj(logicApp);
 werbserver.setProcMsgObj(procMsg);
 
