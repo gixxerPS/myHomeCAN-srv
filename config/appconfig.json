@@ -1,7 +1,7 @@
 {
   "VER" : "0.1.0",
   "PATH":{
-	  "LOG":"logs"
+	  "LOG":"./logs"
   },
   "SERVER":{
 	  "PORT": 8080,

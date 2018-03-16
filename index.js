@@ -1,12 +1,12 @@
+console.log('start application');
+require('./lib/logger.js');
+
 var conf = require('./config/appconfig.json');
 var werbserver = require('./lib/webserver.js');
-
 var ProcMsg = require('./lib/procmsg.js');
 var Can = require('./lib/can.js');
 var LogicApp = require('./lib/logicApp.js');
 var ProcImg = require('./lib/processimage.js');
-
-console.log('start application');
 
 // connect/create modules
 
@@ -25,3 +25,8 @@ werbserver.setProcMsgObj(procMsg);
 setInterval(function () {
   procMsg.sendAlive();
 }, 1000);
+
+// check alive states at interval
+setInterval(function () {
+  procMsg.checkAliveStates();
+}, 2000);

@@ -13,7 +13,7 @@ $(document).ready(function(){
     intervalId = setInterval(function () {
       console.log('request data');
       socket.emit('system', {req: 'getAliveMap'});
-    }, 5000);
+    }, 1000);
 }).delegate('.ui-page', 'pagehide', function () {
   console.log('clear interval');
   clearInterval(intervalId);
@@ -25,7 +25,7 @@ function updateAliveTable (aliveMap) {
     table.deleteRow(i);
   }
   var row;
-  for (var node in aliveMap) {
+  Object.keys(aliveMap).sort().forEach(function (node) {
     row = table.insertRow(); // append row
     row.insertCell(0).innerHTML = node;
     var stateCell = row.insertCell(1);//.innerHTML = aliveMap[node].state;
@@ -39,7 +39,7 @@ function updateAliveTable (aliveMap) {
     } else {
       stateCell.style.backgroundColor  = 'red';
     }
-  }
+  });
   document.getElementById('aliveCnt').innerHTML = Object.keys(aliveMap).length
   document.getElementById('dateAct').innerHTML = new Date().toLocaleTimeString();
 };
