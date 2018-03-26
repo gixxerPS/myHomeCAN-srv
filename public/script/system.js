@@ -9,10 +9,13 @@ $(document).ready(function(){
       if (data.aliveMap) { // received alive data?
         updateAliveTable(data.aliveMap);
       }
+      if (data.ioMap) {
+        updateIoMap(data.ioMap);
+      }
     });
     intervalId = setInterval(function () {
       console.log('request data');
-      socket.emit('system', {req: 'getAliveMap'});
+      socket.emit('system', {req: ['getAliveMap', 'getIoMap']});
     }, 1000);
 }).delegate('.ui-page', 'pagehide', function () {
   console.log('clear interval');
@@ -32,6 +35,8 @@ function updateAliveTable (aliveMap) {
     row.insertCell(2).innerHTML = aliveMap[node].cnt;
     row.insertCell(3).innerHTML = aliveMap[node].sw;
     row.insertCell(4).innerHTML = aliveMap[node].last_rx_time;
+    row.insertCell(5).innerHTML = ''; // outputs
+    row.insertCell(6).innerHTML = ''; // inputs
     if (aliveMap[node].state == 1) {
       stateCell.style.backgroundColor  = 'green';
     } else if (aliveMap[node].state == 2) {
@@ -43,4 +48,21 @@ function updateAliveTable (aliveMap) {
   document.getElementById('aliveCnt').innerHTML = Object.keys(aliveMap).length
   document.getElementById('dateAct').innerHTML = new Date().toLocaleTimeString();
 };
-
+function updateIoMap(ioMap) {
+  var table = document.getElementById('aliveTable');
+  var i = table.rows.length-1;
+  for (; i > 0; i--) {
+    
+    // TODO: code .1 only for iu and pu. search more intelligent
+    var uId = table.rows[i].cells[0].innerHTML + '.1';
+    
+    if (ioMap[uId] !== undefined) {
+      if (ioMap[uId].out) {
+        table.rows[i].cells[5].innerHTML = ioMap[uId].out;
+      }
+      if (ioMap[uId].in) {
+        table.rows[i].cells[6].innerHTML = ioMap[uId].in;
+      }
+    }
+  }
+}

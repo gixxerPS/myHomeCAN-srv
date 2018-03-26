@@ -13,6 +13,7 @@ var ProcImg = require('./lib/processimage.js');
 // connect can to process message module (1st abstraction layer)
 var procMsg = new ProcMsg(Can.sendMsg);
 Can.setReceiveCB(procMsg.onMsg, procMsg);
+procMsg.registerOnMsgAliveClient(ProcImg, ProcImg.onMsgAlive);
 
 // connect abstracted module to process image
 ProcImg.setSendIoFcn(procMsg.send, procMsg);
@@ -28,5 +29,5 @@ setInterval(function () {
 
 // check alive states at interval
 setInterval(function () {
-  procMsg.checkAliveStates();
+  ProcImg.checkAliveStates();
 }, 2000);

@@ -102,10 +102,10 @@ suite('PROCMSG', function() {
   test('parse id', function() {
     var parsedId = procmsg.parseId(getSamples.iu().id);
     assert.deepEqual(parsedId.prio, 4);
-    assert.deepEqual(parsedId.txType, msghlp.units.itf);
+    assert.deepEqual(parsedId.txType, msghlp.uTypes.iu);
     assert.deepEqual(parsedId.txId, 18);
-    assert.deepEqual(parsedId.txStr, '0x92');
-    assert.deepEqual(parsedId.rxType, msghlp.units.master);
+    assert.deepEqual(parsedId.txStr, '92');
+    assert.deepEqual(parsedId.rxType, msghlp.uTypes.master);
     assert.deepEqual(parsedId.rxId, 0);
     assert.deepEqual(parsedId.code, 1);
   });
@@ -133,11 +133,6 @@ suite('PROCMSG', function() {
     assert.deepEqual(iuData.tOn[4], 0.5); // T5 = 0.5s
     assert.deepEqual(iuData.tOn[8], 1);   // T9 = 1s
     assert.deepEqual(iuData.tOn[11], 0);
-  });
-  test('update alive map with new sender', function() {
-    var aliveDataObj = procmsg.parseDataAlive(getSamples.iuAlive().data);
-    procmsg.updateAliveMap(getSamples.iuAlive().id, aliveDataObj);
-    assert.deepEqual(Object.keys(procmsg.getAliveMap()).length, 1);
   });
   test('send alive msg', function() {
     var spy = sinon.spy(procmsg, 'sendFcn');
@@ -179,40 +174,12 @@ suite('PROCMSG', function() {
     assert.deepEqual(spy.lastCall.args[0], 0x10C09);
     assert.deepEqual(spy.lastCall.args[1], outs);
   });
-  test('onmsg alive updates map', function() {
-    procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data);
-    var map = procmsg.getAliveMap();
-    assert.deepEqual(map['0x92'].sw, '0.0.1');
-    assert.deepEqual(map['0x92'].cnt, 3);
-    assert.ok(map['0x92'].last_rx_time);
-    assert.deepEqual(map['0x92'].state, 1);
-  });
-  test('update alive state not yet warn', function() {
-    procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data);
-    procmsg.checkAliveStates();
-    assert.deepEqual(procmsg.getAliveMap()['0x92'].state, 1);
-  });
-  test('update alive state warn', function(done) {
-    var orig = conf.COMM.TIMING.WARN;
-    conf.COMM.TIMING.WARN = 1;
-    procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data);
-    setTimeout(function () {
-      procmsg.checkAliveStates();
-      assert.deepEqual(procmsg.getAliveMap()['0x92'].state, 2);
-      conf.COMM.TIMING.WARN = orig;
-      done();
-    }, 2); // wait 2 ms
-  });
-  test('update alive state err', function(done) {
-    var orig = conf.COMM.TIMING.ERR;
-    conf.COMM.TIMING.ERR = 1;
-    procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data);
-    setTimeout(function () {
-      procmsg.checkAliveStates();
-      assert.deepEqual(procmsg.getAliveMap()['0x92'].state, 0);
-      conf.COMM.TIMING.ERR = orig;
-      done();
-    }, 2); // wait 2 ms
+  test('register on msg alive client', function() {
+    var cnt = 1;
+    var testObj = {testFcn : function () {cnt++;} };
+    procmsg.registerOnMsgAliveClient(testObj, testObj.testFcn);
+    procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data)
+    assert.deepEqual(cnt, 2);
   });
 });
 

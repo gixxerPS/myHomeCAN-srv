@@ -36,7 +36,7 @@ var testHomeConf = {
 suite('LOGIC APP', function() {
   var logicApp;
   setup(function() {
-    this.setOutSpy = sinon.spy(procImg, 'setOutput');
+    this.setOutSpy = sinon.stub(procImg, 'setOutput');
     this.getOutStub = sinon.stub(procImg, 'getOutput');
     logicApp = new LogicApp();
   });
