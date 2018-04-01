@@ -54,7 +54,6 @@ input{
    top: 4em;
    left: 1em;
 }
-
 table.tableIO {
   border: 1px solid black;
   table-layout: fixed;
@@ -78,6 +77,14 @@ table.stdFormat tr, th, td {
 	border: 1px solid black;
     text-align: left;
     padding: 8px;
+}
+table.noBorder {
+	border-style:none;
+}
+table.noBorder td, th {
+	padding: 0;
+	width:30px;
+	border-style:none;
 }
 .tableTemp {
   border: 1px solid black;
