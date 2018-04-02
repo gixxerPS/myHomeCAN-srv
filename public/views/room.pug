@@ -27,9 +27,9 @@ html
                             td
                               = item.str
                             td 
-                              button(onClick="lightClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+                              button(onClick="room.lightClick(this.id, 'ON')" type="button" id= item.out_addr) AN
                             td 
-                              button(onClick="lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                              button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
                             td
                               div(class='output_circle' id= item.out_addr+'_output_circle')
               td
@@ -51,11 +51,11 @@ html
                             td
                               = item.str
                             td 
-                              button(onClick="shutterClick(this.id, 'DOWN')" type="button" id= item.out_down_addr) AB
+                              button(onClick="room.shutterClick(this.id, 'DOWN')" type="button" id= item.out_down_addr) AB
                             td 
-                              button(onClick="shutterClick(this.id, 'UP')" type="button" id= item.out_up_addr) AUF
+                              button(onClick="room.shutterClick(this.id, 'UP')" type="button" id= item.out_up_addr) AUF
                             td 
-                              button(onClick="shutterClick(this.id, 'STOP')" type="button" id= item.out_up_addr) STOP 
+                              button(onClick="room.shutterClick(this.id, 'STOP')" type="button" id= item.out_up_addr) STOP 
                             td
                               table
                                 tr
@@ -120,9 +120,9 @@ html
                               td
                                 = item.str
                               td 
-                                button(onClick="receptClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+                                button(onClick="room.receptClick(this.id, 'ON')" type="button" id= item.out_addr) AN
                               td 
-                                button(onClick="receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                                button(onClick="room.receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
                               td
                                 div(class='output_circle' id= item.out_addr+'_output_circle')
               td

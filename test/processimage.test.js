@@ -12,6 +12,7 @@ var conf = require('../config/appconfig.json');
 suite('PROC IMG', function() {
   setup(function() {
     ProcImg.clearIoMap();
+    ProcImg.clearAliveMap();
   });
   teardown(function() {
   });
@@ -84,6 +85,22 @@ suite('PROC IMG', function() {
     var outArr = ProcImg.setOutput('81.1', 10, 0);
     assert.deepEqual(outArr, Buffer.from([0x0,0x0,0x0,0x0,0x0,0x0,0x10,0x40]));
     assert.deepEqual(Object.keys(ProcImg.getIoMap()).length, 1);
+  });
+  test('get output 1 known pu', function() {
+    ProcImg.registerUnit({txStr:'81', txType:msghlp.uTypes.pu});
+    ProcImg.setOutput('81.1', 10, 1);
+    var ret = ProcImg.getOutput('81.1', 10);
+    assert.deepEqual(ret, 1);
+  });
+  test('get output 0 known pu', function() {
+  ProcImg.registerUnit({txStr:'81', txType:msghlp.uTypes.pu});
+  ProcImg.setOutput('81.1', 10, 1);
+    var ret = ProcImg.getOutput('81.1', 9);
+    assert.deepEqual(ret, 0);
+  });
+  test('get output unknown pu', function() {
+    var ret = ProcImg.getOutput('81.1', 10);
+    assert.deepEqual(ret, null);
   });
   test('update alive map with new sender', function() {
     ProcImg.updateAliveMap({txStr:'92'}, {sw:'0.0.1', cnt:3});

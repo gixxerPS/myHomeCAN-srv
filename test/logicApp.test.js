@@ -72,7 +72,6 @@ suite('LOGIC APP', function() {
       offs : 0
     });
   });
-  
   test('switch corresponding light outputs on', function() {
     this.getOutStub.returns(1);
     logicApp.createInternalMaps(testHomeConf);
@@ -126,6 +125,27 @@ suite('LOGIC APP', function() {
     logicApp.switchShutter('73.1.1', 'DOWN');
     assert.deepEqual( this.setOutSpy.args[0], ['73.1', 1, 0] );
     assert.deepEqual( this.setOutSpy.args[1], ['73.1', 0, 1] );
+  });
+  test('switch shutter off after up', function(done) {
+    var self = this;
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.switchShutter('73.1.1', 'UP');
+    setTimeout(function () {
+      assert.deepEqual(self.setOutSpy.args[2], ['73.1', 1, 0]);
+      assert.deepEqual(self.setOutSpy.args[3], ['73.1', 0, 0]);
+      done();
+    }, 35); // wait x ms
+  });
+  test('switch shutter up inserts timeout id', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.switchShutter('73.1.1', 'UP');
+    assert.ok(logicApp.shutterMap['73.1.1'].timeoutId);
+  });
+  test('switch shutter down after up deletes old timeout id', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.switchShutter('73.1.1', 'UP');
+    logicApp.switchShutter('73.1.1', 'DOWN');
+    assert.ok(logicApp.shutterMap['73.1.1'].timeoutId);
   });
 });
 
