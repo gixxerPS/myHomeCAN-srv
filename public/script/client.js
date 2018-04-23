@@ -1,7 +1,7 @@
 var socket;
 $(document).ready(function(){
     // WebSocket
-    /*var */socket = io.connect();
+    socket = io.connect();
     // neue Nachricht
     socket.on('chat', function (data) {
         var zeit = new Date(data.zeit);

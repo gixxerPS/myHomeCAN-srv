@@ -48,10 +48,11 @@ var sampleMsg = {
         '00000',      // rxId   
         '001'        // code
         ],
-      data:Buffer.from([
-        0x8, 0x80, // in5 , in9 = high , Tin5=0.5s Tin9=1s
-        0x0, 0x20, 0x4, 0x0,
-        0x0, 0x0 // fill
+      data:Buffer.from([ // in5 , in9 = high , Tin5=0.5s Tin9=1s
+        0x0, 0x0, 
+        0x0, 0x0, 0x0, 0x0,
+        0x1, // byte 6 = Tin2 Tin1 in12 .. in9
+        0x10 // byte 7 = in8 .. in1
         ])},
     iuAlive : {
       id:[
@@ -98,7 +99,6 @@ suite('PROCMSG', function() {
   teardown(function() {
     procmsg = undefined;
   });
-
   test('parse id', function() {
     var parsedId = procmsg.parseId(getSamples.iu().id);
     assert.deepEqual(parsedId.prio, 4);
@@ -124,15 +124,13 @@ suite('PROCMSG', function() {
     // TODO: assert.deepEqual(suDataArr[5], 22.96875);
   });
   test('parse data iu', function() {
-    var iuData = procmsg.parseDataIu(getSamples.iu().data);
-    assert.deepEqual(iuData.states[0], false);
-    assert.deepEqual(iuData.states[4], true); // T5 on
-    assert.deepEqual(iuData.states[8], true); // T9 on
-    assert.deepEqual(iuData.states[11], false);
-    assert.deepEqual(iuData.tOn[0], 0);
-    assert.deepEqual(iuData.tOn[4], 0.5); // T5 = 0.5s
-    assert.deepEqual(iuData.tOn[8], 1);   // T9 = 1s
-    assert.deepEqual(iuData.tOn[11], 0);
+    var iuData = procmsg.parseDataIuIn(getSamples.iu().data);
+    assert.deepEqual(iuData.iuIn.states, 
+        Buffer.from([0x8,0x1,0x0,0x0,0x0,0x0,0x0,0x0 ]));
+//    assert.deepEqual(iuData.tOn[0], 0);
+//    assert.deepEqual(iuData.tOn[4], 0.5); // T5 = 0.5s
+//    assert.deepEqual(iuData.tOn[8], 1);   // T9 = 1s
+//    assert.deepEqual(iuData.tOn[11], 0);
   });
   test('send alive msg', function() {
     var spy = sinon.spy(procmsg, 'sendFcn');
@@ -180,6 +178,31 @@ suite('PROCMSG', function() {
     procmsg.registerOnMsgAliveClient(testObj, testObj.testFcn);
     procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data)
     assert.deepEqual(cnt, 2);
+  });
+  test('register on msg data client', function() {
+    var cnt = 1;
+    var gidObj, gdata, guType;
+    var testObj = {testFcn : function (idObj, data, uType) {cnt++;gidObj=idObj;gdata=data;guType=uType} };
+    procmsg.registerOnMsgDataClient(testObj, testObj.testFcn);
+    procmsg.onMsg(getSamples.iu().id, getSamples.iu().data);
+    assert.deepEqual(cnt, 2);
+    assert.deepEqual(gidObj, {code:1, prio:4, txType:4, txId:18, txStr:'92', rxType:1, rxId:0});
+    assert.deepEqual(gdata, {iuIn:{states:Buffer.from([0x8, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0]),
+      tOn:[0,0,0,0,0,0,0,0,0,0,0,0]}});
+  });
+  test('register on msg data client doesnt call on alive', function() {
+    var cnt = 1;
+    var testObj = {testFcn : function () {cnt++;} };
+    procmsg.registerOnMsgDataClient(testObj, testObj.testFcn);
+    procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data)
+    assert.deepEqual(cnt, 1);
+  });
+  test('register on msg alive client doesnt call on data', function() {
+    var cnt = 1;
+    var testObj = {testFcn : function () {cnt++;} };
+    procmsg.registerOnMsgAliveClient(testObj, testObj.testFcn);
+    procmsg.onMsg(getSamples.iu().id, getSamples.iu().data);
+    assert.deepEqual(cnt, 1);
   });
 });
 

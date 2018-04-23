@@ -1,9 +1,9 @@
+'use strict';
 (function(exports) {
-  'use strict';
   var socket;
   var intervalId;
   $(document).ready(function(){
-    /*var */socket = io.connect();
+    socket = io.connect();
     socket.on('chat', function (data) {
       console.log('chat received: ' + data);
     });
@@ -128,6 +128,5 @@
       lightClick : lightClick,
       receptClick : receptClick,
       shutterClick : shutterClick
-      
   }
 })(this);

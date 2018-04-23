@@ -1,10 +1,9 @@
+'use strict';
 (function(exports) {
-  'use strict';
-
   var socket;
   var intervalId;
   $(document).ready(function(){
-    /*var */socket = io.connect();
+    socket = io.connect();
     socket.on('system', function (data) {
       if (data.aliveMap) { // received alive data?
         updateAliveTable(data.aliveMap);
@@ -77,13 +76,38 @@
     });
     return ret;
   };
+  function setOutput(id, offs, state) {
+    console.log('setOutput id=' + id + '.' + offs + ' state=' +state);
+    socket.emit('system', 
+        {req: ['setOutput'], id: id, offs: offs, state: state});
+  }
+  function getButtonCodeColById (id, idx) {
+    var idi = id+'\','+idx.toString();
+    return '<th><button onmousedown="system.setOutput(\''+idi+',1)"'+
+    ' onmouseup="system.setOutput(\''+idi+',0)" type="button">'+idx.toString()+'</button></th>';
+  }
+  function getButtonCodeColsById (id) {
+    var ret = '';
+    var i=0;
+    var idi;
+    for (; i < 16; i++) {
+      ret += getButtonCodeColById(id, i);
+    }
+    return ret;
+  };
+  
   function updateIoMap(ioMap) {
     const ioSubTable = {
-        head : '<table class="noBorder"><thead>'+
-        '<tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead>'+
-        '<tbody><tr>',
+        head : '<table class="noBorder"><thead><tr>',
+        mid : '</tr></thead><tbody><tr>',
         foot : '</tr></tbody></table>'
     }
+    const inSubTable = {
+               head : '<table class="noBorder"><thead>'+
+               '<tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead>'+
+               '<tbody><tr>',
+               foot : '</tr></tbody></table>'
+           }
     var table = document.getElementById('aliveTable');
     var i = table.rows.length-1;
     for (; i > 0; i--) {
@@ -93,13 +117,15 @@
       if (ioMap[uId] !== undefined) {
         if (ioMap[uId].out) {
           table.rows[i].cells[5].innerHTML = ioSubTable.head
+          + getButtonCodeColsById(uId)
+          + ioSubTable.mid
           + binArray2TableRow(byteArray2BinArray(ioMap[uId].out))
           + ioSubTable.foot;
         }
         if (ioMap[uId].in) {
-          table.rows[i].cells[6].innerHTML = ioSubTable.head
+          table.rows[i].cells[6].innerHTML = inSubTable.head
           + binArray2TableRow(byteArray2BinArray(ioMap[uId].in))
-          + ioSubTable.foot;
+          + inSubTable.foot;
         }
       }
     }
@@ -111,6 +137,9 @@
   exports.system = {
       byte2BinArray : byte2BinArray,
       binArray2TableRow : binArray2TableRow,
-      byteArray2BinArray : byteArray2BinArray
+      byteArray2BinArray : byteArray2BinArray,
+      getButtonCodeColById : getButtonCodeColById,
+      getButtonCodeColsById : getButtonCodeColsById,
+      setOutput : setOutput
   }
 })(this);

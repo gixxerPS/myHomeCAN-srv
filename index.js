@@ -14,6 +14,7 @@ var ProcImg = require('./lib/processimage.js');
 var procMsg = new ProcMsg(Can.sendMsg);
 Can.setReceiveCB(procMsg.onMsg, procMsg);
 procMsg.registerOnMsgAliveClient(ProcImg, ProcImg.onMsgAlive);
+procMsg.registerOnMsgDataClient(ProcImg, ProcImg.onMsgData);
 
 // connect abstracted module to process image
 ProcImg.setSendIoFcn(procMsg.send, procMsg);

@@ -87,13 +87,13 @@ suite('PROC IMG', function() {
     assert.deepEqual(Object.keys(ProcImg.getIoMap()).length, 1);
   });
   test('get output 1 known pu', function() {
-    ProcImg.registerUnit({txStr:'81', txType:msghlp.uTypes.pu});
+    ProcImg.registerUnit({txStr:'81', txType:msghlp.uTypes.pu, code:1});
     ProcImg.setOutput('81.1', 10, 1);
     var ret = ProcImg.getOutput('81.1', 10);
     assert.deepEqual(ret, 1);
   });
   test('get output 0 known pu', function() {
-  ProcImg.registerUnit({txStr:'81', txType:msghlp.uTypes.pu});
+  ProcImg.registerUnit({txStr:'81', txType:msghlp.uTypes.pu, code:1});
   ProcImg.setOutput('81.1', 10, 1);
     var ret = ProcImg.getOutput('81.1', 9);
     assert.deepEqual(ret, 0);
@@ -145,11 +145,36 @@ suite('PROC IMG', function() {
       done();
     }, 2); // wait 2 ms
   });
-  test('register iu', function() {
+  test('register iu on alive', function() {
     ProcImg.onMsgAlive({txStr:'83',txType:msghlp.uTypes.iu},
         {sw:'0.0.1', cnt:3});
     assert.deepEqual(ProcImg.getIoMap()['83.1'].in.length, 8);
     assert.deepEqual(ProcImg.getIoMap()['83.1'].out.length, 8);
+  });
+  test('update input map iu', function() {
+    var idObj = {
+        prio: 4,
+        txType : msghlp.uTypes.iu,
+        txId : 18,
+        txStr : '61',
+        rxType : msghlp.uTypes.master,
+        rxId : 0,
+        code : 1
+    }
+    // in5=high, in9=high
+    var data = {
+        iuIn : {
+          states :
+            Buffer.from([0x8, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 ])
+          
+        }
+    }
+    ProcImg.registerUnit({txStr:'61', txType:msghlp.uTypes.iu});
+    
+    ProcImg.onMsgData(idObj, data);
+    
+    assert.deepEqual(ProcImg.getIoMap()['61.1'].in,
+        Buffer.from([0x8,0x1,0x0,0x0,0x0,0x0,0x0,0x0]));
   });
 });
 

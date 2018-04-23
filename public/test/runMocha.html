@@ -3,20 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Mocha Tests</title>
-  <link href="./mocha.css" rel="stylesheet" />
+  <link href="./lib/mocha.css" rel="stylesheet" />
 </head>
 <body>
 <div id="mocha"></div>
-  <script src="../jquery.min.js"></script>
-  <script src="./index.js"></script>
-  <script src="./mocha.js"></script>
-  <script src="./chai.js" type="text/javascript"></script>
+  <script src="../script/lib/jquery.min.js"></script>
+  <script src="./lib/index.js"></script>
+  <script src="./lib/mocha.js"></script>
+  <script src="./lib/io.js"></script>
+  <script src="./lib/chai.js"></script>
   <script>mocha.setup('tdd')</script>
   
   <script src="../script/system.js"></script>
   <script src="./system.test.js"></script>
+  
   <script src="../script/room.js"></script>
   <script src="./room.test.js"></script>
+  
   <script>
     mocha.checkLeaks();
     mocha.globals(['jQuery']);
