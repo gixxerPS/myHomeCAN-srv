@@ -2,10 +2,12 @@
 (function(exports) {
   var socket;
   var intervalId;
+  var aliveMap;
   $(document).ready(function(){
     socket = io.connect();
     socket.on('system', function (data) {
       if (data.aliveMap) { // received alive data?
+        aliveMap = data.aliveMap;
         updateAliveTable(data.aliveMap);
       }
       if (data.ioMap) {
@@ -47,26 +49,6 @@
     document.getElementById('aliveCnt').innerHTML = Object.keys(aliveMap).length
     document.getElementById('dateAct').innerHTML = new Date().toLocaleTimeString();
   };
-
-  function byte2BinArray (num) {
-    var mask;
-    var ret=[];
-    for (mask = 0x80; mask > 0; mask=mask>>1) {
-      if (num & mask) {
-        ret.push(1);
-      } else {
-        ret.push(0);
-      }
-    }
-    return ret;
-  };
-  function byteArray2BinArray (byteArr) {
-    var ret = [];
-    byteArr.forEach(function (byte) {
-      ret = ret.concat(byte2BinArray(byte));
-    });
-    return ret;
-  };
   const colOpen = '<td>';
   const colClose = '</td>';
   function binArray2TableRow (binArr) {
@@ -86,11 +68,11 @@
     return '<th><button onmousedown="system.setOutput(\''+idi+',1)"'+
     ' onmouseup="system.setOutput(\''+idi+',0)" type="button">'+idx.toString()+'</button></th>';
   }
-  function getButtonCodeColsById (id) {
+  function getButtonCodeColsById (id, cnt) {
     var ret = '';
     var i=0;
     var idi;
-    for (; i < 16; i++) {
+    for (; i < cnt; i++) {
       ret += getButtonCodeColById(id, i);
     }
     return ret;
@@ -104,7 +86,7 @@
     }
     const inSubTable = {
                head : '<table class="noBorder"><thead>'+
-               '<tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead>'+
+               '<tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead>'+
                '<tbody><tr>',
                foot : '</tr></tbody></table>'
            }
@@ -113,20 +95,43 @@
     for (; i > 0; i--) {
 
       // TODO: code .1 only for iu and pu. search more intelligent
-      var uId = table.rows[i].cells[0].innerHTML + '.1';
+      var aliveId = table.rows[i].cells[0].innerHTML; // without code
+      var uId = aliveId + '.1';
       if (ioMap[uId] !== undefined) {
-        if (ioMap[uId].out) {
-          table.rows[i].cells[5].innerHTML = ioSubTable.head
-          + getButtonCodeColsById(uId)
-          + ioSubTable.mid
-          + binArray2TableRow(byteArray2BinArray(ioMap[uId].out))
-          + ioSubTable.foot;
+        switch (aliveMap[aliveId].type) {
+        case 0x3:
+          if (ioMap[uId].out) {
+            table.rows[i].cells[5].innerHTML = ioSubTable.head
+            + getButtonCodeColsById(uId, 16)
+            + ioSubTable.mid
+            + binArray2TableRow(byteArray2BinArray(ioMap[uId].out))
+            + ioSubTable.foot;
+          }
+          break;
+        case 0x4:
+          if (ioMap[uId].out) {
+            table.rows[i].cells[5].innerHTML = ioSubTable.head
+            + getButtonCodeColsById(uId, 12)
+            + ioSubTable.mid
+            + binArray2TableRow(
+                byteArray2BinArray(ioMap[uId].out).slice(0,12)
+              )
+            + ioSubTable.foot;
+          }
+          if (ioMap[uId].in) {
+            //console.log(ioMap[uId].in[0]);
+            table.rows[i].cells[6].innerHTML = inSubTable.head
+            + binArray2TableRow(
+                byteArray2BinArray(ioMap[uId].in).slice(0,12)
+              )
+            + inSubTable.foot;
+          }
+          break;
+        default:
+          console.error(aliveId + ' has unknown type: ' + aliveMap[aliveId].type);
+        return;
         }
-        if (ioMap[uId].in) {
-          table.rows[i].cells[6].innerHTML = inSubTable.head
-          + binArray2TableRow(byteArray2BinArray(ioMap[uId].in))
-          + inSubTable.foot;
-        }
+        
       }
     }
   }
@@ -143,3 +148,22 @@
       setOutput : setOutput
   }
 })(this);
+function byte2BinArray (num) {
+  var mask;
+  var ret=[];
+  for (mask = 0x80; mask > 0; mask=mask>>1) {
+    if (num & mask) {
+      ret.push(1);
+    } else {
+      ret.push(0);
+    }
+  }
+  return ret;
+};
+function byteArray2BinArray (byteArr) {
+  var ret = [];
+  byteArr.forEach(function (byte) {
+    ret = ret.concat(byte2BinArray(byte));
+  });
+  return ret;
+};

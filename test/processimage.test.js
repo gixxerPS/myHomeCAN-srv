@@ -103,7 +103,7 @@ suite('PROC IMG', function() {
     assert.deepEqual(ret, null);
   });
   test('update alive map with new sender', function() {
-    ProcImg.updateAliveMap({txStr:'92'}, {sw:'0.0.1', cnt:3});
+    ProcImg.updateAliveMap({txStr:'92', txType:msghlp.uTypes.pu}, {sw:'0.0.1', cnt:3});
     assert.deepEqual(Object.keys(ProcImg.getAliveMap()).length, 1);
   });
   test('onmsg alive updates map', function() {
@@ -114,6 +114,7 @@ suite('PROC IMG', function() {
     assert.deepEqual(map['92'].cnt, 3);
     assert.ok(map['92'].last_rx_time);
     assert.deepEqual(map['92'].state, 1);
+    assert.deepEqual(map['92'].type, msghlp.uTypes.pu);
   });
   test('update alive state not yet warn', function() {
     ProcImg.onMsgAlive({txStr:'92',txType:msghlp.uTypes.pu},
@@ -163,18 +164,33 @@ suite('PROC IMG', function() {
     }
     // in5=high, in9=high
     var data = {
-        iuIn : {
-          states :
-            Buffer.from([0x8, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 ])
-          
-        }
-    }
+        iuIn : { states :
+            Buffer.from([0x10, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 ])
+        } };
     ProcImg.registerUnit({txStr:'61', txType:msghlp.uTypes.iu});
-    
     ProcImg.onMsgData(idObj, data);
-    
     assert.deepEqual(ProcImg.getIoMap()['61.1'].in,
-        Buffer.from([0x8,0x1,0x0,0x0,0x0,0x0,0x0,0x0]));
+        Buffer.from([0x10,0x1,0x0,0x0,0x0,0x0,0x0,0x0]));
   });
+//  test('update input map iu update oldStates', function() {
+//    var idObj = {
+//        prio: 4,
+//        txType : msghlp.uTypes.iu,
+//        txId : 18,
+//        txStr : '61',
+//        rxType : msghlp.uTypes.master,
+//        rxId : 0,
+//        code : 1
+//    }
+//    // in5=high, in9=high
+//    var data = {
+//        iuIn : { states :
+//            Buffer.from([0x10, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 ])
+//        } };
+//    ProcImg.registerUnit({txStr:'61', txType:msghlp.uTypes.iu});
+//    ProcImg.onMsgData(idObj, data);
+//    assert.deepEqual(ProcImg.getIoMap()['61.1'].in,
+//        Buffer.from([0x10,0x1,0x0,0x0,0x0,0x0,0x0,0x0]));
+//  });
 });
 

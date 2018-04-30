@@ -2,13 +2,13 @@ html
   head
     title Debug
     include includes/head.pug
+    script(src='script/debug.js')
+    script(src='script/myutil.js')
   body
     include includes/toc.pug
     header Debug
     div(id="content")
-        
-      
-        ul(id="log")
-        
-        include includes/footer.pug
+      h1 Empfangene Botschaften 
+      ul(id="log")
+    include includes/footer.pug
         

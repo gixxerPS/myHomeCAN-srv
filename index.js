@@ -2,26 +2,34 @@ console.log('start application');
 require('./lib/logger.js');
 
 var conf = require('./config/appconfig.json');
-var werbserver = require('./lib/webserver.js');
+var Webserver = require('./lib/webserver.js');
 var ProcMsg = require('./lib/procmsg.js');
 var Can = require('./lib/can.js');
 var LogicApp = require('./lib/logicApp.js');
 var ProcImg = require('./lib/processimage.js');
 
-// connect/create modules
+//-----------------------------------------------------------------------------
+// create modules
+//-----------------------------------------------------------------------------
+var procMsg = new ProcMsg();
+var logicApp = new LogicApp(true);
 
-// connect can to process message module (1st abstraction layer)
-var procMsg = new ProcMsg(Can.sendMsg);
-Can.setReceiveCB(procMsg.onMsg, procMsg);
+//-----------------------------------------------------------------------------
+// connect modules
+//-----------------------------------------------------------------------------
+Can.registerOnMsgClient(procMsg, procMsg.onMsg);
+Can.registerOnMsgClient(Webserver, Webserver.onMsgData); // for debug view
+
 procMsg.registerOnMsgAliveClient(ProcImg, ProcImg.onMsgAlive);
 procMsg.registerOnMsgDataClient(ProcImg, ProcImg.onMsgData);
 
-// connect abstracted module to process image
+procMsg.setSendFcn(Can.sendMsg);
 ProcImg.setSendIoFcn(procMsg.send, procMsg);
 
-var logicApp = new LogicApp(true);
-werbserver.setLogicObj(logicApp);
-werbserver.setProcMsgObj(procMsg);
+ProcImg.registerOnInputEventClient(logicApp, logicApp.onInputEvent);
+
+Webserver.setProcMsgObj(procMsg);
+Webserver.setLogicObj(logicApp);
 
 // keep alive once a second
 setInterval(function () {

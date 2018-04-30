@@ -51,8 +51,8 @@ var sampleMsg = {
       data:Buffer.from([ // in5 , in9 = high , Tin5=0.5s Tin9=1s
         0x0, 0x0, 
         0x0, 0x0, 0x0, 0x0,
-        0x1, // byte 6 = Tin2 Tin1 in12 .. in9
-        0x10 // byte 7 = in8 .. in1
+        0x80, // byte 6 = Tin2 Tin1 in12 .. in9
+        0x8 // byte 7 = in8 .. in1
         ])},
     iuAlive : {
       id:[
@@ -94,7 +94,8 @@ var getSamples = {
 suite('PROCMSG', function() {
   var procmsg;
   setup(function() {
-    procmsg = new ProcMsg(function () {});
+    procmsg = new ProcMsg();
+    procmsg.setSendFcn(function () {});
   });
   teardown(function() {
     procmsg = undefined;
@@ -126,7 +127,7 @@ suite('PROCMSG', function() {
   test('parse data iu', function() {
     var iuData = procmsg.parseDataIuIn(getSamples.iu().data);
     assert.deepEqual(iuData.iuIn.states, 
-        Buffer.from([0x8,0x1,0x0,0x0,0x0,0x0,0x0,0x0 ]));
+        Buffer.from([0x10,0x1]));
 //    assert.deepEqual(iuData.tOn[0], 0);
 //    assert.deepEqual(iuData.tOn[4], 0.5); // T5 = 0.5s
 //    assert.deepEqual(iuData.tOn[8], 1);   // T9 = 1s
@@ -187,7 +188,7 @@ suite('PROCMSG', function() {
     procmsg.onMsg(getSamples.iu().id, getSamples.iu().data);
     assert.deepEqual(cnt, 2);
     assert.deepEqual(gidObj, {code:1, prio:4, txType:4, txId:18, txStr:'92', rxType:1, rxId:0});
-    assert.deepEqual(gdata, {iuIn:{states:Buffer.from([0x8, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0]),
+    assert.deepEqual(gdata, {iuIn:{states:Buffer.from([0x10, 0x1]),
       tOn:[0,0,0,0,0,0,0,0,0,0,0,0]}});
   });
   test('register on msg data client doesnt call on alive', function() {

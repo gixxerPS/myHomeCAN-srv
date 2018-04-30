@@ -29,16 +29,21 @@ suite('SYSTEM', function() {
   });
   test('output button one col', function() {
     assert.deepEqual(system.getButtonCodeColById('71.2', 0), 
-        '<th><button onmousedown="setOutput(\'71.2\',0,1)" onmouseup="setOutput(\'71.2\',0,0)" type="button">0</button></th>'
+        '<th><button onmousedown="system.setOutput(\'71.2\',0,1)" onmouseup="system.setOutput(\'71.2\',0,0)" type="button">0</button></th>'
         );
   });
   test('output button row', function() {
     var i=0;
     var expected = '';
+    for (;i<12;i++) {
+      expected += system.getButtonCodeColById('71.2', i);
+    }
+    assert.deepEqual(system.getButtonCodeColsById('71.2', 12), 
+        expected);
     for (;i<16;i++) {
       expected += system.getButtonCodeColById('71.2', i);
     }
-    assert.deepEqual(system.getButtonCodeColsById('71.2'), 
+    assert.deepEqual(system.getButtonCodeColsById('71.2', 16), 
         expected);
   });
 });
