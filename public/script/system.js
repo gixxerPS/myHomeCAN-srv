@@ -49,6 +49,51 @@
     document.getElementById('aliveCnt').innerHTML = Object.keys(aliveMap).length
     document.getElementById('dateAct').innerHTML = new Date().toLocaleTimeString();
   };
+  /**
+   * Keeps bit order.
+   * e.g. 0x80 -> [1,0,0,0,0,0,0,0]
+   * bit 0 -> [0]
+   * bit 7 -> [7] */
+  function byte2BinArray (num) {
+    var mask;
+    var ret=[];
+    for (mask = 0x80; mask > 0; mask=mask>>1) {
+      if (num & mask) {
+        ret.push(1);
+      } else {
+        ret.push(0);
+      }
+    }
+    return ret;
+  };
+  /**
+   * Reverses bit order. e.g. 
+   * 0xC0 -> [0,0,0,0,0,0,1,1]
+   * bit 0 -> [7]
+   * bit 7 -> [0] */
+  function byte2BinArrayRev (num) {
+    return byte2BinArray(num).reverse();
+  };
+  /**
+   * concats byte arrays and keeps bit order. e.g.
+   * [0xDE, 0x80] -> [ 1, 1, 0, 1, 1, 1, 1, 0, 1,0,0,0,0,0,0,0 ] */
+  function byteArray2BinArray (byteArr) {
+    var ret = [];
+    byteArr.forEach(function (byte) {
+      ret = ret.concat(byte2BinArray(byte));
+    });
+    return ret;
+  };
+  /**
+   * concats byte arrays and reverses bit order. e.g.
+   * [0xE0, 0xA] -> [ 0,0,0,0,0,1,1,1, 0,1,0,1,0,0,0,0,0] */
+  function byteArray2BinArrayRev (byteArr) {
+    var ret = [];
+    byteArr.forEach(function (byte) {
+      ret = ret.concat(byte2BinArrayRev(byte));
+    });
+    return ret;
+  };
   const colOpen = '<td>';
   const colClose = '</td>';
   function binArray2TableRow (binArr) {
@@ -114,7 +159,7 @@
             + getButtonCodeColsById(uId, 12)
             + ioSubTable.mid
             + binArray2TableRow(
-                byteArray2BinArray(ioMap[uId].out).slice(0,12)
+                byteArray2BinArray(ioMap[uId].out).slice(0,12) // cut lsb
               )
             + ioSubTable.foot;
           }
@@ -122,7 +167,7 @@
             //console.log(ioMap[uId].in[0]);
             table.rows[i].cells[6].innerHTML = inSubTable.head
             + binArray2TableRow(
-                byteArray2BinArray(ioMap[uId].in).slice(0,12)
+                byteArray2BinArrayRev(ioMap[uId].in).slice(0,12) // cut msb
               )
             + inSubTable.foot;
           }
@@ -141,29 +186,13 @@
   }
   exports.system = {
       byte2BinArray : byte2BinArray,
+      byte2BinArrayRev : byte2BinArrayRev,
       binArray2TableRow : binArray2TableRow,
       byteArray2BinArray : byteArray2BinArray,
+      byteArray2BinArrayRev : byteArray2BinArrayRev,
       getButtonCodeColById : getButtonCodeColById,
       getButtonCodeColsById : getButtonCodeColsById,
       setOutput : setOutput
   }
 })(this);
-function byte2BinArray (num) {
-  var mask;
-  var ret=[];
-  for (mask = 0x80; mask > 0; mask=mask>>1) {
-    if (num & mask) {
-      ret.push(1);
-    } else {
-      ret.push(0);
-    }
-  }
-  return ret;
-};
-function byteArray2BinArray (byteArr) {
-  var ret = [];
-  byteArr.forEach(function (byte) {
-    ret = ret.concat(byte2BinArray(byte));
-  });
-  return ret;
-};
+
