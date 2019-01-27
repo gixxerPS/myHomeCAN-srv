@@ -1,14 +1,24 @@
 html
   head
-    title Debug
-    include includes/head.pug
+    title Debug Style test
+    style
+      include ../../public/style/style2.css
     script(src='script/debug.js')
     script(src='script/myutil.js')
+    
   body
-    include includes/toc.pug
-    header Debug
-    div(id="content")
-      h1 Empfangene Botschaften 
-      ul(id="log")
+    h2 Navigation
+    div(class="sidebar")
+      a(href='/') Hauptseite
+      
+      h3 Liste nach Aktorart
+      
+      a(href='light') Licht
+      
+      h3 Liste nach Raum
+      
+      each room in rooms
+        a(href= 'room_' + room) #{room}
+        
     include includes/footer.pug
         

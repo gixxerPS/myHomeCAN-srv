@@ -1,14 +1,12 @@
-div(id="toc")
+div(class="sidebar")
   h2 Navigation
-  a(href='/') Hauptseite
-  
-  h3 Liste nach Aktorart
-  
-  a(href='light') Licht
-  
-  h3 Liste nach Raum
-  
-  ul(id="floors")
-  each room in rooms
-    li
-        a(href= 'room_' + room) #{room}
+   a(href='/') Hauptseite
+   
+   h3 Liste nach Aktorart
+   
+   a(href='light') Licht
+   
+   h3 Liste nach Raum
+   
+   each room in rooms
+     a(href= 'room_' + room) #{room}

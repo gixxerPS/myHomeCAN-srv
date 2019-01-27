@@ -12,31 +12,32 @@ html
         hr
         #lights
         each floor, fkey in homeObj
-          table
-            tbody
-              tr
-                td
-                  img(src='./images/light.jpeg' height="42" width="42")
-                td
-                  table(class= 'tableIO')
-                    thead
-                      tr: th= 'Licht ' +fkey
-                    tbody
-                        each room, rkey in floor
-                         each item, ikey in room
-                           if item.type === 'light'
-                            tr
-                              td
-                                = rkey + ' ' + ikey
-                              td 
-                                button(onClick="room.lightClick(this.id, 'ON')" type="button" id= item.out_addr) AN
-                              td 
-                                button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
-                              td
-                                div(class='output_circle' id= item.out_addr+'_output_circle')
-                                
-                td
-                  p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
+          p
+            table(class= 'tableDefault')
+              tbody
+                tr
+                  td
+                    img(src='./images/light.jpeg' height="42" width="42")
+                  td
+                    table(class= 'tableIO')
+                      thead
+                        tr: th= 'Licht ' +fkey
+                      tbody
+                          each room, rkey in floor
+                           each item, ikey in room
+                             if item.type === 'light'
+                              tr
+                                td
+                                  = rkey + ' ' + ikey
+                                td 
+                                  button(onClick="room.lightClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+                                td 
+                                  button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                                td
+                                  div(class='output_circle' id= item.out_addr+'_output_circle')
+                                  
+                  td
+                    p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
       
     include includes/footer.pug
