@@ -15,3 +15,6 @@ Start application:
 
     node ./index.js
 
+Set debug log level via environment
+
+    export MYHOMECANDEBUG='server can msg'

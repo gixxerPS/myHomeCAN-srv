@@ -20,8 +20,7 @@
     "url": "https://github.com/gixxerPS/myHomeCAN-srv/issues"
   },
   "dependencies": {
-    "express": "~4.15.2",
-    "jade": "~1.11.0",
+    "express": "^4.15.2",
     "log4js": "^2.5.3",
     "pug": "^2.0.0-beta11",
     "sinon": "^2.1.0",
