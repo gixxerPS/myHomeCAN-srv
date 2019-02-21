@@ -9,7 +9,7 @@ var mu = require('../lib/myutil.js');
 var ProcMsg = require('../lib/procmsg.js');
 var conf = require('../config/appconfig.json');
 
-require('log4js').getLogger('msg').level = 'OFF';
+//require('log4js').getLogger('msg').level = 'OFF';
 
 /*
  * msg = header || prio || sender unit id || sender num || 
@@ -67,7 +67,33 @@ var sampleMsg = {
         0x0,0x0,0x0,0x0, // fill
         0x3,             // aliveCnt
         0x1, 0x0, 0x0   // high, middle, low // swVersion
-        ])}
+        ])},
+      iuOut : {
+          id:[
+            '0100',       // prio             
+            '100',        // txType 
+            '10010',      // txId   
+            '001',        // rxType 
+            '00000',      // rxId   
+            '010'         // code
+            ],
+          data:Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+            0x80, // byte 6 = out12 .. out9 
+            0x8 // byte 7 = out8 .. out1
+            ])},
+      puOut : {
+        id:[
+          '0100',       // prio             
+          '011',        // txType 
+          '10011',      // txId   
+          '001',        // rxType 
+          '00000',      // rxId   
+          '010'        // code
+          ],
+        data:Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+          0x40, // byte 6 = out16 .. out9
+          0x4   // byte 7 = out8 .. out1
+          ])}
 }
 
 var getSamples = {
@@ -75,6 +101,12 @@ var getSamples = {
       return {
         id:parseInt(sampleMsg.iu.id.slice(0,6).join(''), 2),
         data:sampleMsg.iu.data
+      };
+    },
+    iuOut : function ()  {
+      return {
+        id:parseInt(sampleMsg.iuOut.id.slice(0,6).join(''), 2),
+        data:sampleMsg.iuOut.data
       };
     },
     iuAlive : function ()  {
@@ -87,6 +119,12 @@ var getSamples = {
       return {
         id:parseInt(sampleMsg.su.id.slice(0,6).join(''), 2),
         data:sampleMsg.su.data
+      };
+    },
+    puOut : function ()  {
+      return {
+        id:parseInt(sampleMsg.puOut.id.slice(0,6).join(''), 2),
+        data:sampleMsg.puOut.data
       };
     }
 }
@@ -124,7 +162,7 @@ suite('PROCMSG', function() {
     // TODO: assert.deepEqual(suDataArr[4], 22.03125);
     // TODO: assert.deepEqual(suDataArr[5], 22.96875);
   });
-  test('parse data iu', function() {
+  test('parse data iu in', function() {
     var iuData = procmsg.parseDataIuIn(getSamples.iu().data);
     assert.deepEqual(iuData.iuIn.states, 
         Buffer.from([0x10,0x1]));
@@ -132,6 +170,16 @@ suite('PROCMSG', function() {
 //    assert.deepEqual(iuData.tOn[4], 0.5); // T5 = 0.5s
 //    assert.deepEqual(iuData.tOn[8], 1);   // T9 = 1s
 //    assert.deepEqual(iuData.tOn[11], 0);
+  });
+  test('parse data iu out', function() {
+    var iuData = procmsg.parseDataIuOut(getSamples.iuOut().data);
+    assert.deepEqual(iuData.iuOut.states, 
+        Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x8]));
+  });
+  test('parse data pu out', function() {
+    var puData = procmsg.parseDataPuOut(getSamples.puOut().data);
+    assert.deepEqual(puData.puOut.states, 
+        Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x40, 0x4]));
   });
   test('send alive msg', function() {
     var spy = sinon.spy(procmsg, 'sendFcn');
@@ -180,7 +228,7 @@ suite('PROCMSG', function() {
     procmsg.onMsg(getSamples.iuAlive().id, getSamples.iuAlive().data)
     assert.deepEqual(cnt, 2);
   });
-  test('register on msg data client', function() {
+  test('register on msg data client iu in', function() {
     var cnt = 1;
     var gidObj, gdata, guType;
     var testObj = {testFcn : function (idObj, data, uType) {cnt++;gidObj=idObj;gdata=data;guType=uType} };
@@ -190,6 +238,26 @@ suite('PROCMSG', function() {
     assert.deepEqual(gidObj, {code:1, prio:4, txType:4, txId:18, txStr:'92', rxType:1, rxId:0});
     assert.deepEqual(gdata, {iuIn:{states:Buffer.from([0x10, 0x1]),
       tOn:[0,0,0,0,0,0,0,0,0,0,0,0]}});
+  });
+  test('register on msg data client iu out', function() {
+    var cnt = 1;
+    var gidObj, gdata, guType;
+    var testObj = {testFcn : function (idObj, data, uType) {cnt++;gidObj=idObj;gdata=data;guType=uType} };
+    procmsg.registerOnMsgDataClient(testObj, testObj.testFcn);
+    procmsg.onMsg(getSamples.iuOut().id, getSamples.iuOut().data);
+    assert.deepEqual(cnt, 2);
+    assert.deepEqual(gidObj, {code:2, prio:4, txType:4, txId:18, txStr:'92', rxType:1, rxId:0});
+    assert.deepEqual(gdata, {iuOut:{states:Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80, 0x8])}});
+  });
+  test('register on msg data client pu out', function() {
+    var cnt = 1;
+    var gidObj, gdata, guType;
+    var testObj = {testFcn : function (idObj, data, uType) {cnt++;gidObj=idObj;gdata=data;guType=uType} };
+    procmsg.registerOnMsgDataClient(testObj, testObj.testFcn);
+    procmsg.onMsg(getSamples.puOut().id, getSamples.puOut().data);
+    assert.deepEqual(cnt, 2);
+    assert.deepEqual(gidObj, {code:2, prio:4, txType:3, txId:19, txStr:'73', rxType:1, rxId:0});
+    assert.deepEqual(gdata, {puOut:{states:Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x40, 0x4])}});
   });
   test('register on msg data client doesnt call on alive', function() {
     var cnt = 1;

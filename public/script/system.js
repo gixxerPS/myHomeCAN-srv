@@ -195,9 +195,8 @@
     var i = table.rows.length-1;
     for (; i > 0; i--) {
 
-      // TODO: code .1 only for iu and pu. search more intelligent
       var aliveId = table.rows[i].cells[0].innerHTML; // without code
-      var uId = aliveId + '.1';
+      var uId = aliveId;
       if (ioMap[uId] !== undefined) {
         switch (aliveMap[aliveId].type) {
         case 0x3:

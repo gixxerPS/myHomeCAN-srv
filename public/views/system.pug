@@ -4,7 +4,8 @@ html
     script(src='script/system.js')
   body
     include includes/toc.pug
-    header System Status
+    header System Status 
+      div(class="bottomright")='V'+commonData.curver
     div(id="content")
       h1 Status aktive Knoten
       p Anzahl: 

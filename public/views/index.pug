@@ -5,7 +5,8 @@ html
     script(src='script/client.js')
   body
     include includes/toc.pug
-    header Hauptseite
+    header Hauptseite 
+      div(class="bottomright")='V'+commonData.curver
     div(id="content")
         h1 Status Übersicht
         p Datum

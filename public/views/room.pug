@@ -5,7 +5,8 @@ html
     script(src='script/room.js')
   body
     include includes/toc.pug
-    header Raumbedienung
+    header Raumbedienung 
+      div(class="bottomright")='V'+commonData.curver
     div(id="content")
         h1= roomtitle
         

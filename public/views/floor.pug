@@ -4,7 +4,8 @@ html
     include includes/head.pug
   body
     include includes/toc.pug
-    header Alle Botschaften
+    header Alle Botschaften 
+      div(class="bottomright")='V'+commonData.curver
         h1= message
 
   table
