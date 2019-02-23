@@ -35,24 +35,5 @@ suite('SYSTEM', function() {
     assert.deepEqual(system.binArray2TableRow(system.byteArray2BinArray([0xDE, 0x80])), 
         '<td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>');
   });
-  test('output button one col', function() {
-    assert.deepEqual(system.getButtonCodeColById('71.2', 0), 
-        '<th><button onmousedown="system.setOutput(\'71.2\',0,1)" onmouseup="system.setOutput(\'71.2\',0,0)" type="button">0</button></th>'
-        );
-  });
-  test('output button row', function() {
-    var i=0;
-    var expected = '';
-    for (;i<12;i++) {
-      expected += system.getButtonCodeColById('71.2', i);
-    }
-    assert.deepEqual(system.getButtonCodeColsById('71.2', 12), 
-        expected);
-    for (;i<16;i++) {
-      expected += system.getButtonCodeColById('71.2', i);
-    }
-    assert.deepEqual(system.getButtonCodeColsById('71.2', 16), 
-        expected);
-  });
 });
 

@@ -15,3 +15,10 @@ Start application:
 
     node ./index.js
 
+Set debug log level via environment
+
+    export MYHOMECANDEBUG='server can msg'
+    
+Set test environment (currently one pu and one iu)
+
+    export MYHOMECANTESTENV=1

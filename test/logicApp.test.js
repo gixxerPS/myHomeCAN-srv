@@ -9,7 +9,8 @@ var mu = require('../lib/myutil.js');
 var LogicApp = require('../lib/logicApp.js');
 var procImg = require('../lib/processimage.js');
 
-require('log4js').getLogger('logic').level = 'OFF';
+//require('log4js').getLogger('logic').level = 'OFF';
+require('log4js').getLogger('logic').level = 'DEBUG';
 
 var testHomeConf = {
     EG:{
@@ -21,6 +22,20 @@ var testHomeConf = {
           on_addr   : {man: ['71.1.2', '71.1.4'], timed: ['72.1.2', '72.1.4']},
           off_addr  : {man: ['71.1.1', '71.1.3']},
           time      : 10000
+        },
+        Toggle: {
+          type      : 'light',
+          out_addr  : '62.1.1',
+          rm_addr   : ['74.1.1'],
+          on_addr   : {man: ['74.1.2']},
+          off_addr  : {man: ['74.1.2']}
+        },
+        Toggle2: {
+          type      : 'light',
+          out_addr  : '62.1.2',
+          rm_addr   : ['74.1.2'],
+          on_addr   : {man: ['74.1.12']},
+          off_addr  : {man: ['74.1.12']}
         },
         Rollo: {
           type          : 'shutter',
@@ -36,22 +51,73 @@ var testHomeConf = {
 suite('LOGIC APP', function() {
   var logicApp;
   setup(function() {
-    this.setOutSpy = sinon.stub(procImg, 'setOutput');
-    this.getOutStub = sinon.stub(procImg, 'getOutput');
+    this.origHomeConf = JSON.parse(JSON.stringify(testHomeConf));
     logicApp = new LogicApp();
   });
   teardown(function() {
+    testHomeConf = JSON.parse(JSON.stringify(this.origHomeConf));
     logicApp = undefined;
-    procImg.setOutput.restore();
-    procImg.getOutput.restore();
   });
-//  test('create light map', function() {
-//    logicApp.createInternalMaps(testHomeConf);
-//    assert.deepEqual(logicApp.lightMap, {
-//      '71.1.2':['10000001.1.1', '01100001.1.1', '01100001.1.3'],
-//      '71.1.4':['10000001.1.1', '01100001.1.1', '01100001.1.3']
-//    });
-//  });
+  test('create light map', function() {
+    logicApp.createInternalMaps({EG:{
+      Kueche: {
+        Kochbereich: {
+          type      : 'light',
+          out_addr  : '61.1.1',
+          rm_addr   : ['71.1.1', '71.1.3'],
+          on_addr   : {man: ['71.1.2', '71.1.4'], timed: ['72.1.2', '72.1.4']},
+          off_addr  : {man: ['71.1.1', '71.1.3']},
+          time      : 10000
+        },
+        Toggle: {
+          type      : 'light',
+          out_addr  : '62.1.1',
+          rm_addr   : ['74.1.1'],
+          on_addr   : {man: ['74.1.2']},
+          off_addr  : {man: ['74.1.2']}
+        },
+        Rollo: {
+          type          : 'shutter',
+          out_up_addr   : '73.1.1',
+          out_down_addr : '73.1.2',
+          man_up_addr   : ['93.1.1'],
+          man_down_addr : ['93.1.2']
+        }
+      }
+    }});
+    assert.deepEqual(logicApp.lightMap, {
+      '71.1.1':{on_addr:[], off_addr:['61.1.1', '71.1.1', '71.1.3'], toggle_addr:[]},
+      '71.1.2':{on_addr:['61.1.1', '71.1.1', '71.1.3'], off_addr:[], toggle_addr:[]},
+      '71.1.3':{on_addr:[], off_addr:['61.1.1', '71.1.1', '71.1.3'], toggle_addr:[]},
+      '71.1.4':{on_addr:['61.1.1', '71.1.1', '71.1.3'], off_addr:[], toggle_addr:[]},
+      '74.1.2':{on_addr:[], off_addr:[], toggle_addr:['62.1.1', '74.1.1']}
+    });
+  });
+  test('create light map double keys', function() {
+    logicApp.createInternalMaps({
+      EG:{
+        Kueche: {
+          Kochbereich: {
+            type      : 'light',
+            out_addr  : '61.1.1',
+            rm_addr   : ['71.1.1'],
+            on_addr   : {man: ['71.1.2']},
+            off_addr  : {man: ['71.1.1']}
+          },
+          Kochbereich2: {
+            type      : 'light',
+            out_addr  : '61.1.2',
+            rm_addr   : ['71.1.2'],
+            on_addr   : {man: ['71.1.1']},
+            off_addr  : {man: ['71.1.2']}
+          }
+        }
+      }});
+    assert.deepEqual(logicApp.lightMap, {
+      '71.1.1':{on_addr:['61.1.2', '71.1.2'], off_addr:['61.1.1', '71.1.1'], toggle_addr:[]},
+      '71.1.2':{on_addr:['61.1.1', '71.1.1'], off_addr:['61.1.2', '71.1.2'], toggle_addr:[]},
+    });
+  });
   test('create shutter map', function() {
     logicApp.createInternalMaps(testHomeConf);
     assert.deepEqual(logicApp.shutterMap, {
@@ -73,69 +139,139 @@ suite('LOGIC APP', function() {
     });
   });
   test('switch corresponding light outputs on', function() {
-    this.getOutStub.returns(1);
+    var setOutSpy = sinon.stub(procImg, 'setOutput');
+    var getOutStub = sinon.stub(procImg, 'getOutput');
+    getOutStub.returns(1);
     logicApp.createInternalMaps(testHomeConf);
     logicApp.switchLight('61.1.1', 'ON');
-    assert.deepEqual( this.setOutSpy.args[0], ['61.1', 0, 1] );
+    assert.deepEqual( setOutSpy.args[0], ['61.1', 0, 1] );
 //    assert.deepEqual( this.setOutSpy.args[1], ['01100001.001', 1, 1] );
 //    assert.deepEqual( this.setOutSpy.args[2], ['01100001.001', 3, 1] );
+    procImg.setOutput.restore();
+    procImg.getOutput.restore();
   });
   test('onInput man light switches rm and output on', function() {
-    this.getOutStub.returns(0);
+    var setOutSpy = sinon.stub(procImg, 'setOutput');
+    var getOutStub = sinon.stub(procImg, 'getOutput');
+    getOutStub.returns(0);
     logicApp.createInternalMaps(testHomeConf);
-    mu.po(logicApp.lightMap)
     logicApp.onInputEvent({
-      prio: 0, txType: 0x4, txId: 0x1, txStr: '71.1',
+      prio: 0, txType: 0x4, txId: 0x1, txStr: '71',
       rxType: 0x1, rxId: 0x1, rxStr: '1', code: 1
     },{
       // 71.1.2
-      iuIn:{states:Buffer.from([0x2,0x0,0x0,0x0, 0x0,0x0,0x0,0x0]),
+      iuIn:{states:Buffer.from([0x2,0x0]),
       tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
     }});
-    assert.deepEqual( this.setOutSpy.args[0], ['61.1', 0, 1] );
-    assert.deepEqual( this.setOutSpy.args[1], ['71.1', 0, 1] );
-    assert.deepEqual( this.setOutSpy.args[2], ['71.1', 2, 1] );
+    assert.deepEqual( setOutSpy.args[0], ['61.1', 0, 1] );
+    assert.deepEqual( setOutSpy.args[1], ['71.1', 0, 1] );
+    assert.deepEqual( setOutSpy.args[2], ['71.1', 2, 1] );
+    assert.deepEqual( setOutSpy.callCount, 3 );
+    procImg.setOutput.restore();
+    procImg.getOutput.restore();
   });
   test('onInput man light switches rm and output off', function() {
-    this.getOutStub.returns(1);
+    var getOutStub = sinon.stub(procImg, 'getOutput');
+    getOutStub.returns(1);
+    var setOutSpy = sinon.stub(procImg, 'setOutput');
     logicApp.createInternalMaps(testHomeConf);
     logicApp.onInputEvent({
-      prio: 0, txType: 0x4, txId: 0x1, txStr: '71.1',
+      prio: 0, txType: 0x4, txId: 0x1, txStr: '71',
       rxType: 0x1, rxId: 0x1, rxStr: '1', code: 1
     },{
-      // 71.1.2
-      iuIn:{states:Buffer.from([0x2,0x0,0x0,0x0, 0x0,0x0,0x0,0x0]),
+      // 71.1.1
+      iuIn:{states:Buffer.from([0x1,0x0,0x0,0x0, 0x0,0x0,0x0,0x0]),
       tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
     }});
-    assert.deepEqual( this.setOutSpy.args[3], ['61.1', 0, 0] );
-    assert.deepEqual( this.setOutSpy.args[4], ['71.1', 0, 0] );
-    assert.deepEqual( this.setOutSpy.args[5], ['71.1', 2, 0] );
+    assert.deepEqual( setOutSpy.args[0], ['61.1', 0, 0] );
+    assert.deepEqual( setOutSpy.args[1], ['71.1', 0, 0] );
+    assert.deepEqual( setOutSpy.args[2], ['71.1', 2, 0] );
+    assert.deepEqual( setOutSpy.callCount, 3 );
+    procImg.setOutput.restore();
+    procImg.getOutput.restore();
+  });
+  test('onInput man light switches rm and output on toggle', function() {
+    var setOutSpy = sinon.spy(procImg, 'setOutput');
+    var getOutStub = sinon.stub(procImg, 'getOutput');
+    getOutStub.returns(0);
+    logicApp.createInternalMaps(testHomeConf);
+    var idObj = {
+        prio: 0, txType: 0x4, txId: 0x1, txStr: '74',
+        rxType: 0x1, rxId: 0x1, rxStr: '1', code: 1
+      };
+    var data = {
+        // 74.1.2
+        iuIn:{states:Buffer.from([0x2,0x0]),
+        tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      }};
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual( setOutSpy.args[0], ['62.1', 0, 1] );
+    assert.deepEqual( setOutSpy.args[1], ['74.1', 0, 1] );
+    getOutStub.returns(1);
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual( setOutSpy.args[2], ['62.1', 0, 0] );
+    assert.deepEqual( setOutSpy.args[3], ['74.1', 0, 0] );
+    assert.deepEqual( setOutSpy.callCount, 4 );
+    procImg.setOutput.restore();
+    procImg.getOutput.restore();
+  });
+  test('onInput man light switches rm and output on toggle with changed flag', function() {
+    var setOutSpy = sinon.spy(procImg, 'setOutput');
+    var getOutStub = sinon.stub(procImg, 'getOutput');
+    getOutStub.returns(0);
+    logicApp.createInternalMaps(testHomeConf);
+    var idObj = {
+        prio: 0, txType: 0x4, txId: 0x1, txStr: '74',
+        rxType: 0x1, rxId: 0x1, rxStr: '1', code: 1
+      };
+    var data = {
+        // 74.1.12
+        iuIn:{states:Buffer.from([0x0,0x8]), changed:Buffer.from([0x0,0x8]),
+        tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      }};
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual( setOutSpy.args[0], ['62.1', 1, 1] );
+    assert.deepEqual( setOutSpy.args[1], ['74.1', 1, 1] );
+    getOutStub.returns(1);
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual( setOutSpy.args[2], ['62.1', 1, 0] );
+    assert.deepEqual( setOutSpy.args[3], ['74.1', 1, 0] );
+    assert.deepEqual( setOutSpy.callCount, 4 );
+    procImg.setOutput.restore();
+    procImg.getOutput.restore();
   });
   test('switch shutter up', function() {
     logicApp.createInternalMaps(testHomeConf);
+    var setOutSpy = sinon.stub(procImg, 'setOutput');
     logicApp.switchShutter('73.1.1', 'UP');
-    assert.deepEqual( this.setOutSpy.args[0], ['73.1', 1, 0] );
-    assert.deepEqual( this.setOutSpy.args[1], ['73.1', 0, 1] );
+    assert.deepEqual( setOutSpy.args[0], ['73.1', 1, 0] );
+    assert.deepEqual( setOutSpy.args[1], ['73.1', 0, 1] );
+    procImg.setOutput.restore();
   });
   test('switch shutter stop', function() {
     logicApp.createInternalMaps(testHomeConf);
+    var setOutSpy = sinon.stub(procImg, 'setOutput');
     logicApp.switchShutter('73.1.1', 'STOP');
-    assert.deepEqual( this.setOutSpy.args[0], ['73.1', 0, 0] );
-    assert.deepEqual( this.setOutSpy.args[1], ['73.1', 1, 0] );
+    assert.deepEqual( setOutSpy.args[0], ['73.1', 0, 0] );
+    assert.deepEqual( setOutSpy.args[1], ['73.1', 1, 0] );
+    procImg.setOutput.restore();
   });
   test('switch shutter down', function() {
     logicApp.createInternalMaps(testHomeConf);
+    var setOutSpy = sinon.stub(procImg, 'setOutput');
     logicApp.switchShutter('73.1.1', 'DOWN');
-    assert.deepEqual( this.setOutSpy.args[0], ['73.1', 1, 0] );
-    assert.deepEqual( this.setOutSpy.args[1], ['73.1', 0, 1] );
+    assert.deepEqual( setOutSpy.args[0], ['73.1', 1, 0] );
+    assert.deepEqual( setOutSpy.args[1], ['73.1', 0, 1] );
+    procImg.setOutput.restore();
   });
   test('switch shutter off after up', function(done) {
-    var self = this;
+    var setOutSpy = sinon.stub(procImg, 'setOutput');
     logicApp.createInternalMaps(testHomeConf);
     logicApp.switchShutter('73.1.1', 'UP');
     setTimeout(function () {
-      assert.deepEqual(self.setOutSpy.args[2], ['73.1', 1, 0]);
-      assert.deepEqual(self.setOutSpy.args[3], ['73.1', 0, 0]);
+      assert.deepEqual(setOutSpy.args[2], ['73.1', 1, 0]);
+      assert.deepEqual(setOutSpy.args[3], ['73.1', 0, 0]);
+      procImg.setOutput.restore();
       done();
     }, 35); // wait x ms
   });
