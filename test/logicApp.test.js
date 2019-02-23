@@ -9,11 +9,57 @@ var mu = require('../lib/myutil.js');
 var LogicApp = require('../lib/logicApp.js');
 var procImg = require('../lib/processimage.js');
 
-require('log4js').getLogger('logic').level = 'OFF';
-//require('log4js').getLogger('logic').level = 'DEBUG';
+//require('log4js').getLogger('logic').level = 'OFF';
+require('log4js').getLogger('logic').level = 'DEBUG';
 
 var testHomeConf = {
     EG:{
+      Kueche: {
+        Kochbereich: {
+          type      : 'light',
+          out_addr  : '61.1.1',
+          rm_addr   : ['71.1.1', '71.1.3'],
+          on_addr   : {man: ['71.1.2', '71.1.4'], timed: ['72.1.2', '72.1.4']},
+          off_addr  : {man: ['71.1.1', '71.1.3']},
+          time      : 10000
+        },
+        Toggle: {
+          type      : 'light',
+          out_addr  : '62.1.1',
+          rm_addr   : ['74.1.1'],
+          on_addr   : {man: ['74.1.2']},
+          off_addr  : {man: ['74.1.2']}
+        },
+        Toggle2: {
+          type      : 'light',
+          out_addr  : '62.1.2',
+          rm_addr   : ['74.1.2'],
+          on_addr   : {man: ['74.1.12']},
+          off_addr  : {man: ['74.1.12']}
+        },
+        Rollo: {
+          type          : 'shutter',
+          out_up_addr   : '73.1.1',
+          out_down_addr : '73.1.2',
+          man_up_addr   : ['93.1.1'],
+          man_down_addr : ['93.1.2']
+        }
+      }
+    }
+}
+
+suite('LOGIC APP', function() {
+  var logicApp;
+  setup(function() {
+    this.origHomeConf = JSON.parse(JSON.stringify(testHomeConf));
+    logicApp = new LogicApp();
+  });
+  teardown(function() {
+    testHomeConf = JSON.parse(JSON.stringify(this.origHomeConf));
+    logicApp = undefined;
+  });
+  test('create light map', function() {
+    logicApp.createInternalMaps({EG:{
       Kueche: {
         Kochbereich: {
           type      : 'light',
@@ -38,21 +84,7 @@ var testHomeConf = {
           man_down_addr : ['93.1.2']
         }
       }
-    }
-}
-
-suite('LOGIC APP', function() {
-  var logicApp;
-  setup(function() {
-    this.origHomeConf = JSON.parse(JSON.stringify(testHomeConf));
-    logicApp = new LogicApp();
-  });
-  teardown(function() {
-    testHomeConf = JSON.parse(JSON.stringify(this.origHomeConf));
-    logicApp = undefined;
-  });
-  test('create light map', function() {
-    logicApp.createInternalMaps(testHomeConf);
+    }});
     assert.deepEqual(logicApp.lightMap, {
       '71.1.1':{on_addr:[], off_addr:['61.1.1', '71.1.1', '71.1.3'], toggle_addr:[]},
       '71.1.2':{on_addr:['61.1.1', '71.1.1', '71.1.3'], off_addr:[], toggle_addr:[]},
@@ -179,6 +211,31 @@ suite('LOGIC APP', function() {
     logicApp.onInputEvent(idObj, data);
     assert.deepEqual( setOutSpy.args[2], ['62.1', 0, 0] );
     assert.deepEqual( setOutSpy.args[3], ['74.1', 0, 0] );
+    assert.deepEqual( setOutSpy.callCount, 4 );
+    procImg.setOutput.restore();
+    procImg.getOutput.restore();
+  });
+  test('onInput man light switches rm and output on toggle with changed flag', function() {
+    var setOutSpy = sinon.spy(procImg, 'setOutput');
+    var getOutStub = sinon.stub(procImg, 'getOutput');
+    getOutStub.returns(0);
+    logicApp.createInternalMaps(testHomeConf);
+    var idObj = {
+        prio: 0, txType: 0x4, txId: 0x1, txStr: '74',
+        rxType: 0x1, rxId: 0x1, rxStr: '1', code: 1
+      };
+    var data = {
+        // 74.1.12
+        iuIn:{states:Buffer.from([0x0,0x8]), changed:Buffer.from([0x0,0x8]),
+        tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      }};
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual( setOutSpy.args[0], ['62.1', 1, 1] );
+    assert.deepEqual( setOutSpy.args[1], ['74.1', 1, 1] );
+    getOutStub.returns(1);
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual( setOutSpy.args[2], ['62.1', 1, 0] );
+    assert.deepEqual( setOutSpy.args[3], ['74.1', 1, 0] );
     assert.deepEqual( setOutSpy.callCount, 4 );
     procImg.setOutput.restore();
     procImg.getOutput.restore();

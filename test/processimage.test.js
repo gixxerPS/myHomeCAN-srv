@@ -276,7 +276,7 @@ suite('PROC IMG', function() {
     data.iuIn.states[1] = 0;
     ProcImg.onMsgData(idObj, data); // call with changed data
     assert.deepEqual(cnt, 2);
-    assert.deepEqual(gdata.iuIn.states.changed, Buffer.from([0x10, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 ]));
+    assert.deepEqual(gdata.iuIn.changed, Buffer.from([0x10, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 ]));
   });
   test('update io map pu out', function() {
     var idObj = {
