@@ -4,30 +4,30 @@
       "Kochbereich": {
         "type"      : "light",
         "out_addr"  : "62.1.10",
-        "rm_addr"   : ["82.1.1"],
-        "on_addr"   : {"man": ["82.1.1"]},
-        "off_addr"  : {"man": ["82.1.2"]}
+        "rm_addr"   : ["82.1.2", "81.1.12"],
+        "on_addr"   : {"man": ["82.1.1""81.1.11"]},
+        "off_addr"  : {"man": ["82.1.2", "81.1.2"]}
       },
       "Essbereich": {
         "type"      : "light",
         "out_addr"  : "62.1.11",
         "rm_addr"   : ["81.1.1"],
         "on_addr"   : {"man": ["81.1.1"]},
-        "off_addr"  : {"man": ["81.1.2"]}
+        "off_addr"  : {"man": ["81.1.1", "81.1.2"]}
       },
       "Spuele": {
         "type"      : "light",
         "out_addr"  : "62.1.12",
-        "rm_addr"   : ["81.1.7"],
+        "rm_addr"   : ["81.1.8"],
         "on_addr"   : {"man": ["81.1.7"]},
-        "off_addr"  : {"man": ["81.1.8"]}
+        "off_addr"  : {"man": ["81.1.8", "81.1.2"]}
       },
       "Oberschraenke": {
         "type"      : "light",
         "out_addr"  : "62.1.6",
-        "rm_addr"   : ["81.1.9"],
+        "rm_addr"   : ["81.1.10"],
         "on_addr"   : {"man": ["81.1.9"]},
-        "off_addr"  : {"man": ["81.1.10"]}
+        "off_addr"  : {"man": ["81.1.10", "81.1.2"]}
       },
       "Auffahrt": {
         "type"          : "shutter",
@@ -36,7 +36,7 @@
         "man_up_addr"   : ["81.1.3"],
         "man_down_addr" : ["81.1.4"]
       },
-      "Spuele": {
+      "Garten": {
         "type"          : "shutter",
         "out_up_addr"   : "61.1.9",
         "out_down_addr" : "61.1.10",
@@ -65,9 +65,9 @@
       "Flur": {
         "type"      : "light",
         "out_addr"  : "62.1.14",
-        "rm_addr"   : ["85.1.9"],
-        "on_addr"   : {"man": ["85.1.9"]},
-        "off_addr"  : {"man": ["85.1.10"]}
+        "rm_addr"   : ["85.1.4"],
+        "on_addr"   : {"man": ["85.1.3"]},
+        "off_addr"  : {"man": ["85.1.4"]}
       },
       "Rollo_Garderobe": {
         "type"          : "shutter",
@@ -94,9 +94,9 @@
       "Licht": {
         "type"      : "light",
         "out_addr"  : "62.1.15",
-        "rm_addr"   : ["83.1.7"],
+        "rm_addr"   : ["83.1.8"],
         "on_addr"   : {"man": ["83.1.7"]},
-        "off_addr"  : {"man": ["83.1.7"]}
+        "off_addr"  : {"man": ["83.1.8"]}
       }
     },
     "Wohnzimmer" : {
@@ -110,9 +110,9 @@
       "Stehlampe": {
         "type"      : "light",
         "out_addr"  : "63.1.3",
-        "rm_addr"   : ["84.1.4"],
-        "on_addr"   : {"man": ["84.1.4"]},
-        "off_addr"  : {"man": ["84.1.4"]}
+        "rm_addr"   : ["84.1.6"],
+        "on_addr"   : {"man": ["84.1.6"]},
+        "off_addr"  : {"man": ["84.1.6"]}
       },
       "Rollo": {
         "type"          : "shutter",
@@ -133,16 +133,16 @@
       "Licht_Spots": {
         "type"      : "light",
         "out_addr"  : "62.1.8",
-        "rm_addr"   : ["84.1.2"],
-        "on_addr"   : {"man": ["84.1.2"]},
-        "off_addr"  : {"man": ["84.1.2"]}
+        "rm_addr"   : ["84.1.3"],
+        "on_addr"   : {"man": ["84.1.3"]},
+        "off_addr"  : {"man": ["84.1.3"]}
       },
       "Licht_Rahmen": {
         "type"      : "light",
         "out_addr"  : "62.1.7",
-        "rm_addr"   : ["84.1.3"],
-        "on_addr"   : {"man": ["84.1.3"]},
-        "off_addr"  : {"man": ["84.1.3"]}
+        "rm_addr"   : ["84.1.4"],
+        "on_addr"   : {"man": ["84.1.4"]},
+        "off_addr"  : {"man": ["84.1.4"]}
       },
       "Rollo": {
         "type"          : "shutter",
@@ -179,9 +179,9 @@
       "Licht": {
         "type"      : "light",
         "out_addr"  : "62.1.5",
-        "rm_addr"   : ["82.1.9"],
-        "on_addr"   : {"man": ["82.1.9"]},
-        "off_addr"  : {"man": ["82.1.9"]}
+        "rm_addr"   : ["82.1.7"],
+        "on_addr"   : {"man": ["82.1.7"]},
+        "off_addr"  : {"man": ["82.1.7"]}
       }
     },
     "Vorrat" : {
@@ -206,23 +206,23 @@
       "Licht": {
         "type"      : "light",
         "out_addr"  : "72.1.3",
-        "rm_addr"   : ["91.1.7"],
-        "on_addr"   : {"man": ["91.1.7"]},
-        "off_addr"  : {"man": ["91.1.8"]}
+        "rm_addr"   : ["91.1.8", "94.1.4"],
+        "on_addr"   : {"man": ["91.1.7", "94.1.3"]},
+        "off_addr"  : {"man": ["91.1.8", "94.1.4"]}
       },
       "Licht_Spiegel": {
         "type"      : "light",
         "out_addr"  : "72.1.1",
-        "rm_addr"   : ["94.1.1"],
+        "rm_addr"   : ["94.1.2"],
         "on_addr"   : {"man": ["94.1.1"]},
         "off_addr"  : {"man": ["94.1.2"]}
       },
       "LED": {
         "type"      : "light",
         "out_addr"  : "72.1.13",
-        "rm_addr"   : ["94.1.3"],
-        "on_addr"   : {"man": ["94.1.3"]},
-        "off_addr"  : {"man": ["94.1.4"]}
+        "rm_addr"   : ["94.1.6"],
+        "on_addr"   : {"man": ["94.1.5"]},
+        "off_addr"  : {"man": ["94.1.6"]}
       },
       "Lastnetzteil_24V": {
         "type"          : "receptacle",
@@ -235,21 +235,21 @@
       "Licht_1": {
         "type"      : "light",
         "out_addr"  : "71.1.9",
-        "rm_addr"   : ["93.1.1"],
-        "on_addr"   : {"man": ["93.1.1"]},
-        "off_addr"  : {"man": ["93.1.2"]}
+        "rm_addr"   : ["93.1.2"],
+        "on_addr"   : {"man": ["93.1.2"]},
+        "off_addr"  : {"man": ["93.1.1"]}
       },
       "Licht_2": {
         "type"      : "light",
         "out_addr"  : "71.1.10",
-        "rm_addr"   : ["93.1.3"],
+        "rm_addr"   : ["93.1.4"],
         "on_addr"   : {"man": ["93.1.3"]},
         "off_addr"  : {"man": ["93.1.4"]}
       },
       "Licht_Dachboden": {
         "type"      : "light",
         "out_addr"  : "71.1.13",
-        "rm_addr"   : ["93.1.5"],
+        "rm_addr"   : ["93.1.6"],
         "on_addr"   : {"man": ["93.1.5"]},
         "off_addr"  : {"man": ["93.1.6"]}
       }
@@ -274,14 +274,14 @@
       "Licht": {
         "type"      : "light",
         "out_addr"  : "72.1.5",
-        "rm_addr"   : ["92.1.1"],
+        "rm_addr"   : ["92.1.2"],
         "on_addr"   : {"man": ["92.1.1"]},
         "off_addr"  : {"man": ["92.1.2"]}
       },
       "Licht_Bett": {
         "type"      : "light",
         "out_addr"  : "71.1.15",
-        "rm_addr"   : ["92.1.3"],
+        "rm_addr"   : ["92.1.4"],
         "on_addr"   : {"man": ["92.1.3"]},
         "off_addr"  : {"man": ["92.1.4"]}
       },
@@ -297,7 +297,7 @@
       "Licht": {
         "type"      : "light",
         "out_addr"  : "71.1.11",
-        "rm_addr"   : ["92.1.7"],
+        "rm_addr"   : ["92.1.8"],
         "on_addr"   : {"man": ["92.1.7"]},
         "off_addr"  : {"man": ["92.1.8"]}
       },
@@ -313,7 +313,7 @@
       "Licht": {
         "type"      : "light",
         "out_addr"  : "71.1.14",
-        "rm_addr"   : ["91.1.1"],
+        "rm_addr"   : ["91.1.2"],
         "on_addr"   : {"man": ["91.1.1"]},
         "off_addr"  : {"man": ["91.1.2"]}
       },

@@ -22,3 +22,9 @@ Set debug log level via environment
 Set test environment (currently one pu and one iu)
 
     export MYHOMECANTESTENV=1
+    
+## Installation as service on raspberry pi
+
+Restart service:
+	
+	sudo service myhomecan restart
