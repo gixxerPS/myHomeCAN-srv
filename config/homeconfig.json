@@ -3,21 +3,21 @@
     "Kueche": {
       "Kochbereich": {
         "type"      : "light",
-        "out_addr"  : "62.1.10",
+        "out_addr"  : "62.1.11",
         "rm_addr"   : ["82.1.2", "81.1.12"],
         "on_addr"   : {"man": ["82.1.1", "81.1.11"]},
-        "off_addr"  : {"man": ["82.1.2", "81.1.2"]}
+        "off_addr"  : {"man": ["82.1.2", "81.1.12", "81.1.2"]}
       },
       "Essbereich": {
         "type"      : "light",
-        "out_addr"  : "62.1.11",
+        "out_addr"  : "62.1.12",
         "rm_addr"   : ["81.1.1"],
         "on_addr"   : {"man": ["81.1.1"]},
         "off_addr"  : {"man": ["81.1.1", "81.1.2"]}
       },
       "Spuele": {
         "type"      : "light",
-        "out_addr"  : "62.1.12",
+        "out_addr"  : "62.1.10",
         "rm_addr"   : ["81.1.8"],
         "on_addr"   : {"man": ["81.1.7"]},
         "off_addr"  : {"man": ["81.1.8", "81.1.2"]}
@@ -236,8 +236,8 @@
         "type"      : "light",
         "out_addr"  : "71.1.9",
         "rm_addr"   : ["93.1.2"],
-        "on_addr"   : {"man": ["93.1.2"]},
-        "off_addr"  : {"man": ["93.1.1"]}
+        "on_addr"   : {"man": ["93.1.1"]},
+        "off_addr"  : {"man": ["93.1.2"]}
       },
       "Licht_2": {
         "type"      : "light",
@@ -258,7 +258,7 @@
       "Licht": {
         "type"      : "light",
         "out_addr"  : "72.1.6",
-        "rm_addr"   : ["93.1.7"],
+        "rm_addr"   : ["93.1.8"],
         "on_addr"   : {"man": ["93.1.7"]},
         "off_addr"  : {"man": ["93.1.8"]}
       },
