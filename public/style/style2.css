@@ -1,6 +1,7 @@
 body{
 	margin: 0;
 	padding: 0;
+	padding-bottom:36px;
 	font: 16px "Helvetica neue", Helvetica, Arial, sans-serif;
 	color: #333;
 }
@@ -11,11 +12,12 @@ header, footer{
 	left: 0;
 	right: 0;
 	bottom: auto;
-	padding: 0 0.5em;
+	padding: 0 20px;
 	background-color: #8BC84B;
 	font-size: 24px;
-	line-height: 2em;
-	height: 2em;
+	line-height: 24px;
+	height: 36px;
+	padding-top: 20px;
 	color: #fff;
 }
 header{

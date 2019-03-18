@@ -1,6 +1,6 @@
 {
   "name": "myHomeCAN-srv",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Central server unit for myHomeCAN homeautomation",
   "main": "index.js",
   "scripts": {
