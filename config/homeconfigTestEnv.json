@@ -35,22 +35,15 @@
         "rm_addr"   : ["82.1.9"],
         "on_addr"   : {"man": ["82.1.9"]},
         "off_addr"  : {"man": ["82.1.10"]}
-      },
-      "Kochbereich6": {
-        "type"      : "light",
-        "out_addr"  : "62.1.6",
-        "rm_addr"   : ["82.1.11"],
-        "on_addr"   : {"man": ["82.1.12"]},
-        "off_addr"  : {"man": ["82.1.12"]}
       }
     },
     "Essz": {
       "Kochbereich7": {
-        "type"      : "light",
-        "out_addr"  : "62.1.7",
-        "rm_addr"   : ["8A.1.12"],
-        "on_addr"   : {"man": ["8A.1.12"]},
-        "off_addr"  : {"man": ["8A.1.12"]}
+        "type"      : "shutter",
+        "out_up_addr"   : "82.1.11",
+        "out_down_addr" : "82.1.12",
+        "up_addr"       : {"man": ["82.1.11"]},
+        "down_addr"     : {"man": ["82.1.12"]}
       }
     }
   }
