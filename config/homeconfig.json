@@ -33,15 +33,15 @@
         "type"          : "shutter",
         "out_up_addr"   : "61.1.11",
         "out_down_addr" : "61.1.12",
-        "up_addr"   : {"man": ["81.1.3"]},
-        "down_addr" : {"man": ["81.1.4"]}
+        "up_addr"   : {"man": ["81.1.3", "85.1.6"]},
+        "down_addr" : {"man": ["81.1.4", "85.1.7"]}
       },
       "Garten": {
         "type"          : "shutter",
         "out_up_addr"   : "61.1.9",
         "out_down_addr" : "61.1.10",
-        "up_addr"   : {"man": ["81.1.5"]},
-        "down_addr" : {"man": ["81.1.6"]}
+        "up_addr"   : {"man": ["81.1.5", "85.1.6"]},
+        "down_addr" : {"man": ["81.1.6", "85.1.7"]}
       },
       "Heiz_Essber": {
         "type"          : "heating",
@@ -73,8 +73,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "61.1.13",
         "out_down_addr" : "61.1.14",
-        "up_addr"   : {"man": ["85.1.1"]},
-        "down_addr" : {"man": ["85.1.1"]}
+        "up_addr"   : {"man": ["85.1.9", "85.1.6"]},
+        "down_addr" : {"man": ["85.1.10", "85.1.7"]}
       },
       "Fenster": {
         "type"          : "receptacle",
@@ -88,8 +88,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "61.1.15",
         "out_down_addr" : "61.1.16",
-        "up_addr"   : {"man": ["85.1.1"]},
-        "down_addr" : {"man": ["85.1.1"]}
+        "up_addr"   : {"man": ["85.1.11", "85.1.6"]},
+        "down_addr" : {"man": ["85.1.12", "85.1.7"]}
       },
       "Licht": {
         "type"      : "light",
@@ -118,8 +118,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "61.1.5",
         "out_down_addr" : "61.1.6",
-        "up_addr"   : {"man": ["84.1.1"]},
-        "down_addr" : {"man": ["84.1.1"]}
+        "up_addr"   : {"man": ["84.1.9", "85.1.6"]},
+        "down_addr" : {"man": ["84.1.10", "85.1.7"]}
       }
     },
     "Esszimmer" : {
@@ -148,15 +148,15 @@
         "type"          : "shutter",
         "out_up_addr"   : "61.1.7",
         "out_down_addr" : "61.1.8",
-        "up_addr"   : {"man": ["84.1.1"]},
-        "down_addr" : {"man": ["84.1.1"]}
+        "up_addr"   : {"man": ["84.1.7", "85.1.6"]},
+        "down_addr" : {"man": ["84.1.8", "85.1.7"]}
       },
       "Rollo_Wintergarten": {
         "type"          : "shutter",
         "out_up_addr"   : "61.1.1",
         "out_down_addr" : "61.1.2",
-        "up_addr"   : {"man": ["84.1.1"]},
-        "down_addr" : {"man": ["84.1.1"]}
+        "up_addr"   : {"man": ["84.1.11"]},
+        "down_addr" : {"man": ["84.1.12"]}
       }
     },
     "Wintergarten" : {
@@ -196,8 +196,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "61.1.3",
         "out_down_addr" : "61.1.4",
-        "up_addr"   : {"man": ["82.1.1"]},
-        "down_addr" : {"man": ["82.1.1"]}
+        "up_addr"   : {"man": ["82.1.11", "85.1.6"]},
+        "down_addr" : {"man": ["82.1.12", "85.1.7"]}
       }
     }
   },
@@ -266,8 +266,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "71.1.1",
         "out_down_addr" : "71.1.2",
-        "up_addr"   : {"man": ["93.1.1"]},
-        "down_addr" : {"man": ["93.1.1"]}
+        "up_addr"   : {"man": ["93.1.11", "85.1.6"]},
+        "down_addr" : {"man": ["93.1.12", "85.1.7"]}
       }
     },
     "Eltern" : {
@@ -289,8 +289,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "71.1.5",
         "out_down_addr" : "71.1.6",
-        "up_addr"   : {"man": ["92.1.1"]},
-        "down_addr" : {"man": ["92.1.1"]}
+        "up_addr"   : {"man": ["92.1.5", "85.1.6"]},
+        "down_addr" : {"man": ["92.1.6", "85.1.7"]}
       }
     },
     "Ben" : {      
@@ -305,8 +305,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "71.1.3",
         "out_down_addr" : "71.1.4",
-        "up_addr"   : {"man": ["92.1.1"]},
-        "down_addr" : {"man": ["92.1.1"]}
+        "up_addr"   : {"man": ["92.1.11", "85.1.6"]},
+        "down_addr" : {"man": ["92.1.12", "85.1.7"]}
       }
     },
     "Kind2" : {
@@ -321,8 +321,8 @@
         "type"          : "shutter",
         "out_up_addr"   : "71.1.7",
         "out_down_addr" : "71.1.8",
-        "up_addr"   : {"man": ["91.1.1"]},
-        "down_addr" : {"man": ["91.1.1"]}
+        "up_addr"   : {"man": ["91.1.5", "85.1.6"]},
+        "down_addr" : {"man": ["91.1.6", "85.1.7"]}
       }
     }
   },
@@ -386,10 +386,17 @@
     "Garage" : {
       "Licht": {
         "type"      : "light",
-        "out_addr"  : "8A.1.2",
-        "rm_addr"   : ["6A.1.3"],
-        "on_addr"   : {"man": ["6A.1.4"]},
-        "off_addr"  : {"man": ["8A.1.1"]}
+        "out_addr"  : "69.1.11",
+        "rm_addr"   : [],
+        "on_addr"   : {"man": ["89.1.4"]},
+        "off_addr"  : {"man": ["89.1.4"]}
+      },
+      "Licht_Geraete": {
+        "type"      : "light",
+        "out_addr"  : "69.1.9",
+        "rm_addr"   : [],
+        "on_addr"   : {"man": ["89.1.2"]},
+        "off_addr"  : {"man": ["89.1.2"]}
       }
     }
   }
