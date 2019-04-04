@@ -355,7 +355,8 @@ suite('LOGIC APP', function() {
     assert.deepEqual( this.setOutSpy.callCount, 2 );
   });
   test('switch shutter delayed', function(done) {
-    logicApp.switchMultipleShutterDelayed(['73.1.1','73.1.1','73.1.1','73.1.1'],
+    var self = this;
+    logicApp.switchMultipleShutterDelayed(['73.1.1','73.1.2','73.1.3','73.1.4'],
         'UP', 10, function (numIts) {
       assert.deepEqual( numIts, 4 );
       done();
