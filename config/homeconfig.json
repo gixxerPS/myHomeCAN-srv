@@ -397,6 +397,12 @@
         "rm_addr"   : [],
         "on_addr"   : {"man": ["89.1.2"]},
         "off_addr"  : {"man": ["89.1.2"]}
+      },
+      "Pumpe": {
+        "type"          : "receptacle",
+        "out_addr"      : "69.1.16",
+        "on_addr"       : {"man": ["89.1.1"]},
+        "off_addr"      : {"man": ["89.1.1"]}
       }
     }
   }
