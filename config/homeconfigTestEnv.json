@@ -46,5 +46,30 @@
         "down_addr"     : {"man": ["82.1.12"]}
       }
     }
+  },
+  "AUSSEN":{
+    "Garten": {
+      "Rasen": {
+        "type"      : "valve",
+        "out_addr"  : "89.1.3"
+      },
+      "Gemuesegarten": {
+        "type"      : "valve",
+        "out_addr"  : "89.1.9"
+      },
+      "Vorne": {
+        "type"      : "valve",
+        "out_addr"  : "89.1.2"
+      },
+      "Tank" : {
+        "type"      : "tank",
+        "levels"    : [
+          {"addr":"89.1.6", "val":20, "logic":"NO"},
+          {"addr":"89.1.7", "val":50, "logic":"NO"},
+          {"addr":"89.1.8", "val":80, "logic":"NO"}
+        ],
+        "fill_addr" : "87.1.2"
+      }
+    }
   }
 }

@@ -1,6 +1,8 @@
 /**
  * http://usejsdoc.org/
  */
+'use strict';
+
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
@@ -45,6 +47,28 @@ var testHomeConf = {
           down_addr : {man: ['93.1.2']}
         }
       }
+    },
+    AUSSEN:{
+      Garten:{
+        Rasen:{
+          type:'valve',
+          out_addr: '89.1.10'
+        },
+        Rasen2:{
+          type:'valve',
+          out_addr: '89.1.11'
+        },
+        Tank : {
+          type      : 'tank',
+          'levels'    : [
+            {'addr':'89.1.6', 'val':20, 'logic':'NO'},
+            {'addr':'89.1.7', 'val':50, 'logic':'NO'},
+            {'addr':'89.1.8', 'val':80, 'logic':'NO'}
+          ],
+          'fill_addr' : '87.1.2'
+        }
+      }
+      
     }
 }
 
@@ -176,6 +200,18 @@ suite('LOGIC APP', function() {
           kind:'DOWN', out_up_addr:'73.1.1'}]}
     });
   });
+  test('create test map check valve', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    assert.deepEqual(logicApp.valveMap['89.1.10'], 
+      {state:0, timeObj:null}
+    );
+  });
+  test('create test map check tank', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    assert.deepEqual(logicApp.tankMap['87.1.2'], 
+      {level:0, state:0, empty:false, full:false}
+    );
+  });
   test('create rm map', function() {
     logicApp.createInternalMaps(testHomeConf);
     assert.deepEqual(logicApp.outRmMap, {
@@ -281,29 +317,43 @@ suite('LOGIC APP', function() {
     assert.deepEqual( this.setOutSpy.args[3], ['74.1', 1, 0] );
     assert.deepEqual( this.setOutSpy.callCount, 4 );
   });
-  test('switch shutter up', function() {
+  test('switch shutter up', function(done) {
+    var self = this;
     logicApp.createInternalMaps(testHomeConf);
-    logicApp.switchShutter('73.1.1', 'UP');
-    assert.deepEqual( this.setOutSpy.args[0], ['73.1', 1, 0] );
-    assert.deepEqual( this.setOutSpy.args[1], ['73.1', 0, 1] );
+    logicApp.switchShutter('73.1.1', 'UP', function () {
+      assert.deepEqual( self.setOutSpy.args[0], ['73.1', 1, 0] );
+      assert.deepEqual( self.setOutSpy.args[1], ['73.1', 0, 1] );
+      assert.deepEqual( self.setOutSpy.callCount, 4 );
+      done();
+    });
   });
-  test('switch shutter stop', function() {
+  test('switch shutter stop', function(done) {
+    var self = this;
     logicApp.createInternalMaps(testHomeConf);
-    logicApp.switchShutter('73.1.1', 'STOP');
-    assert.deepEqual( this.setOutSpy.args[0], ['73.1', 0, 0] );
-    assert.deepEqual( this.setOutSpy.args[1], ['73.1', 1, 0] );
+    logicApp.switchShutter('73.1.1', 'STOP', function () {
+      assert.deepEqual( self.setOutSpy.args[0], ['73.1', 0, 0] );
+      assert.deepEqual( self.setOutSpy.args[1], ['73.1', 1, 0] );
+      done();
+    });
   });
-  test('switch shutter down', function() {
+  test('switch shutter down', function(done) {
+    var self = this;
     logicApp.createInternalMaps(testHomeConf);
-    logicApp.switchShutter('73.1.1', 'DOWN');
-    assert.deepEqual( this.setOutSpy.args[0], ['73.1', 1, 0] );
-    assert.deepEqual( this.setOutSpy.args[1], ['73.1', 0, 1] );
+    logicApp.switchShutter('73.1.1', 'DOWN', function () {
+      assert.deepEqual( self.setOutSpy.args[0], ['73.1', 1, 0] );
+      assert.deepEqual( self.setOutSpy.args[1], ['73.1', 0, 1] );
+      assert.deepEqual( self.setOutSpy.callCount, 4 );
+      done();
+    });
   });
   test('switch shutter off after up', function(done) {
     var self = this;
     logicApp.createInternalMaps(testHomeConf);
     logicApp.switchShutter('73.1.1', 'UP');
     setTimeout(function () {
+      assert.deepEqual( self.setOutSpy.callCount, 4 );
+      assert.deepEqual(self.setOutSpy.args[0], ['73.1', 1, 0]);
+      assert.deepEqual(self.setOutSpy.args[1], ['73.1', 0, 1]);
       assert.deepEqual(self.setOutSpy.args[2], ['73.1', 1, 0]);
       assert.deepEqual(self.setOutSpy.args[3], ['73.1', 0, 0]);
       done();
@@ -361,6 +411,47 @@ suite('LOGIC APP', function() {
       assert.deepEqual( numIts, 4 );
       done();
     });
+  });
+  test('switch one valve ON immediately', function(done) {
+    var self = this;
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.switchValve('89.1.10', 'ON', 10);
+    assert.deepEqual(logicApp.valveMap['89.1.10'].state, 1); 
+    assert.deepEqual( this.setOutSpy.args[0], ['89.1', 9, 1] );
+    assert.ok(logicApp.valveMap['89.1.10'].timeObj.getRemainingMs() > 0); 
+    setTimeout(function (){
+      // switched off after timeout ?
+      assert.deepEqual(logicApp.valveMap['89.1.10'].state, 0); 
+      assert.deepEqual(logicApp.valveMap['89.1.10'].timeObj.getRemainingMs(), 0); 
+      assert.deepEqual( self.setOutSpy.args[1], ['89.1', 9, 0] );
+      assert.deepEqual( self.setOutSpy.callCount, 2 );
+      done();
+    }, 14);
+  });
+  test('switch one valve OFF immediately', function(done) {
+    var self = this;
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.switchValve('89.1.10', 'ON', 10);
+    assert.deepEqual(logicApp.valveMap['89.1.10'].state, 1); 
+    logicApp.switchValve('89.1.10', 'OFF', 10);
+    assert.deepEqual(logicApp.valveMap['89.1.10'].state, 0); 
+    assert.deepEqual(logicApp.valveMap['89.1.10'].timeObj.getRemainingMs(), 0); 
+    done();
+  });
+  test('send second valve pending', function(done) {
+    var self = this;
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.switchValve('89.1.10', 'ON', 10);
+    logicApp.switchValve('89.1.11', 'ON', 10);
+    assert.deepEqual(logicApp.valveMap['89.1.10'].state, 1); 
+    assert.deepEqual(logicApp.valveMap['89.1.11'].state, 2); 
+    assert.ok(logicApp.valveMap['89.1.10'].timeObj.getRemainingMs() > 0); 
+    assert.ok(logicApp.valveMap['89.1.11'].timeObj.getRemainingMs() > 0); 
+    setTimeout(function (){
+      assert.deepEqual(logicApp.valveMap['89.1.10'].state, 0); 
+      assert.deepEqual(logicApp.valveMap['89.1.11'].state, 0); 
+      done();
+    }, 24);
   });
 });
 

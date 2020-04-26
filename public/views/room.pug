@@ -33,8 +33,6 @@ html
                               button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
                             td
                               div(class='output_circle' id= item.out_addr+'_output_circle')
-              td
-                p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
         #shutter
         table(class='tableDefault')
@@ -67,8 +65,6 @@ html
                                   td
                                     svg(width=20 height=20)
                                       polygon(class='output_delta' id= item.out_down_addr+'_output_delta' points="0,0 10.0,17.4 20.0,0" style="fill:white;stroke:black;stroke-width:1")
-            td
-              p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
         #heating
         table(class='tableDefault')
@@ -101,8 +97,6 @@ html
                             td °C
                             td
                               div(class='output_circle' id= item.ctrl_val_addr+'_output_circle')
-            td
-              p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
         hr
         #receptacles
         table(class='tableDefault')
@@ -126,9 +120,44 @@ html
                                 button(onClick="room.receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
                               td
                                 div(class='output_circle' id= item.out_addr+'_output_circle')
-              td
-                p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
 
+        hr
+        #valves
+        table(class='tableDefault')
+          tbody
+            tr
+              td
+                img(src='./images/receptacle.jpeg' height="42" width="42")
+              td
+                table(class= 'tableIO')
+                    thead
+                      tr
+                        th Ventile
+                        th AN
+                        th AUS
+                        th STATUS
+                        th Laufzeit [hh:mm]
+                        th Restlaufzeit
+                        th Startzeit
+                    tbody
+                      each item in roomObj
+                          if item.type === 'valve'
+                            tr
+                              td
+                                = item.str
+                              td 
+                                button(onClick="room.valveClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+                              td 
+                                button(onClick="room.valveClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                              td
+                                div(class='valve_circle' id= item.out_addr+'_output_circle')
+                              td 
+                                input(type="time" id= item.out_addr+'_valvetime' value="00:30" min="00:00" max="03:00" )
+                              td
+                                p(id= item.out_addr+'_remaining') 29min10s
+                              td
+                                p(id= item.out_addr+'_starttime') 15:29:10 Uhr
+                
       
     include includes/footer.pug
 

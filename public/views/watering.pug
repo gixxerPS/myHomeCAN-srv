@@ -1,0 +1,57 @@
+html
+  head
+    title= title
+    include includes/head.pug
+    script(src='script/room.js')
+  body
+    include includes/toc.pug
+    header Bewaesserung 
+      div(class="bottomright")='V'+commonData.curver
+    div(id="content")
+        h1= Ventile
+        #TODOvalves
+        each floor, fkey in homeObj
+          each room, rkey in floor
+            each item, ikey in room
+              if item.type === 'tank'
+                p
+                  table(class= 'tableDefault')
+                    tbody
+                      tr
+                        td
+                          img(src='./images/light.jpeg' height="42" width="42")
+                        td
+                          table(class= 'tableIOtank')
+                            thead
+                              tr: th= 'Tank ' +fkey
+                                th
+                                th Soll
+                                th AN
+                                th AUS
+                                th Status
+                                th Startzeit
+                            tbody
+                              tr
+                                td
+                                  = rkey + ' ' + ikey
+                                td 
+                                  meter(class= 'tank_meter' min=0 max=100 low=25 value=48) 
+                                  div(class= 'w3-center' id= item.fill_addr+'_actlvl') 48%
+                                td
+                                  select(id= item.fill_addr+'_cmdlvl')
+                                    option(value='25%') 25%
+                                    option(value='50%') 50%
+                                    option(value='75%') 75%
+                                    option(value='100%') 100%
+                                td 
+                                  button(onClick="room.lightClick(this.id, 'ON')" type="button" id= item.fill_addr) AN
+                                td
+                                  button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.fill_addr) AUS
+                                td
+                                  div(class='output_circle' id= item.fill_addr+'_output_circle')
+                                td
+                                  p(id= item.fill_addr+'_starttime') 15:29:10 Uhr
+        hr
+      
+    include includes/footer.pug
+
