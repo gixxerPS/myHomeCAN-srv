@@ -11,7 +11,7 @@ var mu = require('../lib/myutil.js');
 var LogicApp = require('../lib/logicApp.js');
 var procImg = require('../lib/processimage.js');
 
-//require('log4js').getLogger('logic').level = 'OFF';
+// require('log4js').getLogger('logic').level = 'OFF';
 require('log4js').getLogger('logic').level = 'DEBUG';
 
 var testHomeConf = {
@@ -197,7 +197,13 @@ suite('LOGIC APP', function() {
           kind:'UP', out_up_addr:'73.1.1'}]},
       '93.1.2':{
         shutter:[{
-          kind:'DOWN', out_up_addr:'73.1.1'}]}
+          kind:'DOWN', out_up_addr:'73.1.1'}]},
+      '89.1.6':{
+        tank:{id:'AUSSEN_Garten_Tank',val:20} },
+      '89.1.7':{
+        tank:{id:'AUSSEN_Garten_Tank',val:50} },
+      '89.1.8':{
+        tank:{id:'AUSSEN_Garten_Tank',val:80} }
     });
   });
   test('create test map check valve', function() {
@@ -208,8 +214,11 @@ suite('LOGIC APP', function() {
   });
   test('create test map check tank', function() {
     logicApp.createInternalMaps(testHomeConf);
-    assert.deepEqual(logicApp.tankMap['87.1.2'], 
-      {level:0, state:0, empty:false, full:false}
+    assert.property(logicApp.tankMap, 'AUSSEN_Garten_Tank');
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'], 
+      {level:0, state:0, empty:false, 
+        fill_addr: '87.1.2', full:false,
+      levelstates:[{logic:'NO',state:0,val:20},{logic:'NO',state:0,val:50},{logic:'NO',state:0,val:80}]}
     );
   });
   test('create rm map', function() {
@@ -451,7 +460,76 @@ suite('LOGIC APP', function() {
       assert.deepEqual(logicApp.valveMap['89.1.10'].state, 0); 
       assert.deepEqual(logicApp.valveMap['89.1.11'].state, 0); 
       done();
-    }, 24);
+    }, 34);
+  });
+  test('update tank level depending on inputs', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.updateTankLevelState('AUSSEN_Garten_Tank', 20, 1);
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].levelstates[0],
+     {val:20, state:1, logic:'NO'}
+    );
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].levelstates[1],
+     {val:50, state:0, logic:'NO'}
+    );
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].levelstates[2],
+     {val:80, state:0, logic:'NO'}
+    );
+  });
+  test('update tank level from levelstates', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.updateTankLevelState('AUSSEN_Garten_Tank', 20, 1);
+    logicApp.updateTankLevelFromState('AUSSEN_Garten_Tank');
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].level, 20);
+  });
+  test('update higher tank level from levelstates', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.updateTankLevelState('AUSSEN_Garten_Tank', 20, 1);
+    logicApp.updateTankLevelState('AUSSEN_Garten_Tank', 50, 1);
+    logicApp.updateTankLevelFromState('AUSSEN_Garten_Tank');
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].level, 50);
+  });
+  test('update tank level from levelstates off', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.updateTankLevelState('AUSSEN_Garten_Tank', 20, 1);
+    logicApp.updateTankLevelFromState('AUSSEN_Garten_Tank');
+    logicApp.updateTankLevelState('AUSSEN_Garten_Tank', 20, 0);
+    logicApp.updateTankLevelFromState('AUSSEN_Garten_Tank');
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].level, 0);
+  });
+  test('onInput tank level updates level', function() {
+    //this.getOutStub.returns(0);
+    logicApp.createInternalMaps(testHomeConf);
+    var idObj = {
+        prio: 0, txType: 0x4, txId: 0x1, txStr: '89',
+        rxType: 0x1, rxId: 0x1, rxStr: '1', code: 1
+      };
+    var data = {
+        // 89.1.6 ON
+        iuIn:{states:Buffer.from([0x20,0x0]),changed:Buffer.from([0x20,0x0]),
+          tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      }};
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].level, 20);
+
+    data = {
+      // 89.1.6 OFF
+      iuIn:{states:Buffer.from([0x00,0x0]),changed:Buffer.from([0x20,0x0]),
+        tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+    }};
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual(logicApp.tankMap['AUSSEN_Garten_Tank'].level, 0);
+  });
+  test('start tank fill', function() {
+    var self = this;
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.tanklvlCmd('AUSSEN_Garten_Tank', 'ON', 20);
+    assert.deepEqual( self.setOutSpy.args[0], ['87.1', 1, 1] );
+
+    logicApp.updateTankLevelState('AUSSEN_Garten_Tank', 20, 1);
+    logicApp.updateTankLevelFromState('AUSSEN_Garten_Tank');
+    assert.deepEqual( self.setOutSpy.args[1], ['87.1', 1, 0] );
+
+    assert.deepEqual( self.setOutSpy.callCount, 2 );
   });
 });
 

@@ -2,7 +2,7 @@ html
   head
     title= title
     include includes/head.pug
-    script(src='script/room.js')
+    script(src='script/watering.js')
   body
     include includes/toc.pug
     header Bewaesserung 
@@ -14,6 +14,7 @@ html
           each room, rkey in floor
             each item, ikey in room
               if item.type === 'tank'
+                - var tankId = fkey+'_'+rkey+'_'+ikey
                 p
                   table(class= 'tableDefault')
                     tbody
@@ -35,22 +36,24 @@ html
                                 td
                                   = rkey + ' ' + ikey
                                 td 
-                                  meter(class= 'tank_meter' min=0 max=100 low=25 value=48) 
-                                  div(class= 'w3-center' id= item.fill_addr+'_actlvl') 48%
+                                  // use other id creation here because a tank
+                                  // not necessarily has a fill valve with addr
+                                  meter(class= 'tank_meter' id= tankId+'_tank' min=0 max=100 low=25 value=48) 
+                                  div(class= 'w3-center' id= tankId+'_actlvl') 48%
                                 td
-                                  select(id= item.fill_addr+'_cmdlvl')
+                                  select(id= tankId+'_cmdlvl')
                                     option(value='25%') 25%
                                     option(value='50%') 50%
                                     option(value='75%') 75%
                                     option(value='100%') 100%
                                 td 
-                                  button(onClick="room.lightClick(this.id, 'ON')" type="button" id= item.fill_addr) AN
+                                  button(onClick="watering.lvlCmdClick(this.id, 'ON')" type="button" id= tankId) AN
                                 td
-                                  button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.fill_addr) AUS
+                                  button(onClick="watering.lvlCmdClick(this.id, 'OFF')" type="button" id= tankId) AUS
                                 td
-                                  div(class='output_circle' id= item.fill_addr+'_output_circle')
+                                  div(class='output_circle' id= tankId+'_output_circle')
                                 td
-                                  p(id= item.fill_addr+'_starttime') 15:29:10 Uhr
+                                  p(id= tankId+'_starttime') 15:29:10 Uhr
         hr
       
     include includes/footer.pug

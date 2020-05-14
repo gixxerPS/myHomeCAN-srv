@@ -4,7 +4,8 @@
   "description": "Central server unit for myHomeCAN homeautomation",
   "main": "index.js",
   "scripts": {
-    "test": "export MYHOMECANTESTENV=1 && mocha"
+    "test": "export MYHOMECANTESTENV=1 && mocha --ui tdd",
+    "testdebug": "export MYHOMECANTESTENV=1 && mocha --ui tdd --inspect-brk"
   },
   "repository": {
     "type": "git",

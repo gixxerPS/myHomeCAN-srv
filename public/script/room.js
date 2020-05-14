@@ -35,12 +35,12 @@
     });
     socket.on('valve_res', function (data) {
       var elem;
-      for (var id in data.valveMap) {
+      for (var id in data.valveInfo) {
         elem = document.getElementById(id+'_output_circle');
         if (elem) {
-          if (data.valveMap[id].state === 1) { // running ? 
+          if (data.valveInfo[id].state === 1) { // running ? 
             elem.style.backgroundColor = 'green';
-          } else if (data.valveMap[id].state === 2) { // pending ?
+          } else if (data.valveInfo[id].state === 2) { // pending ?
             elem.style.backgroundColor = 'yellow';
           } else { // off ?
             elem.style.backgroundColor = 'white';
@@ -48,11 +48,11 @@
         }
         elem = document.getElementById(id+'_remaining');
         if (elem) {
-          elem.innerHTML = convertMs2HhMmSs( data.valveMap[id].remaining ); 
+          elem.innerHTML = convertMs2HhMmSs( data.valveInfo[id].remaining ); 
         }
         elem = document.getElementById(id+'_starttime');
-        if (elem && data.valveMap[id].starttime !== '-') {
-          elem.innerHTML = new Date( data.valveMap[id].starttime ).toLocaleTimeString('de-DE'); 
+        if (elem && data.valveInfo[id].starttime !== '-') {
+          elem.innerHTML = new Date( data.valveInfo[id].starttime ).toLocaleTimeString('de-DE'); 
         } else {
           elem.innerHTML = '-';
         }
