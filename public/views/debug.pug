@@ -1,24 +1,20 @@
 html
   head
     title Debug Style test
-    style
-      include ../../public/style/style2.css
+    include includes/head.pug
     script(src='script/debug.js')
     script(src='script/myutil.js')
     
   body
-    h2 Navigation
-    div(class="sidebar")
-      a(href='/') Hauptseite
-      
-      h3 Liste nach Aktorart
-      
-      a(href='light') Licht
-      
-      h3 Liste nach Raum
-      
-      each room in rooms
-        a(href= 'room_' + room) #{room}
+    include includes/toc.pug
+    div(class='w3-container w3-top w3-theme w3-large' id='myTop')
+      p
+        i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
+          onclick='w3_open()')
+      span(class='w3-hide' id='myIntro') myHomeCAN Debug :)
+    header(class='w3-container w3-theme' style='padding:46px 32px') 
+      h1(class='w3-xxxlarge') Debug 
+    div(class='w3-container' style='padding:32px')
         
     include includes/footer.pug
         

@@ -4,9 +4,14 @@ html
     script(src='script/system.js')
   body
     include includes/toc.pug
-    header System Status 
-      div(class="bottomright")='V'+commonData.curver
-    div(id="content")
+    div(class='w3-container w3-top w3-theme w3-large' id='myTop')
+      p
+        i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
+          onclick='w3_open()')
+      span(class='w3-hide' id='myIntro') myHomeCAN System :)
+    header(class='w3-container w3-theme' style='padding:46px 32px') 
+      h1(class='w3-xxxlarge') System 
+    div(class='w3-container' style='padding:32px')
       h1 Status aktive Knoten
       p Anzahl: 
         span(id="aliveCnt") 0

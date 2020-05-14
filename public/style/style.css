@@ -1,21 +1,25 @@
-body{
-	margin: 0;
-	padding: 0;
-	font: 16px "Helvetica neue", Helvetica, Arial, sans-serif;
-	color: #333;
+/* a nice template:
+ * https://www.w3schools.com/w3css/tryw3css_examples_material.htm */
+
+ body {font-family:  sans-serif}
+.w3-bar-block .w3-bar-item {
+  padding: 16px;
+  font-weight: bold;
 }
-header, footer{
+
+/* header, footer{
 	display: block;
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: auto;
-	padding: 0 0.5em;
+	padding: 0 20px;
 	background-color: #8BC84B;
 	font-size: 24px;
-	line-height: 2em;
-	height: 2em;
+	line-height: 24px;
+	height: 36px;
+	padding-top: 20px;
 	color: #fff;
 }
 header{
@@ -29,8 +33,8 @@ header > a:last-child{
 footer{
 	top: auto;
 	bottom: 0;
-}
-input{
+} */
+/* input{
 	height: 1.5em;
 	font-size: 14px;
 }
@@ -46,14 +50,14 @@ input{
    float:left;
    background-color: skyblue;
    width: 11em;
-   /*width: 150px;*/
+   width: 150px;
    border-color: black;
    border-width: 1px;
    border-style: solid;
    position: fixed;
    top: 4em;
    left: 1em;
-}
+} */
 table.tableDefault {
 	border: 1px solid black;
 	border-collapse: collapse;
@@ -69,6 +73,15 @@ table.tableIO {
 table.tableIO tr:nth-child(1)  { 
 	border: solid thin; 
 }
+table.tableIOtank {
+  border: 1px solid black;
+  table-layout: fixed;
+  border-collapse: collapse; 
+}
+table.tableIOtank tr:nth-child(1)  { 
+  border: solid thin; 
+}
+
 /*table.tableIO td { overflow:hidden; }*/
 /* table.tableIO td:nth-of-type(1) { width: 20em; } */
 
@@ -78,7 +91,7 @@ table.stdFormat tr:nth-child(even) {
 table.stdFormat {
   border: 1px solid black;
   table-layout: fixed;
-  /*width: 30em; /* must have this set */*/
+  /*width: 30em; /* must have this set */
   border-collapse: collapse; 
 }
 table.stdFormat tr, th, td {
@@ -96,9 +109,18 @@ table.noBorder td, th {
 }
 .tableTemp {
   border: 1px solid black;
-  rules: rows
+  /* rules: rows; */
+  border-collapse: collapse;
 }
  .output_circle  {
+ width: 2em;
+ height: 2em;
+ -webkit-border-radius: 1em;
+ -moz-border-radius: 1em;
+ border-radius: 1em;
+  border: 1px solid;
+}
+ .valve_circle  {
  width: 2em;
  height: 2em;
  -webkit-border-radius: 1em;
@@ -110,3 +132,14 @@ table.noBorder td, th {
     float: right;
 }
 
+.tank_meter {
+  transform: translate(0,20px) rotate(-90deg);
+  width: 100px;
+  height: 75px;
+  border: 1px solid rgb(73, 73, 73);
+  border-radius: 10px;
+  margin-bottom:40px;
+}
+meter::-webkit-meter-optimum-value {
+  background: blue; /* Green */
+}

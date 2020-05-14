@@ -1,13 +1,26 @@
-div(class="sidebar")
-  h2 Navigation
-   a(href='/') Hauptseite
-   
-   h3 Liste nach Aktorart
-   
-   a(href='light') Licht
-   a(href='watering') Bewaesserung
-   
-   h3 Liste nach Raum
-   
-   each room in rooms
-     a(href= 'room_' + room) #{room}
+nav(class='w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card'
+  style='z-index:3;width:250px;' id='mySidebar')
+  a(class='w3-bar-item w3-button w3-hide-large w3-large' href='javascript:void(0)'
+    onclick='w3_close()') Close <i class="fa fa-remove"></i>
+  
+
+  a(class='w3-bar-item w3-button w3-teal' href='/') Hauptseite
+  
+  div
+    a(class='w3-bar-item w3-button' onclick="myAccordion('demo')"
+      href='javascript:void(0)') Liste nach Aktorart <i class="fa fa-caret-down"></i>
+    div(class='w3-hide' id='demo')
+      a(class='w3-bar-item w3-button' href='light') Licht
+      a(class='w3-bar-item w3-button' href='watering') Bewaesserung
+    a(class='w3-bar-item w3-button' onclick="myAccordion('demo2')"
+      href='javascript:void(0)') Liste nach Raum <i class="fa fa-caret-down"></i>
+    div(class='w3-hide' id='demo2')
+      each room in rooms
+        a(class='w3-bar-item w3-button' href= 'room_' + room) #{room}
+
+//- not really toc but common for every page
+div(class='w3-overlay w3-hide-large w3-animate-opacity'
+      onclick='w3_close()' style='cursor:pointer' id='myOverlay')
+
+div(class='w3-main' style='margin-left:250px;')
+
