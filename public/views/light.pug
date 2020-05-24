@@ -5,46 +5,41 @@ html
     script(src='script/room.js')
   body
     include includes/toc.pug
-    div(class='w3-container w3-top w3-theme w3-large' id='myTop')
-      p
-        i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
-          onclick='w3_open()')
-      span(class='w3-hide' id='myIntro') myHomeCAN Lichtbedienung :)
-    header(class='w3-container w3-theme' style='padding:46px 32px') 
-      h1(class='w3-xxxlarge') Lichtbedienung 
-    div(class='w3-container' style='padding:32px')
-        h1= Licht
-        
-        hr
-        #lights
+    // main container
+    div(class='w3-main' style='margin-left:250px')
+      // responsive headline on small screens
+      div(class='w3-container w3-top w3-theme w3-large' id='myTop')
+        p
+          i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
+            onclick='w3_open()')
+        span(class='w3-hide' id='myIntro') myHomeCAN Lichtbedienung :)
+      // responsive headline on wide screens
+      header(class='w3-container w3-theme' style='padding:46px 32px') 
+        h1(class='w3-xxxlarge') Lichtbedienung 
+      div(class='w3-container w3-light-grey')
         each floor, fkey in homeObj
-          p
-            table(class= 'tableDefault')
-              tbody
-                tr
-                  td
-                    img(src='./images/light.jpeg' height="42" width="42")
-                  td
-                    table(class= 'tableIO')
-                      thead
-                        tr: th= 'Licht ' +fkey
-                      tbody
-                          each room, rkey in floor
-                           each item, ikey in room
-                             if item.type === 'light'
-                              tr
-                                td
-                                  = rkey + ' ' + ikey
-                                td 
-                                  button(onClick="room.lightClick(this.id, 'ON')" type="button" id= item.out_addr) AN
-                                td 
-                                  button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
-                                td
-                                  div(class='output_circle' id= item.out_addr+'_output_circle')
-                                  
-                  td
-                    p Verknüpfte Ereignisse: (Zeitschaltuhr, ...)
-        hr
+          div(class='w3-panel w3-card w3-pale-yellow')
+            div(class='w3-row')
+              div(class='w3-center w3-cell w3-cell-middle')
+                img(src='./images/light.jpeg' height="42" width="42")
+              div(class='w3-cell')
+                div(class='w3-container')
+                  h3= 'Licht ' +fkey
+                div(class='w3-container')
+                  table(class='w3-table w3-bordered w3-border w3-margin-bottom')
+                    tbody
+                      each room, rkey in floor
+                        each item, ikey in room
+                          if item.type === 'light'
+                            tr
+                              td
+                                = rkey + ' ' + ikey
+                              td 
+                                button(onClick="room.lightClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+                              td 
+                                button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                              td
+                                div(class='output_circle' id= item.out_addr+'_output_circle')
       
     include includes/footer.pug
 

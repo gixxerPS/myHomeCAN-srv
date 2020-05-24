@@ -4,74 +4,78 @@ html
     script(src='script/system.js')
   body
     include includes/toc.pug
-    div(class='w3-container w3-top w3-theme w3-large' id='myTop')
-      p
-        i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
-          onclick='w3_open()')
-      span(class='w3-hide' id='myIntro') myHomeCAN System :)
-    header(class='w3-container w3-theme' style='padding:46px 32px') 
-      h1(class='w3-xxxlarge') System 
-    div(class='w3-container' style='padding:32px')
-      h1 Status aktive Knoten
-      p Anzahl: 
-        span(id="aliveCnt") 0
-        span  letzte Aktualisierung: 
-        span(id="dateAct") 0
-      table(class= 'stdFormat' id='aliveTable')
-        thead
-          tr
-            th ID
-            th Zustand
-            th Zaehler
-            th SW-Version
-            th Letzter Empfangszeitpunkt
-            th(width=200) Ausgaenge
-            th(width=200) Eingaenge
-        tbody
-          tr
-            td wird in Kuerze aktualisiert...
-      h1 Serverstatus
-      p Aktuelle Version (evtl. in footer oder so)
-      p uptime...
-      p cpu load, net load, bus load
-      a(href='debug') Debug
-      table(class='noBorder' id='byteTable')
-        thead
-          tr
-            th 15
-            th 14
-            th 13
-            th 12
-            th 11
-            th 10
-            th 9
-            th 8
-            th 7
-            th 6
-            th 5
-            th 4
-            th 3
-            th 2
-            th 1
-            th 0
-        tbody
-          tr
-            td 1
-            td 0
-            td 1
-            td 0
-            td 1
-            td 0
-            td 1
-            td 0
-            td 1
-            td 0
-            td 1
-            td 0
-            td 1
-            td 0
-            td 1
-            td 0
-      p space
-      include includes/footer.pug
-        
+    // main container
+    div(class='w3-main' style='margin-left:250px')
+      // responsive headline on small screens
+      div(class='w3-container w3-top w3-theme w3-large' id='myTop')
+        p
+          i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
+            onclick='w3_open()')
+        span(class='w3-hide' id='myIntro') myHomeCAN System :)
+      // responsive headline on wide screens
+      header(class='w3-container w3-theme' style='padding:46px 32px') 
+        h1(class='w3-xxxlarge') System 
+      div(class='w3-container w3-light-grey' style='padding:32px')
+        h1 Status aktive Knoten
+        p Anzahl: 
+          span(id="aliveCnt") 0
+          span  letzte Aktualisierung: 
+          span(id="dateAct") 0
+        table(class= 'stdFormat' id='aliveTable')
+          thead
+            tr
+              th ID
+              th Zustand
+              th Zaehler
+              th SW-Version
+              th Letzter Empfangszeitpunkt
+              th(width=200) Ausgaenge
+              th(width=200) Eingaenge
+          tbody
+            tr
+              td wird in Kuerze aktualisiert...
+        h1 Serverstatus
+        p Aktuelle Version (evtl. in footer oder so)
+        p uptime...
+        p cpu load, net load, bus load
+        a(href='debug') Debug
+        table(class='noBorder' id='byteTable')
+          thead
+            tr
+              th 15
+              th 14
+              th 13
+              th 12
+              th 11
+              th 10
+              th 9
+              th 8
+              th 7
+              th 6
+              th 5
+              th 4
+              th 3
+              th 2
+              th 1
+              th 0
+          tbody
+            tr
+              td 1
+              td 0
+              td 1
+              td 0
+              td 1
+              td 0
+              td 1
+              td 0
+              td 1
+              td 0
+              td 1
+              td 0
+              td 1
+              td 0
+              td 1
+              td 0
+        p space
+        include includes/footer.pug
+          

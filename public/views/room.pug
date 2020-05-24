@@ -5,29 +5,31 @@ html
     script(src='script/room.js')
   body
     include includes/toc.pug
-    div(class='w3-container w3-top w3-theme w3-large' id='myTop')
-      p
-        i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
-          onclick='w3_open()')
-      span(class='w3-hide' id='myIntro') myHomeCAN Raumbedienung :)
-    header(class='w3-container w3-theme' style='padding:46px 32px') 
-      h1(class='w3-xxxlarge') Raumbedienung 
-    div(class='w3-container' style='padding:32px')
-        h1= roomtitle
-        
-        hr
-        #lights
-        table(class='tableDefault')
-          tbody
-            tr
-              td
+    // main container
+    div(class='w3-main' style='margin-left:250px')
+      // responsive headline on small screens
+      div(class='w3-container w3-top w3-theme w3-large' id='myTop')
+        p
+          i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
+            onclick='w3_open()')
+        span(class='w3-hide' id='myIntro') myHomeCAN Raumbedienung :)
+      // responsive headline on wide screens
+      header(class='w3-container w3-theme' style='padding:46px 32px') 
+        h1(class='w3-xxxlarge') Raumbedienung
+      div(class='w3-container w3-light-grey' style='padding:32px')
+          h1= roomtitle
+          //- lights
+          div(class='w3-panel w3-card w3-pale-yellow')
+            div(class='w3-row')
+              div(class='w3-center w3-cell w3-cell-middle')
                 img(src='./images/light.jpeg' height="42" width="42")
-              td
-                table(class= 'tableIO')
-                  thead
-                    tr: th Licht
-                  tbody
-                    each item in roomObj
+              div(class='w3-cell')
+                div(class='w3-container')
+                  h3 Licht
+                div(class='w3-container')
+                  table(class='w3-table w3-bordered w3-border w3-margin-bottom')
+                    tbody
+                      each item in roomObj
                         if item.type === 'light'
                           tr
                             td
@@ -38,48 +40,45 @@ html
                               button(onClick="room.lightClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
                             td
                               div(class='output_circle' id= item.out_addr+'_output_circle')
-        hr
-        #shutter
-        table(class='tableDefault')
-          tr
-            td
-              img(src='./images/jalousie.jpeg' height="42" width="42")
-            td
-              table(class= 'tableIO')
-                  thead
-                    tr: th Rolladen
+          //- shutter
+          div(class='w3-panel w3-card w3-pale-green')
+            div(class='w3-row')
+              div(class='w3-center w3-cell w3-cell-middle')
+                img(src='./images/jalousie.jpeg' height="42" width="42")
+              div(class='w3-cell')
+                div(class='w3-container')
+                  h3 Rolladen
+                div(class='w3-container')
+                table(class='w3-table w3-bordered w3-border w3-margin-bottom')
                   tbody
                     each item in roomObj
-                        if item.type === 'shutter'
-                          tr
-                            td
-                              = item.str
-                            td 
-                              button(onClick="room.shutterClick(this.id, 'DOWN')" type="button" id= item.out_down_addr) AB
-                            td 
-                              button(onClick="room.shutterClick(this.id, 'UP')" type="button" id= item.out_up_addr) AUF
-                            td 
-                              button(onClick="room.shutterClick(this.id, 'STOP')" type="button" id= item.out_up_addr) STOP 
-                            td
-                              table
-                                tr
-                                  td 
-                                    svg(width=20 height=20)
-                                      polygon(class='output_delta' id= item.out_up_addr+'_output_delta' points="0,17.4 10,0 20,17.4" style="fill:white;stroke:black;stroke-width:1")
-                                tr
-                                  td
-                                    svg(width=20 height=20)
-                                      polygon(class='output_delta' id= item.out_down_addr+'_output_delta' points="0,0 10.0,17.4 20.0,0" style="fill:white;stroke:black;stroke-width:1")
-        hr
-        #heating
-        table(class='tableDefault')
-          tr
-            td
-              img(src='./images/thermometer.png' height="54" width="42")
-            td
-              table(class= 'tableTemp')
-                  thead
-                    tr: th Heizung/Temperatur
+                      if item.type === 'shutter'
+                        tr
+                          td
+                            = item.str
+                          td 
+                            button(onClick="room.shutterClick(this.id, 'DOWN')" type="button" id= item.out_down_addr) AB
+                          td 
+                            button(onClick="room.shutterClick(this.id, 'UP')" type="button" id= item.out_up_addr) AUF
+                          td 
+                            button(onClick="room.shutterClick(this.id, 'STOP')" type="button" id= item.out_up_addr) STOP 
+                          td
+                            div(class='w3-container')
+                              svg(width=20 height=20)
+                                polygon(class='output_delta' id= item.out_up_addr+'_output_delta' points="0,17.4 10,0 20,17.4" style="fill:white;stroke:black;stroke-width:1")
+                            div(class='w3-container')
+                              svg(width=20 height=20)
+                                polygon(class='output_delta' id= item.out_down_addr+'_output_delta' points="0,0 10.0,17.4 20.0,0" style="fill:white;stroke:black;stroke-width:1")
+          //- temp
+          div(class='w3-panel w3-card w3-pale-red')
+            div(class='w3-row')
+              div(class='w3-center w3-cell w3-cell-middle')
+                img(src='./images/thermometer.png' height="54" width="42")
+              div(class='w3-cell')
+                div(class='w3-container')
+                  h3 Heizung/Temperatur
+                div(class='w3-container')
+                table(class='w3-table w3-bordered w3-border w3-margin-bottom')
                   tbody
                     tr: td
                         td Istwert
@@ -88,53 +87,52 @@ html
                         td
                         td
                     each item in roomObj
-                        if item.type === 'heating'
+                      if item.type === 'heating'
+                        tr
+                          td
+                            = item.str
+                          td 
+                            input(type="text" id= item.ctrl_val_addr+'_act' readonly)
+                          td °C
+                          td 
+                            input(type="range" id= item.ctrl_val_addr+'_cmd' min= '0' max= '40' class= '_cmd')
+                          td 
+                            input(type="number" id= item.ctrl_val_addr+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
+                          td °C
+                          td
+                            div(class='output_circle' id= item.ctrl_val_addr+'_output_circle')
+          //- receptacles
+          div(class='w3-panel w3-card w3-grey')
+            div(class='w3-row')
+              div(class='w3-center w3-cell w3-cell-middle')
+                img(src='./images/receptacle.jpeg' height="42" width="42")
+              div(class='w3-cell')
+                div(class='w3-container')
+                  h3 Steckdosen
+                div(class='w3-container')
+                  table(class='w3-table w3-bordered w3-border w3-margin-bottom')
+                    tbody
+                      each item in roomObj
+                        if item.type === 'receptacle'
                           tr
                             td
                               = item.str
                             td 
-                              input(type="text" id= item.ctrl_val_addr+'_act' readonly)
-                            td °C
+                              button(onClick="room.receptClick(this.id, 'ON')" type="button" id= item.out_addr) AN
                             td 
-                              input(type="range" id= item.ctrl_val_addr+'_cmd' min= '0' max= '40' class= '_cmd')
-                            td 
-                              input(type="number" id= item.ctrl_val_addr+'_cmdshow' min= '0' max= '40' class= '_cmdshow')
-                            td °C
+                              button(onClick="room.receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
                             td
-                              div(class='output_circle' id= item.ctrl_val_addr+'_output_circle')
-        hr
-        #receptacles
-        table(class='tableDefault')
-          tbody
-            tr
-              td
-                img(src='./images/receptacle.jpeg' height="42" width="42")
-              td
-                table(class= 'tableIO')
-                    thead
-                      tr: th Steckdosen
-                    tbody
-                      each item in roomObj
-                          if item.type === 'receptacle'
-                            tr
-                              td
-                                = item.str
-                              td 
-                                button(onClick="room.receptClick(this.id, 'ON')" type="button" id= item.out_addr) AN
-                              td 
-                                button(onClick="room.receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
-                              td
-                                div(class='output_circle' id= item.out_addr+'_output_circle')
-
-        hr
-        #valves
-        table(class='tableDefault')
-          tbody
-            tr
-              td
-                img(src='./images/receptacle.jpeg' height="42" width="42")
-              td
-                table(class= 'tableIO')
+                              div(class='output_circle' id= item.out_addr+'_output_circle')
+          //- valves
+          div(class='w3-panel w3-card w3-pale-blue')
+            div(class='w3-row')
+              div(class='w3-center w3-cell w3-cell-middle')
+                img(src='./images/wasserhahn.png' height="42" width="42")
+              div(class='w3-cell')
+                div(class='w3-container')
+                  h3 Ventile
+                div(class='w3-container')
+                  table(class='w3-table w3-bordered w3-border w3-margin-bottom')
                     thead
                       tr
                         th Ventile
@@ -146,23 +144,23 @@ html
                         th Startzeit
                     tbody
                       each item in roomObj
-                          if item.type === 'valve'
-                            tr
-                              td
-                                = item.str
-                              td 
-                                button(onClick="room.valveClick(this.id, 'ON')" type="button" id= item.out_addr) AN
-                              td 
-                                button(onClick="room.valveClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
-                              td
-                                div(class='valve_circle' id= item.out_addr+'_output_circle')
-                              td 
-                                input(type="time" id= item.out_addr+'_valvetime' value="00:30" min="00:00" max="03:00" )
-                              td
-                                p(id= item.out_addr+'_remaining') 29min10s
-                              td
-                                p(id= item.out_addr+'_starttime') 15:29:10 Uhr
-                
-      
-    include includes/footer.pug
+                        if item.type === 'valve'
+                          tr
+                            td
+                              = item.str
+                            td 
+                              button(onClick="room.valveClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+                            td 
+                              button(onClick="room.valveClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                            td
+                              div(class='valve_circle' id= item.out_addr+'_output_circle')
+                            td 
+                              input(type="time" id= item.out_addr+'_valvetime' value="00:30" min="00:00" max="03:00" )
+                            td
+                              p(id= item.out_addr+'_remaining') 29min10s
+                            td
+                              p(id= item.out_addr+'_starttime') 15:29:10 Uhr
+                  
+        
+      include includes/footer.pug
 

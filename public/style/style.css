@@ -1,117 +1,9 @@
 /* a nice template:
  * https://www.w3schools.com/w3css/tryw3css_examples_material.htm */
 
- body {font-family:  sans-serif}
-.w3-bar-block .w3-bar-item {
-  padding: 16px;
-  font-weight: bold;
-}
+ /* body {font-family:  sans-serif} */
 
-/* header, footer{
-	display: block;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: auto;
-	padding: 0 20px;
-	background-color: #8BC84B;
-	font-size: 24px;
-	line-height: 24px;
-	height: 36px;
-	padding-top: 20px;
-	color: #fff;
-}
-header{
-	font-weight: bold;
-}
-header > a:last-child{
-	float: right;
-	color: #fff;
-	font-weight: normal;
-}
-footer{
-	top: auto;
-	bottom: 0;
-} */
-/* input{
-	height: 1.5em;
-	font-size: 14px;
-}
-#content{
-	margin-left: 13em;
-	margin-top: 4em;
-	list-style: none;
-}
-#log{
-    list-style: none;
-}
-#toc {
-   float:left;
-   background-color: skyblue;
-   width: 11em;
-   width: 150px;
-   border-color: black;
-   border-width: 1px;
-   border-style: solid;
-   position: fixed;
-   top: 4em;
-   left: 1em;
-} */
-table.tableDefault {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-table.tableDefault th  { 
-	padding: 8px; 
-}
-table.tableIO {
-  border: 1px solid black;
-  table-layout: fixed;
-  border-collapse: collapse; 
-}
-table.tableIO tr:nth-child(1)  { 
-	border: solid thin; 
-}
-table.tableIOtank {
-  border: 1px solid black;
-  table-layout: fixed;
-  border-collapse: collapse; 
-}
-table.tableIOtank tr:nth-child(1)  { 
-  border: solid thin; 
-}
 
-/*table.tableIO td { overflow:hidden; }*/
-/* table.tableIO td:nth-of-type(1) { width: 20em; } */
-
-table.stdFormat tr:nth-child(even) {
-    background-color: #dddddd;
-}
-table.stdFormat {
-  border: 1px solid black;
-  table-layout: fixed;
-  /*width: 30em; /* must have this set */
-  border-collapse: collapse; 
-}
-table.stdFormat tr, th, td {
-	border: 1px solid black;
-    text-align: left;
-    padding: 8px;
-}
-table.noBorder {
-	border-style:none;
-}
-table.noBorder td, th {
-	padding: 0;
-	width:30px;
-	border-style:none;
-}
-.tableTemp {
-  border: 1px solid black;
-  /* rules: rows; */
-  border-collapse: collapse;
-}
  .output_circle  {
  width: 2em;
  height: 2em;
@@ -120,6 +12,7 @@ table.noBorder td, th {
  border-radius: 1em;
   border: 1px solid;
 }
+
  .valve_circle  {
  width: 2em;
  height: 2em;
@@ -127,9 +20,6 @@ table.noBorder td, th {
  -moz-border-radius: 1em;
  border-radius: 1em;
   border: 1px solid;
-}
-.bottomright {
-    float: right;
 }
 
 .tank_meter {

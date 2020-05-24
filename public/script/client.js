@@ -1,5 +1,33 @@
 var socket;
 $(document).ready(function(){
+
+// https://plotly.com/
+// mousewheel or two-finger scroll zooms the plot
+
+// var trace1 = {
+//   x:['2020-10-04', '2021-11-04', '2023-12-04'],
+//   y: [90, 40, 60],
+//   type: 'scatter'
+// };
+var x1 = [],y1 = [], i, L=1000;
+for (i=0; i<L; i++) {
+  x1.push(10*2*Math.PI/L*i);
+  y1.push(x1[i] * Math.sin(x1[i]));
+}
+var trace1 = {
+    x:x1, y: y1,
+    type: 'scatter'
+  };
+var data = [trace1];
+
+var layout = {
+  title: 'Plotly test',
+  showlegend: false
+};
+
+Plotly.newPlot('plotlytest', data, layout, {scrollZoom: true, responsive: true});
+
+
     // WebSocket
     socket = io.connect();
     // neue Nachricht

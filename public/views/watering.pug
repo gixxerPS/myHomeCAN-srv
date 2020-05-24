@@ -5,56 +5,64 @@ html
     script(src='script/watering.js')
   body
     include includes/toc.pug
-    header Bewaesserung 
-      div(class="bottomright")='V'+commonData.curver
-    div(id="content")
-        h1= Ventile
-        #TODOvalves
+    // main container
+    div(class='w3-main' style='margin-left:250px')
+      // responsive headline on small screens
+      div(class='w3-container w3-top w3-theme w3-large' id='myTop')
+        p
+          i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
+            onclick='w3_open()')
+        span(class='w3-hide' id='myIntro') myHomeCAN Bewässerung :)
+      // responsive headline on wide screens
+      header(class='w3-container w3-theme' style='padding:46px 32px') 
+        h1(class='w3-xxxlarge') Bewässerung
+      div(class='w3-container w3-light-grey')
         each floor, fkey in homeObj
           each room, rkey in floor
             each item, ikey in room
               if item.type === 'tank'
                 - var tankId = fkey+'_'+rkey+'_'+ikey
-                p
-                  table(class= 'tableDefault')
-                    tbody
-                      tr
-                        td
-                          img(src='./images/water.png' height="42" width="42")
-                        td
-                          table(class= 'tableIOtank')
-                            thead
-                              tr: th= 'Tank ' +fkey
-                                th
-                                th Soll
-                                th AN
-                                th AUS
-                                th Status
-                                th Startzeit
-                            tbody
-                              tr
-                                td
-                                  = rkey + ' ' + ikey
-                                td 
-                                  // use other id creation here because a tank
-                                  // not necessarily has a fill valve with addr
-                                  meter(class= 'tank_meter' id= tankId+'_tank' min=0 max=100 low=25 value=48) 
-                                  div(class= 'w3-center' id= tankId+'_actlvl') 48%
-                                td
-                                  select(id= tankId+'_cmdlvl')
-                                    option(value='25%') 25%
-                                    option(value='50%') 50%
-                                    option(value='75%') 75%
-                                    option(value='100%') 100%
-                                td 
-                                  button(onClick="watering.lvlCmdClick(this.id, 'ON')" type="button" id= tankId) AN
-                                td
-                                  button(onClick="watering.lvlCmdClick(this.id, 'OFF')" type="button" id= tankId) AUS
-                                td
-                                  div(class='output_circle' id= tankId+'_output_circle')
-                                td
-                                  p(id= tankId+'_starttime') 15:29:10 Uhr
-        hr
-      
-    include includes/footer.pug
+                div(class='w3-panel w3-card w3-pale-blue')
+                  div(class='w3-row')
+                    div(class='w3-center w3-cell w3-cell-middle')
+                      img(src='./images/water.png' height="42" width="42")
+                    div(class='w3-cell')
+                      div(class='w3-container')
+                        h3= 'Tank ' +fkey
+                      div(class='w3-container')
+                        //- tableIOtank
+                        table(class='w3-table  w3-bordered w3-border w3-margin-bottom') 
+                          thead
+                            tr: th
+                              th
+                              th Soll
+                              th AN
+                              th AUS
+                              th Status
+                              th Startzeit
+                          tbody
+                            tr
+                              td(class='w3-cell-middle')
+                                = rkey + ' ' + ikey
+                              td 
+                                // use other id creation here because a tank
+                                // not necessarily has a fill valve with addr
+                                meter(class= 'tank_meter' id= tankId+'_tank' min=0 max=100 low=25 value=48) 
+                                div(class= 'w3-center' id= tankId+'_actlvl') 48%
+                              td
+                                select(id= tankId+'_cmdlvl')
+                                  option(value='25%') 25%
+                                  option(value='50%') 50%
+                                  option(value='75%') 75%
+                                  option(value='100%') 100%
+                              td 
+                                button(onClick="watering.lvlCmdClick(this.id, 'ON')" type="button" id= tankId) AN
+                              td
+                                button(onClick="watering.lvlCmdClick(this.id, 'OFF')" type="button" id= tankId) AUS
+                              td
+                                div(class='output_circle' id= tankId+'_output_circle')
+                              td
+                                p(id= tankId+'_starttime') 15:29:10 Uhr
+        
+      include includes/footer.pug
 

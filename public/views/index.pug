@@ -3,6 +3,7 @@ html
     title myHomeCAN
     include includes/head.pug
     script(src='script/client.js')
+    script(src='script/lib/plotly-latest.min.js')
   body
     include includes/toc.pug
     // main container
@@ -17,9 +18,11 @@ html
       // responsive headline on wide screens
       header(class='w3-container w3-theme' style='padding:46px 32px') 
         h1(class='w3-xxxlarge') myHomeCAN Hauptseite 
-        div(class='w3-display-bottomright')='V'+commonData.curver
-      div(class='w3-container' style='padding:32px')
+        div(class='w3-right')='V'+commonData.curver
+      div(class='w3-container w3-light-grey')
         h1 Status Übersicht
+        p TODO
+        h1 Ausblick zukünftige Features...
         p Datum
         hr
         p Wetter
@@ -35,5 +38,20 @@ html
         )
           input(type= 'range' name= 'a')
           output(name= 'x')
-          
+        h3 Entwurf für eigenes Logo
+        p Erstellt mit octave und modifiziert mit inkscape. Enthält DB gedreht :)
+          |  Script:
+        div(class='w3-code') 
+          | x=0:0.01:2*pi;
+          br
+          | y1=2*sin(x/2);
+          br
+          | y2=abs(sin(x));
+          br
+          | fill(x,y1,1,x,y2,2)
+
+        img(src='./images/dblogo.svg' width='800')
+        h3 Plot Bibliothek
+        p https://www.plotly.com/
+        div(id='plotlytest')
       include includes/footer.pug
