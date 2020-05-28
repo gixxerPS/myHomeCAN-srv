@@ -4,19 +4,24 @@ nav(class='w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card'
     onclick='w3_close()') Close <i class="fas fa-times-circle"></i>
   
 
-  a(class='w3-bar-item w3-button w3-teal' href='/') Hauptseite
+  a(class='w3-bar-item w3-button w3-theme-l3' href='/') Hauptseite
   
   div
-    a(class='w3-bar-item w3-button' onclick="myAccordion('demo')"
-      href='javascript:void(0)') Liste nach Aktorart <i class="fas fa-caret-down"></i>
+    //- dropdown list
+    a(class='w3-bar-item w3-button w3-theme-l3' onclick="myAccordion('demo')"
+      href='javascript:void(0)') <i class="fas fa-caret-down"></i> Liste nach Aktorart 
     div(class='w3-hide' id='demo')
-      a(class='w3-bar-item w3-button' href='light') Licht
-      a(class='w3-bar-item w3-button' href='watering') Bewaesserung
-    a(class='w3-bar-item w3-button' onclick="myAccordion('demo2')"
-      href='javascript:void(0)') Liste nach Raum <i class="fa fa-caret-down"></i>
+      a(class='w3-bar-item w3-button ' href='light') Licht
+      a(class='w3-bar-item w3-button ' href='watering') Bewaesserung
+
+    //- dropdown list
+    a(class='w3-bar-item w3-button w3-theme-l3' onclick="myAccordion('demo2')"
+      href='javascript:void(0)') <i class="fa fa-caret-down"></i> Liste nach Raum 
     div(class='w3-hide' id='demo2')
       each room in rooms
         a(class='w3-bar-item w3-button' href= 'room_' + room) #{room}
+  
+  a(class='w3-bar-item w3-button w3-theme-l3' href='system') System
 
 //- not really toc but common for every page
 div(class='w3-overlay w3-hide-large w3-animate-opacity'

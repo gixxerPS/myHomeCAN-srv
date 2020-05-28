@@ -1,0 +1,22 @@
+html
+  head
+    title myHomeCAN
+    include includes/head.pug
+    script(src='script/client.js')
+  body
+    include includes/toc.pug
+    // main container
+    div(class='w3-main' style='margin-left:250px')
+      // responsive headline on small screens
+      div(class='w3-container w3-top w3-theme w3-large' id='myTop')
+        p
+          i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
+            onclick='w3_open()')
+        span(class='w3-hide' id='myIntro') myHomeCAN Hauptseite :)
+      
+      // responsive headline on wide screens
+      header(class='w3-container w3-theme' style='padding:46px 32px') 
+        h1(class='w3-xxxlarge') myHomeCAN Hauptseite 
+        div(class='w3-right')='V'+commonData.curver
+      div(class='w3-container w3-light-grey')
+        h1 Status Übersicht

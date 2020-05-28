@@ -39,6 +39,10 @@
   function updateAliveTable (aliveMap) {
     var table = document.getElementById('aliveTable');
     var rowCnt = table.rows.length;
+    if (rowCnt === 2) {
+      table.deleteRow(1);
+    }
+    rowCnt = table.rows.length;
     var row, i;
     Object.keys(aliveMap).forEach(function (node) {
       row = null;
@@ -136,7 +140,7 @@
       break;
     case 0x4: // iu
       var iotable = document.createElement('table');
-      iotable.setAttribute('class', 'noBorder');
+      iotable.setAttribute('class', 'w3-small');
       var thead = iotable.createTHead();
       var headRow = thead.insertRow();
 		    var tbody = iotable.createTBody();
@@ -155,7 +159,7 @@
   };
   function createIoSubTableOutputs(nodeObj, nodeId, cell) {
       var iotable = document.createElement('table');
-      iotable.setAttribute('class', 'noBorder');
+      iotable.setAttribute('class', 'w3-small');
       var btnRow = iotable.insertRow();
       var stateRow = iotable.insertRow(); // state row dummy
       stateRow.setAttribute('id', 'out'+nodeId);

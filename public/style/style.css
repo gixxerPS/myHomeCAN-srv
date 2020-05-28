@@ -3,7 +3,6 @@
 
  /* body {font-family:  sans-serif} */
 
-
  .output_circle  {
  width: 2em;
  height: 2em;
@@ -30,6 +29,12 @@
   border-radius: 10px;
   margin-bottom:40px;
 }
+
 meter::-webkit-meter-optimum-value {
   background: blue; /* Green */
+}
+
+.log {
+  height : 200px;
+  overflow-y: scroll;
 }

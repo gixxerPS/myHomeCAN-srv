@@ -15,13 +15,13 @@ html
       // responsive headline on wide screens
       header(class='w3-container w3-theme' style='padding:46px 32px') 
         h1(class='w3-xxxlarge') System 
-      div(class='w3-container w3-light-grey' style='padding:32px')
+      div(class='w3-container w3-light-grey ' style='padding:32px; overflow:auto;')
         h1 Status aktive Knoten
         p Anzahl: 
           span(id="aliveCnt") 0
           span  letzte Aktualisierung: 
           span(id="dateAct") 0
-        table(class= 'stdFormat' id='aliveTable')
+        table(class='w3-small w3-stripped' id='aliveTable')
           thead
             tr
               th ID
@@ -35,11 +35,10 @@ html
             tr
               td wird in Kuerze aktualisiert...
         h1 Serverstatus
-        p Aktuelle Version (evtl. in footer oder so)
         p uptime...
         p cpu load, net load, bus load
-        a(href='debug') Debug
-        table(class='noBorder' id='byteTable')
+        
+        table(class='w3-small' id='byteTable')
           thead
             tr
               th 15
@@ -77,5 +76,6 @@ html
               td 1
               td 0
         p space
-        include includes/footer.pug
+        a(class='w3-btn w3-block w3-theme-l3' href='debug') Debug
+      include includes/footer.pug
           

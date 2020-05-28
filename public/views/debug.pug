@@ -12,9 +12,44 @@ html
         i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
           onclick='w3_open()')
       span(class='w3-hide' id='myIntro') myHomeCAN Debug :)
+        div(class='w3-right')
+          a(class='w3-right' href='#top') Nach oben
     header(class='w3-container w3-theme' style='padding:46px 32px') 
       h1(class='w3-xxxlarge') Debug 
-    div(class='w3-container' style='padding:32px')
-        
+    div(id='top' class='w3-container w3-light-grey')
+      div(class='w3-container w3-padding-16')
+        button(onclick='myAccordion("homeconf")' 
+        class='w3-btn w3-block w3-theme-l3 w3-left-align ') <i class="fas fa-caret-down"></i> Aktuelle Hauskonfiguration
+        div(id='homeconf' class='w3-container w3-hide')
+          pre= JSON.stringify(homeconf, null, '  ')
+      div(class='w3-container w3-padding-16')
+        button(onclick='myAccordion("debuglogContainer")' 
+        class='w3-btn w3-block w3-theme-l3 w3-left-align ') <i class="fas fa-caret-down"></i> Debugausgaben
+        div(id='debuglogContainer' class='w3-container w3-hide')
+          pre(id='debugLog' class='log w3-border w3-sand') gsfhgdfh
+            |TODO
+            |asdf
+            |asdffggasfh
+            |TODO
+            |asdf
+            |asdffggasfh
+            |TODO
+            |asdf
+            |asdffggasfh
+            |TODO
+            |asdf
+            |asdffggasfh
+            |TODO
+            |asdf
+            |asdffggasfh
+            |TODO
+            |asdf
+            |asdffggasfh
+            |TODO
+            |asdf
+            |asdffggasfh
+            |TODO
+            |asdf
+            |asdffggasfh
     include includes/footer.pug
         

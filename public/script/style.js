@@ -28,10 +28,18 @@ function myAccordion(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
-    x.previousElementSibling.className += " w3-theme";
+    // https://www.w3schools.com/w3css/w3css_color_themes.asp
+    x.previousElementSibling.className += " w3-theme-d2";
+    // if button has carret down than change it to caret right
+    x.previousElementSibling.firstChild.className =
+      x.previousElementSibling.firstChild.className.replace("fa-caret-down", "fa-caret-right"); 
   } else {
     x.className = x.className.replace("w3-show", "");
     x.previousElementSibling.className =
-      x.previousElementSibling.className.replace(" w3-theme", "");
+    x.previousElementSibling.className.replace(" w3-theme-d2", "");
+
+    // change caret back to down
+    x.previousElementSibling.firstChild.className =
+      x.previousElementSibling.firstChild.className.replace("fa-caret-right", "fa-caret-down"); 
   }
 }
