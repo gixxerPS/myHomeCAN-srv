@@ -24,9 +24,104 @@ html
         h1 Ausblick zukünftige Features...
         p Datum
         hr
-        p Wetter
-          a(class='w3-button w3-margin-left w3-theme-l3' target='_blank' href='https://openweathermap.org/api') https://openweathermap.org/api
-        hr
+
+        h2 Wetter
+        a(class='w3-button w3-margin-left w3-theme-l3' target='_blank' href='https://openweathermap.org/api') https://openweathermap.org/api
+        br
+        button(class='w3-button w3-theme-l3' onclick='client.weatherClick()') wetter daten holen
+        div(class='w3-row')
+          div(class='w3-container w3-third')
+            div(class='w3-card w3-dark-grey')
+              h3(class='w3-margin-left') Aktuell
+              
+              table(class='w3-table-all' )
+                tr(class='w3-hover-light-blue') 
+                  td Uhrzeit
+                  td
+                    p(id='dt') 20:47:53 Uhr
+                tr(class='w3-hover-light-blue') 
+                  td Temperatur
+                  td
+                    p(id='temp') 22 °C
+                tr(class='w3-hover-light-blue') 
+                  td Windgeschwindigkeit
+                  td
+                    p(id='wind_speed') 3 km/h
+                tr(class='w3-hover-light-blue') 
+                  td Sonnenaufgang
+                  td
+                    p(id='sunrise') 18:00:00 Uhr
+                tr(class='w3-hover-light-blue') 
+                  td Sonnenuntergang
+                  td
+                    p(id='sunset') 06:00:00 Uhr
+                tr(class='w3-hover-light-blue') 
+                  td Luftdruck
+                  td
+                    p(id='pressure') 1006 hPa
+                tr(class='w3-hover-light-blue') 
+                  td Luftfeuchtigkeit
+                  td
+                    p(id='humidity') 74 %
+                tr(class='w3-hover-light-blue') 
+                  td Taupunkt
+                  td
+                    p(id='dew_point') 14 °C
+                tr(class='w3-hover-light-blue') 
+                  td Windrichtung
+                  td
+                    p(id='wind_deg') 260°
+                tr(class='w3-hover-light-blue') 
+                  td Bewölkt
+                  td
+                    p(id='clouds') 33 %
+                  
+                      
+          div(class='w3-container w3-rest')
+            div(class='w3-card w3-dark-grey')
+              h3(class='w3-margin-left') Vorhersage Stunden 
+              div(style='height:200px;overflow:auto;')
+                div(class='w3-card w3-light-grey')
+                  table(class='w3-table-all')
+                    - var i=0;
+                    while i < 48
+                      tr(class='w3-hover-light-blue') 
+                        td= i++ +':00 Uhr'
+                        td 
+                          img(src='http://openweathermap.org/img/wn/10d@2x.png' style='width:75px;') 
+                        td 27 °C
+                        td 0.1 l/qm
+                        td 27 km/h
+                    
+            div(class='w3-card w3-dark-grey')
+              h3(class='w3-margin-left') Vorhersage Tage 
+              div(style='height:200px;overflow:auto;')
+                table(class='w3-table-all')
+                  tr(class='w3-hover-light-blue') 
+                    th 
+                    th 
+                    th
+                    th Morgens
+                    th Tags
+                    th Abends
+                    th Nachts
+                  - var i=0;
+                  while i < 8
+                    tr(class='w3-hover-light-blue') 
+                      td= i++ +'.7.2020'
+                      td
+                        img(src='http://openweathermap.org/img/wn/10d@2x.png' style='width:75px;')
+                      td 1 l/qm
+                      td 
+                        p(id='dailyTmorn') 10 °C
+                      td 
+                        p(id='dailyTday') 25 °C
+                      td 
+                        p(id='dailyTeve') 20 °C
+                      td 
+                        p(id='dailyTnight') 5 °C
+                  
+
         p Kalender
         hr
         p ...

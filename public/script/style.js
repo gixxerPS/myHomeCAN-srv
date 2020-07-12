@@ -32,7 +32,9 @@ function myAccordion(id) {
     x.previousElementSibling.className += " w3-theme-d2";
     // if button has carret down than change it to caret right
     x.previousElementSibling.firstChild.className =
-      x.previousElementSibling.firstChild.className.replace("fa-caret-down", "fa-caret-right"); 
+      x.previousElementSibling.firstChild.className.replace("fa-caret-down", "fa-caret-right");
+    x.previousElementSibling.firstChild.className =
+      x.previousElementSibling.firstChild.className.replace("fa-minus", "fa-plus"); 
   } else {
     x.className = x.className.replace("w3-show", "");
     x.previousElementSibling.className =
@@ -40,6 +42,8 @@ function myAccordion(id) {
 
     // change caret back to down
     x.previousElementSibling.firstChild.className =
-      x.previousElementSibling.firstChild.className.replace("fa-caret-right", "fa-caret-down"); 
+      x.previousElementSibling.firstChild.className.replace("fa-caret-right", "fa-caret-down");
+      x.previousElementSibling.firstChild.className =
+      x.previousElementSibling.firstChild.className.replace("fa-plus", "fa-minus"); 
   }
 }

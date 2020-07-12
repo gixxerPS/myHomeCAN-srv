@@ -7,6 +7,7 @@ var ProcMsg = require('./lib/procmsg.js');
 var Can = require('./lib/can.js');
 var LogicApp = require('./lib/logicApp.js');
 var ProcImg = require('./lib/processimage.js');
+var WeatherApp = require('./lib/weatherApp.js');
 
 //-----------------------------------------------------------------------------
 // create modules
