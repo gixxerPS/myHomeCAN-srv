@@ -1,8 +1,7 @@
 html
   head
-    title myHomeCAN
     include includes/head.pug
-    script(src='script/client.js')
+    
   body
     include includes/toc.pug
     // main container
@@ -12,11 +11,448 @@ html
         p
           i(class='fa fa-bars w3-button w3-teal w3-hide-large w3-xlarge'
             onclick='w3_open()')
-        span(class='w3-hide' id='myIntro') myHomeCAN Hauptseite :)
+        span(class='w3-hide' id='myIntro') myHomeCAN Notizen :)
+            a(class='w3-padding' href='#hdr') nach oben <i class='fas fa-arrow-up'></i>
       
       // responsive headline on wide screens
-      header(class='w3-container w3-theme' style='padding:46px 32px') 
-        h1(class='w3-xxxlarge') myHomeCAN Hauptseite 
+      header(id='hdr' class='w3-container w3-theme' style='padding:46px 32px') 
+        h1(class='w3-xxxlarge') myHomeCAN Notizen 
         div(class='w3-right')='V'+commonData.curver
       div(class='w3-container w3-light-grey')
-        h1 Status Übersicht
+        div(class='w3-panel w3-card w3-sand')
+            h1 Inhalt
+            h3    
+                a(href='#commands') <i class='fas fa-caret-right'></i> useful commands
+            a(class='w3-padding' href='#commands_folderutils') folder utils
+            a(class='w3-padding' href='#commands_manipulation') textfile manipulation
+            a(class='w3-padding' href='#commands_netw') network
+            h3    
+                a(href='#pkg') <i class='fas fa-caret-right'></i>  pkg and installation
+            h3    
+                a(href='#servermaint') <i class='fas fa-caret-right'></i> server maintenance    
+            a(class='w3-padding' href='#servermaint_logs') logs
+            a(class='w3-padding' href='#servermaint_ssh') ssh
+            a(class='w3-padding' href='#servermaint_tmux') tmux   
+            a(class='w3-padding' href='#servermaint_rsync') rsync
+            a(class='w3-padding' href='#servermaint_cron') cron
+            h3    
+                a(href='#programs') <i class='fas fa-caret-right'></i> programs and links
+            h3    
+                a(href='#mc') <i class='fas fa-caret-right'></i> midnight commander
+            h3    
+                a(href='#svn') <i class='fas fa-caret-right'></i> subversion
+            h3    
+                a(href='#git') <i class='fas fa-caret-right'></i> git
+            h3    
+                a(href='#raspi') <i class='fas fa-caret-right'></i> raspberry pi 2
+            a(class='w3-padding' href='#archlinux') archlinux
+            a(class='w3-padding' href='#raspbian') raspbian
+            a(class='w3-padding' href='#redmine') redmine
+            a(class='w3-padding' href='#prosody') prosody
+            h3    
+                a(href='#beaglebone') <i class='fas fa-caret-right'></i> beaglebone
+            h3    
+                a(href='#smb') <i class='fas fa-caret-right'></i> samba
+            h3    
+                a(href='#vim') <i class='fas fa-caret-right'></i> vim
+            h3    
+                a(href='#mikrocontroller') <i class='fas fa-caret-right'></i> mikrocontroller
+            a(class='w3-padding' href='#eclipse') setup eclipse
+            a(class='w3-padding' href='#arduino') arduino
+        div(class='w3-container')
+            h2(id='commands') useful commands
+            p recursive grep
+            div(class='w3-code') grep -r 'y ticks =' .
+            p command for backup this html file
+            div(class='w3-code') scp ~/mynotes.html root@beaglebone:/media/usbhdd/Datensicherung/linux
+            p show content of mounted folder
+            div(class='w3-code') ls 
+                | /run/user/1000/gvfs/smb-share\:server\=beaglebone\,share\=pladde/
+            p convert svg to pdf with inkscape
+            div(class='w3-code') inkscape --export-pdf=mdlFourmo.pdf mdlFourmo.svg
+            p externalize with latex manually
+            div(class='w3-code') pdflatex -shell-escape -halt-on-error -interaction=batchmode -jobname "tikz/tmoconvMCmd" "\def\tikzexternalrealjob{main}\input{main}"
+            p more complex find
+            div(class='w3-code') find medien/*Sitcoms* medien/Drama -iname "*s01*e01" -not -name "*.nfo" 2&gt;/dev/null
+            p find and execute
+            div(class='w3-code') find . -mmin +5 -mmin -10 -exec sh -c cp {} temp' \;
+            p tar create zipped file
+            div(class='w3-code') tar -czf archiv.tgz directory/
+            p tar create zipped file
+            div(class='w3-code') tar -czf archiv.tgz directory/
+            p tar xtract zipped file
+            div(class='w3-code') tar -xzf archiv.tgz
+            p wer blockiert die externe festplatte, tcp oder udp socket ?
+            div(class='w3-code') fuser -v /media/usbhdd
+            
+            h2(id='commands_folderutils') folder utils
+            p show folder size
+            div(class='w3-code') du -h dir | sort -n
+            p show folder size with given depth and combined
+            div(class='w3-code') du -ch -d 1 dir
+
+            h2(id='commands_manipulation') textfile manipulation
+            p comment all lines with c++ style
+            div(class='w3-code') cat code.c | awk '{print "//" $0}'
+            p replace tabs with underscores
+            div(class='w3-code') tr '\t' '_' &lt; text.txt
+            p replace uppercase with lowercase
+            div(class='w3-code') tr [:upper:] [:lower:]
+
+            h2(id='commands_netw') network
+            p port scan of 255 adresses with nmap
+            div(class='w3-code') nmap -sP 192.168.0.*
+            p scan wlan network
+            div(class='w3-code') sudo iw dev wlan0 scan
+            p mount linux filesystem with sshfs
+            div(class='w3-code') sudo apt-get install sshfs
+            br
+            div(class='w3-code') sshfs pi@192.168.2.50:/media/usbhdd /mnt/srvdata
+            p wlan signal state
+            div(class='w3-code') cat /proc/net/wireless
+            p mount network samba folder
+            div(class='w3-code') gvfs-mount smb://beaglebone/pladde
+
+            h2(id='servermaint') server maintenance
+            h3(id='servermaint_dyndns') dyndns
+            p 
+                | provider: 
+                a(class='w3-btn w3-round w3-light-blue' href='https://www.noip.com' target='_blank') www.noip.com
+                br
+                | my personal domain (currently only used for ovpn): 
+                a(class='w3-btn w3-round w3-light-blue' href='https://www.db-engineering.ddns.net' target='_blank') www.db-engineering.ddns.net
+            h3(id='servermaint_logs') logs
+            p currently logged in users
+            div(class='w3-code') w
+            br
+            div(class='w3-code') who
+            p kernel messages with readable timeformat
+            div(class='w3-code') dmesg -T
+            p important logfiles under 
+            div(class='w3-code') /var/log
+            div(class='w3-container w3-padding-16')
+                table(class=' w3-table w3-table-all ')
+                    tr 
+                        td
+                            code auth.log
+                        td
+                            p. 
+                                logs system logons<br> 
+                                brief successful logons: wtmp<br>
+                                brief unsuccessful logons: btmp<br>
+                    tr  
+                        td  
+                            code syslog
+                        td
+                            p.
+                                logs kernel-, hardware- and cron-events
+                    tr
+                        td
+                            code dpkg.log
+                        td
+                            p
+                                logs manual installations and automatic updates. additional info 
+                                in <code>./apt/history.log</code>
+            p view logs of systemd service
+            div(class='w3-code') sudo journalctl -u [unitfile]
+            div(class='w3-container')
+                p For our myhomeCAN:
+                div(class='w3-code') sudo journalctl -u myhomecan
+                p To follow logs in real time:
+                div(class='w3-code') sudo journalctl -f -u myhomecan
+            h3(id='servermaint_ssh') ssh
+            p ssh login without entering password every time (using authentication key)
+            ol(class='w3-ol')
+                li(style='padding-bottom: 16px;') create key on CLIENT
+                div(class='w3-code') ssh-keygen -t rsa
+                p (or use puttygen and follow the steps in the program)
+                li(style='padding-bottom: 16px;') transfer key to server
+                div(class='w3-code') ssh-copy-id -i root@beaglebone
+                br
+                div(class='w3-code') ssh-copy-id -i root@alarmpi
+                br
+                div(class='w3-code') ssh-copy-id -i pi@raspberry
+                p.
+                    alternatively manually add the key on the server (this is also 
+                    the way for putty)
+                li ssh login at server and select 'unlock key automatically'
+            h3(id='servermaint_tmux') tmux
+            p a terminal multiplexer like screen.
+            p open new shell
+            div(class='w3-code') tmux
+            p rejoin shell
+            div(class='w3-code') tmux attach
+            p show all sessions (navigation with cursors, enter)
+            div(class='w3-code') ^B S
+            p open new window
+            div(class='w3-code') ^B C
+            p show window list
+            div(class='w3-code') ^B W
+            p split window horizontally
+            div(class='w3-code') ^B "
+            p scroll terminal
+            div(class='w3-code') ^B Bild-auf 
+            br
+            div(class='w3-code') ^B Bild-ab
+            h3(id='servermaint_rsync') rsync
+            p syntax: rsync SRC [USER@]HOST:DEST. use option -n for a dry test run!
+            div(class='w3-code') rsync -nhva --stats /media/usbhdd/ beagle@192.168.2.51:/media/usbhdd/
+            br
+            div(class='w3-code') rsync -nva --stats /media/usbhdd/ root@alarmpi:/media/usbhdd/
+            br
+            div(class='w3-code') rsync -va --stats /media/usbhdd/ root@alarmpi:/media/usbhdd/
+            br
+            div(class='w3-code') rsync -va --stats /media/usbhdd/ebooks root@192.168.2.101:/media/usbhdd/
+            p option --delete for deletion at destination (for exact synchronization)
+            div(class='w3-code') rsync -nva --delete --stats /media/usbhdd/ root@alarmpi:/media/usbhdd
+            br
+            div(class='w3-code') rsync -nva --delete --stats /media/usbhdd/ pi@raspberry:/media/usbhdd
+            br
+            div(class='w3-code') rsync -va --delete --stats /media/usbhdd/ root@alarmpi:/media/usbhdd
+            p skript that can be used for daily cron (<em>/usr/local/bin/usbhddbackup.sh</em>):
+            pre(class='w3-sand').
+                #!/bin/bash 
+ 
+                rsync -nhva --stats --exclude=mysql /media/usbhdd/  beagle@192.168.2.51:/media/usbhdd/ &amp;&gt; $0.log
+
+                # test success
+                #touch ~/test &amp;&gt; $0.log
+
+                # test error
+                #touch /root &amp;&gt; $0.log
+                
+                if [ $? -ne 0 ]; then 
+                #error 
+                #echo "Backup of $(hostname) completed with error on $(date)." | 
+                mail -s "$(date +'%y-%m-%d %H:%M:%S') Backup of $(hostname) ERROR" -r srv-boenke@gmx.de boenkedaniel@gmail.com &lt; $0.log
+                else 
+                #success 
+                #echo "Backup of $(hostname) completed successfully on $(date)." | mail -s "Backup of $(hostname) SUCCESS" -r srv-boenke@gmx.de boenkedaniel@gmail.com 
+                mail -s "$(date +'%y-%m-%d %H:%M:%S') Backup of $(hostname) SUCCESS" -r srv-boenke@gmx.de boenkedaniel@gmail.com &lt; $0.log
+                fi
+            h3(id='servermaint_cron') cron
+            p syntax: rsync SRC [USER@]HOST:DEST
+            div(class='w3-code') rsync -a --stats /media/usbhdd/ root@alarmpi:/media/usbhdd/
+            p entry in crontab (call user crontab with)
+            div(class='w3-code') crontab -e
+            div(class='w3-container w3-sand')
+                pre 0 0 * * * * /usr/local/bin/usbhddbackup.sh
+            h2(id='pkg') pkg and installation
+            p is pkg xyz installed?
+            div(class='w3-code') dpkg -l | grep xyz
+            p search pkg xyz in online repository
+            div(class='w3-code') apt-cache search xyz
+            p show details for pkg xyz
+            div(class='w3-code') apt-cache show xyz
+            p install pkg from source code. typical commands
+            div(class='w3-code') ./configure
+            br
+            div(class='w3-code') make
+            br
+            div(class='w3-code') sudo make install
+            p list installed packages sorted by size
+            div(class='w3-code') dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
+            
+            h2(id='programs') programs and links
+            p p2p daten direkt zwischen pc's austauschen: <b>nitroshare</b>
+            p home cloud mit versionsverwaltung: <b>sparkleshare</b>
+            p pdf: <b>evince</b>
+            p linux terminal emulator: <b>picocom</b>
+            p remote server monitoring: <b>evince</b>
+            p search in office documents: <b>docfetcher</b> (java, so usable for windows as well)
+            p pictures: <b>eog</b>
+            p hdd check: <b>smartmontools</b>
+            p.
+                print all smart info for device. provide usb driver sat with option 
+                -d (valid for intenso 2,5")
+            div(class='w3-code') smartctl -d sat -a /dev/sda1
+            p clean up filenames <b>detox</b>
+            p terminal shortcut <b>guake</b>
+            p regex 101: 
+                a(class='w3-btn w3-light-blue w3-round' target='_blank' href='https://regex101.com/') https://regex101.com/
+            
+
+            h2(id='git') git
+            p commit changes (locally to master) and push then to remote
+            div(class='w3-code') 
+                | git commit -am '- new readme'
+                br
+                | git push
+            p setup
+            div(class='w3-code')
+                | git config --global user.name "Daniel Boenke"
+                br
+                | git config --global user.email boenkedaniel@gmail.com
+                | git config --global core.editor vim
+                br
+                | git config --list
+            p server config
+            div(class='w3-code') adduser git
+            div(class='w3-container w3-sand') password: git
+            p repository:
+            div(class='w3-code') 
+                | git@beaglebone:/media/usbhdd/git/homeautomation_sw
+                br
+                | git remote add origin git@beaglebone:/media/usbhdd/git/homeautomation_sw
+            p working with git
+            div(class='w3-code') 
+                | git clone git@beaglebone:/media/usbhdd/git/homeautomation_sw
+                br
+                | git status
+                br
+            p update from server
+            div(class='w3-code') git pull
+            div(class='w3-code') git reset --hard
+            p or
+            div(class='w3-code') git checkout -t -f remote/branch
+            p (discard local changes for a specific file)
+            div(class='w3-code') git checkout filename
+
+            h2(id='raspi') raspberry pi 2
+            p enable double usb current. Add the line
+            div(class='w3-container w3-sand') max_usb_current=1
+            p to
+            div(class='w3-container w3-sand') /boot/config.txt
+            p image backup of running live system
+            div(class='w3-code') 
+                | dd if=/dev/mmcblk0 bs=1M | gzip -c &gt; /media/usbhdd/Datensicherung/srv-data.img.gz
+
+            h3(id='raspbian') raspbian
+            p defaultpassword
+            div(class='w3-code') raspberry
+            p change hostname
+            div(class='w3-container')
+                p Update <samp>/etc/hostname</samp> and <samp>/etc/hosts</samp> , so local address(es) resolves with the 
+                    | new system name.
+            p To enable SSH for headless machines:
+            div(class='w3-container')
+                p For headless setup, SSH can be enabled by placing a file named <samp>ssh</samp>, without any extension, onto the boot partition of the SD card.<br>
+            p Default user = pi; Default password = raspberry. 
+            p Network setup static ip (default = dhcp) in <samp>/etc/network/interfaces</samp>:
+            div(class='w3-code') 
+                pre
+                    | iface eth0 inet static
+                    | address 192.168.2.50
+                    | gateway 192.168.2.1
+            p wifi
+
+            div(class='w3-container')
+                p Besser als das wpa_supplicant gedöns funktioniert der Weg direkt über 
+                    | /etc/network/interfaces:
+            div(class='w3-container w3-sand') 
+                pre
+                   |iface wlan0 inet static
+                   |     address 192.168.2.52
+                   |     netmask 255.255.255.0
+                   |     gateway 192.168.2.1
+                   |     wpa-essid CBR600F
+                   |     wpa-psk 8945449144515715
+                   |#iface wlan0 inet manual
+                   |#    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+            p mail setup
+            div(class='w3-container')
+                div(class='w3-code') sudo apt-get install ssmtp mailutils
+                p Datei <samp>/etc/ssmtp/ssmtp.conf</samp>:
+                div(class='w3-container w3-sand') 
+                    pre
+                        |root=postmaster
+                        |
+                        |# The place where the mail goes. The actual machine name is required no
+                        |# MX records are consulted. Commonly mailhosts are named mail.domain.com
+                        |mailhub=mail.gmx.net:587
+                        |
+                        |# Where will the mail seem to come from?
+                        |#rewriteDomain=gmx.de
+                        |
+                        |# The full hostname
+                        |hostname=gmx.de
+                        |
+                        |# Are users allowed to set their own From: address?
+                        |# YES - Allow the user to specify their own From: address
+                        |# NO - Use the system generated From: address
+                        |FromLineOverride=YES
+                        |AuthUser=srv-boenke@gmx.de
+                        |AuthPass=A6yxQYIsAiIyeSVl3CmV
+                        |UseSTARTTLS=YES
+                p Test:
+                div(class='w3-code') echo "Hello world email body" | mail -s "Test Subject" -r srv-boenke@gmx.de boenkedaniel@gmail.com
+                p Wichtig ist das -r srv-boenke@gmx.de ohne kommt:
+                div(class='w3-code') send-mail: 550 Sender address is not allowed.
+            
+            h2(id='smb') samba
+            p create samba user
+            p notes from smb.conf:
+            div(class='w3-container w3-sand') 
+                pre
+                    |# NOTE: Whenever you modify this file you should run the command
+                    |# "testparm" to check that you have not made any basic syntactic
+                    |# errors.
+                    |# A well-established practice is to name the original file
+                    |# "smb.conf.master" and create the "real" config file with
+                    |# testparm -s smb.conf.master &gt;smb.conf
+                    |# This minimizes the size of the really used smb.conf file
+            p create master copy
+            div(class='w3-code') cd /etc/samba
+            div(class='w3-code') cp smb.conf smb.conf.master
+            p add following at the end of smb.conf.master to share the usb hdd
+            div(class='w3-container w3-sand') 
+                pre
+                    |# i added this part for sharing the usbhdd
+                    |[pladde]
+                    |comment = usb festplatte
+                    |path = /media/usbhdd
+                    |read only = no
+            p create smb.conf using testparm
+            div(class='w3-code') testparm -s smb.conf.master &gt;smb.conf
+            p add user root to samba (maybe later create extra user). The user must be an existing linux user.
+            div(class='w3-code') smbpasswd -a root
+            p check setup
+            div(class='w3-code') smbclient -L localhost -U%
+            div(class='w3-container w3-sand') 
+                pre
+                    |root@beaglebone:/etc/samba#  smbclient -L localhost -U% 
+                    |Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.6.6]
+                    |
+                    |Sharename       Type      Comment
+                    |---------       ----      -------
+                    |print$          Disk      Printer Drivers
+                    |pladde          Disk      usb festplatte
+                    |IPC$            IPC       IPC Service (beaglebone server)
+                    |Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.6.6]
+                    |Server               Comment
+                    |---------            -------
+                    |BEAGLEBONE           beaglebone server
+                    |Workgroup            Master
+                    |---------            -------
+                    |WORKGROUP            BEAGLEBONE
+            p mount smb folder temporary in linux
+            div(class='w3-code') sudo mount -t cifs -o username=pi //192.168.2.50/pladde /media/smbpi
+            p mount permanent via fstab
+            div(class='w3-code') //192.168.1.100/Tausch /media/austausch cifs username=otto,passwd=geheim,domain=Gruppe1 0 0
+            h2(id='vim') vim
+            p reindent entire file in vim
+            div(class='w3-code') gg=G
+
+            h2(id='mikrocontroller') mikrocontroller
+            a(class='w3-button w3-theme-l3' target='_blank' href='http://eleccelerator.com/fusecalc/fusecalc.php?chip=atmega32&LOW=EF&HIGH=99&LOCKBIT=FF') http://eleccelerator.com/fusecalc/fusecalc.php?chip=atmega32&LOW=EF&HIGH=99&LOCKBIT=FF
+            p ide independent generation
+            div(class='w3-container')
+                p check hardware connection reading flash from device
+                div(class='w3-code') avrdude -pm32 -cjtag3 -Pusb -Uflash:r:flash.hex:i
+                p test avarice reading fuses
+                div(class='w3-code') sudo avarice -3 --jtag usb -P atmega2560 -r
+                p debugging
+                div(class='w3-code') avarice -3 --jtag usb -P atmega2560  :4242//
+                p programming
+                div(class='w3-code') avrdude -pm2560 -cjtag3 -Pusb -Uflash:w:/home/mint/workspace/stk600test/Debug/stk600test.elf:a
+                p programming fuses
+                div(class='w3-code') AVRDUDE -patmega32  -cjtag3 -Pusb -U lfuse:w:0xEF:m
+                p only verify program
+                div(class='w3-code') avrdude -pm32 -cjtag3 -Pusb -Uflash:v:main.hex:i
+                p reading / programming arduino mega2560 with avrdude
+                div(class='w3-code') sudo avrdude -pm2560 -cstk500v2 -P/dev/serial/by-id/usb-Arduino__www.arduino.cc__0042_85235353137351908111-if00 -Uflash:r:flash.hex:i
+                p listening to serial port of arduino
+                div(class='w3-code') sudo picocom /dev/serial/by-id/usb-Arduino__www.arduino.cc__0042_85235353137351908111-if00
+                p close picocom
+                div(class='w3-code') C-a C-x
+      include includes/footer.pug

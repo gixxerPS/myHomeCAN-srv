@@ -21,11 +21,11 @@ html
         div(class='w3-right')='V'+commonData.curver
       div(class='w3-container w3-light-grey')
         h1 Status Übersicht
-        p TODO
         h1 Ausblick zukünftige Features...
         p Datum
         hr
         p Wetter
+          a(class='w3-button w3-margin-left w3-theme-l3' target='_blank' href='https://openweathermap.org/api') https://openweathermap.org/api
         hr
         p Kalender
         hr
@@ -52,6 +52,6 @@ html
 
         img(src='./images/dblogo.svg' width='800')
         h3 Plot Bibliothek
-        p https://www.plotly.com/
+        a(class='w3-button w3-theme-l3' target='_blank' href='https://www.plotly.com/') https://www.plotly.com/
         div(id='plotlytest')
       include includes/footer.pug

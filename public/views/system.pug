@@ -2,6 +2,8 @@ html
   head
     include includes/head.pug
     script(src='script/system.js')
+    script(src='script/myutil.js')
+    script(src='script/lib/sprintf.js')
   body
     include includes/toc.pug
     // main container
@@ -16,6 +18,28 @@ html
       header(class='w3-container w3-theme' style='padding:46px 32px') 
         h1(class='w3-xxxlarge') System 
       div(class='w3-container w3-light-grey ' style='padding:32px; overflow:auto;')
+        h1 Serverstatus
+        table(class='w3-table-all')
+          tr(class='w3-hover-light-blue') 
+            td Anwendung läuft seit
+            td
+              pre(id='srvuptime')
+          tr(class='w3-hover-light-blue') 
+            td Server läuft seit
+            td
+              pre(id='srvsrvuptime')
+          tr(class='w3-hover-light-blue') 
+            td CPU Last
+            td
+              pre(id='srvcpuload')
+          tr(class='w3-hover-light-blue') 
+            td Freier Arbeitsspeicher
+            td
+              pre(id='srvfreemem')
+          tr(class='w3-hover-light-blue') 
+            td Gesamtarbeitsspeicher
+            td
+              pre(id='srvtotalmem')
         h1 Status aktive Knoten
         p Anzahl: 
           span(id="aliveCnt") 0
@@ -34,48 +58,8 @@ html
           tbody
             tr
               td wird in Kuerze aktualisiert...
-        h1 Serverstatus
-        p uptime...
-        p cpu load, net load, bus load
         
-        table(class='w3-small' id='byteTable')
-          thead
-            tr
-              th 15
-              th 14
-              th 13
-              th 12
-              th 11
-              th 10
-              th 9
-              th 8
-              th 7
-              th 6
-              th 5
-              th 4
-              th 3
-              th 2
-              th 1
-              th 0
-          tbody
-            tr
-              td 1
-              td 0
-              td 1
-              td 0
-              td 1
-              td 0
-              td 1
-              td 0
-              td 1
-              td 0
-              td 1
-              td 0
-              td 1
-              td 0
-              td 1
-              td 0
-        p space
-        a(class='w3-btn w3-block w3-theme-l3' href='debug') Debug
+        
+        a(class='w3-btn w3-block w3-theme-l3 w3-left-align' href='debug') Debug
       include includes/footer.pug
           

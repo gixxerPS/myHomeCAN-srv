@@ -14,9 +14,17 @@
         updateIoMap(data.ioMap);
       }
     });
+    socket.on('srvinfo_res', function (data) {
+      $('#srvuptime').html(mu.convertSec2ddHhMmSs(data.info.uptime));
+      $('#srvsrvuptime').html(mu.convertSec2ddHhMmSs(data.info.srvuptime));
+      $('#srvcpuload').html(sprintf('%3.2f %%', parseFloat(data.info.cpuload) ));
+      $('#srvfreemem').html(sprintf('%5.2f MB' , parseFloat(data.info.freemem) ));
+      $('#srvtotalmem').html(sprintf('%5.2f MB' ,parseFloat(data.info.totalmem) ));
+    });
     intervalId = setInterval(function () {
       //console.log('request data');
       socket.emit('system', {req: ['getAliveMap', 'getIoMap']});
+      socket.emit('srvinfo_req');
     }, 1000);
   }).delegate('.ui-page', 'pagehide', function () {
     console.log('clear interval');
