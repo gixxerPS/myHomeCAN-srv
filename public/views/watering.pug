@@ -63,6 +63,16 @@ html
                                 div(class='output_circle' id= tankId+'_output_circle')
                               td
                                 p(id= tankId+'_starttime') 15:29:10 Uhr
-        
+      div(class='w3-container w3-pale-blue')
+        table(class='w3-table w3-bordered w3-border w3-margin-bottom')
+          tbody
+            tr
+              td Durchfluss
+              td 
+                button(onClick="room.receptClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+              td 
+                button(onClick="room.receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+              td
+                div(class='output_circle' id= item.out_addr+'_output_circle')
       include includes/footer.pug
 

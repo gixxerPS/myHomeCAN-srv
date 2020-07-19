@@ -4,6 +4,7 @@ html
     include includes/head.pug
     script(src='script/client.js')
     script(src='script/lib/plotly-latest.min.js')
+    script(src='script/myutil.js')
   body
     include includes/toc.pug
     // main container
@@ -21,14 +22,10 @@ html
         div(class='w3-right')='V'+commonData.curver
       div(class='w3-container w3-light-grey')
         h1 Status Übersicht
-        h1 Ausblick zukünftige Features...
-        p Datum
-        hr
-
         h2 Wetter
         a(class='w3-button w3-margin-left w3-theme-l3' target='_blank' href='https://openweathermap.org/api') https://openweathermap.org/api
         br
-        button(class='w3-button w3-theme-l3' onclick='client.weatherClick()') wetter daten holen
+        //button(class='w3-button w3-theme-l3' onclick='client.weatherClick()') wetter daten holen
         div(class='w3-row')
           div(class='w3-container w3-third')
             div(class='w3-card w3-dark-grey')
@@ -36,7 +33,7 @@ html
               
               table(class='w3-table-all' )
                 tr(class='w3-hover-light-blue') 
-                  td Uhrzeit
+                  td Zeitstempel
                   td
                     p(id='dt') 20:47:53 Uhr
                 tr(class='w3-hover-light-blue') 
@@ -82,10 +79,10 @@ html
               h3(class='w3-margin-left') Vorhersage Stunden 
               div(style='height:200px;overflow:auto;')
                 div(class='w3-card w3-light-grey')
-                  table(class='w3-table-all')
+                  table(id='tbl_weather_hourly' class='w3-table-all')
                     - var i=0;
                     while i < 48
-                      tr(class='w3-hover-light-blue') 
+                      tr(class='w3-hover-light-blue w3-blue-gray') 
                         td= i++ +':00 Uhr'
                         td 
                           img(src='http://openweathermap.org/img/wn/10d@2x.png' style='width:75px;') 
@@ -96,7 +93,7 @@ html
             div(class='w3-card w3-dark-grey')
               h3(class='w3-margin-left') Vorhersage Tage 
               div(style='height:200px;overflow:auto;')
-                table(class='w3-table-all')
+                table(id='tbl_weather_daily' class='w3-table-all')
                   tr(class='w3-hover-light-blue') 
                     th 
                     th 
@@ -107,7 +104,7 @@ html
                     th Nachts
                   - var i=0;
                   while i < 8
-                    tr(class='w3-hover-light-blue') 
+                    tr(class='w3-hover-light-blue w3-blue-gray') 
                       td= i++ +'.7.2020'
                       td
                         img(src='http://openweathermap.org/img/wn/10d@2x.png' style='width:75px;')

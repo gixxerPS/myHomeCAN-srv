@@ -19,6 +19,10 @@ Set debug log level via environment
 
     export MYHOMECANDEBUG='server can msg'
     
+Set debug log level via environment
+
+export MYHOMECANNOLIVEWEATHER=1
+
 Set test environment (currently one pu and one iu)
 
     export MYHOMECANTESTENV=1

@@ -62,11 +62,35 @@
     }
     return dd + 'd ' + convertSec2HhMmSs(rest);
   }
+  function weekDay2String (d) {
+    switch (d) {
+      case 0: return 'Sonntag';
+      case 1: return 'Montag';
+      case 2: return 'Dienstag';
+      case 3: return 'Mittwoch';
+      case 4: return 'Donnerstag';
+      case 5: return 'Freitag';
+      case 6: return 'Samstag';
+    }
+  }
+  function weekDay2ShortString (d) {
+    switch (d) {
+      case 0: return 'So';
+      case 1: return 'Mo';
+      case 2: return 'Di';
+      case 3: return 'Mi';
+      case 4: return 'Do';
+      case 5: return 'Fr';
+      case 6: return 'Sa';
+    }
+  }
   exports.mu = {
     byte2BinArray : byte2BinArray,
     byteArray2BinArray : byteArray2BinArray,
     convertMs2HhMmSs : convertMs2HhMmSs,
     convertSec2HhMmSs : convertSec2HhMmSs,
-    convertSec2ddHhMmSs : convertSec2ddHhMmSs
+    convertSec2ddHhMmSs : convertSec2ddHhMmSs,
+    weekDay2String : weekDay2String,
+    weekDay2ShortString : weekDay2ShortString
   }
 })(this);

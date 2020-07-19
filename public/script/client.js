@@ -31,12 +31,14 @@ $(document).ready(function(){
 
   socket = io.connect();
   socket.on('weather_res', function (data) {
-      //console.log(data.weatherData);
+    //console.log(data.weatherData);
     if (data.weatherData.current) {
       //$('#dt').html( new Date().toLocaleTimeString('de-DE') );
       
       $('#dt').html( new Date(data.weatherData.current.dt*1000).toLocaleTimeString('de-DE') + ' Uhr');
-      $('#wind_speed').html(data.weatherData.current.wind_speed * 3.6 + ' km/h'); // m/s -> km/h
+      $('#temp').html(data.weatherData.current.temp + ' °C');
+      $('#wind_speed').html(
+        sprintf('%3.2f %s', data.weatherData.current.wind_speed * 3.6, ' km/h') ); // m/s -> km/h
       $('#sunrise').html(new Date(data.weatherData.current.sunrise*1000).toLocaleTimeString('de-DE') + ' Uhr' );
       $('#sunset').html(new Date(data.weatherData.current.sunset*1000).toLocaleTimeString('de-DE') + ' Uhr' );
       $('#pressure').html(data.weatherData.current.pressure + ' hPa');
@@ -45,13 +47,77 @@ $(document).ready(function(){
       $('#wind_deg').html(data.weatherData.current.wind_deg + ' °');
       $('#clouds').html(data.weatherData.current.clouds + ' %');
     }
+    if (data.weatherData.forecasthourly) {
+      var table = $('#tbl_weather_hourly')[0];
+      var row, rainSnow=0, timestamp;
+      for (var i = 0; i < data.weatherData.forecasthourly.length; i++) {
+        row = table.rows[i];
+        // dt
+        timestamp = new Date(data.weatherData.forecasthourly[i].dt*1000);
+        row.cells[0].innerHTML = mu.weekDay2ShortString(timestamp.getDay()) + ' '
+          + (timestamp.getDate()).toString() + '.' 
+          +(timestamp.getMonth()+1).toString() + '. ' 
+          + timestamp.getHours() + ' Uhr';
+        // img
+        row.cells[1].innerHTML ='<img src="http://openweathermap.org/img/wn/'+
+        data.weatherData.forecasthourly[i].weather[0].icon + '@2x.png" style="width:75px;">';
+        // temp
+        row.cells[2].innerHTML = data.weatherData.forecasthourly[i].temp + ' °C';
+        rainSnow=0;
+        if (data.weatherData.forecasthourly[i].rain) {
+          rainSnow += parseFloat( data.weatherData.forecasthourly[i].rain['1h'] );
+        }
+        if (data.weatherData.forecasthourly[i].snow) {
+          rainSnow += parseFloat( data.weatherData.forecasthourly[i].snow['1h'] );
+        }
+        // rain+snow
+        row.cells[3].innerHTML = rainSnow + ' l/qm';
+        // windspeed
+        row.cells[4].innerHTML = 
+        sprintf('%3.2f %s', parseFloat(data.weatherData.forecasthourly[i].wind_speed * 3.6), ' km/h'); // m/s -> km/h
+      }
+    }
+    if (data.weatherData.forecastdaily) {
+      var table = $('#tbl_weather_daily')[0];
+      var row, rainSnow=0;
+      for (var i = 0; i < data.weatherData.forecastdaily.length; i++) {
+        row = table.rows[i+1];
+        // dt
+        timestamp = new Date(data.weatherData.forecastdaily[i].dt*1000);
+        row.cells[0].innerHTML = mu.weekDay2ShortString(timestamp.getDay()) + ' '
+          + (timestamp.getDate()).toString() + '.' 
+          +(timestamp.getMonth()+1).toString() + '.';
+        // img
+        row.cells[1].innerHTML ='<img src="http://openweathermap.org/img/wn/'+
+        data.weatherData.forecastdaily[i].weather[0].icon + '@2x.png" style="width:75px;">';
+        
+        rainSnow=0;
+        if (data.weatherData.forecastdaily[i].rain) {
+          rainSnow += parseFloat( data.weatherData.forecastdaily[i].rain );
+        }
+        if (data.weatherData.forecastdaily[i].snow) {
+          rainSnow += parseFloat( data.weatherData.forecastdaily[i].snow );
+        }
+        // rain+snow
+        row.cells[2].innerHTML = rainSnow + ' l/qm';
+
+        // temp morning
+        row.cells[3].innerHTML = data.weatherData.forecastdaily[i].temp.morn + ' °C';
+        // temp day
+        row.cells[4].innerHTML = data.weatherData.forecastdaily[i].temp.day + ' °C';
+        // temp evening
+        row.cells[5].innerHTML = data.weatherData.forecastdaily[i].temp.eve + ' °C';
+        // temp night
+        row.cells[6].innerHTML = data.weatherData.forecastdaily[i].temp.night + ' °C';
+      }
+    }
 
   });
 
-
-  // intervalId = setInterval(function () {
-  //   updateWeather();
-  // }, 1000);
+  weatherClick();
+  var intervalId = setInterval(function () {
+    weatherClick();
+  }, 10000);
 
 });
   function weatherClick (id, state) {

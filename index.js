@@ -32,6 +32,15 @@ ProcImg.registerOnInputEventClient(logicApp, logicApp.onInputEvent);
 Webserver.setProcMsgObj(procMsg);
 Webserver.setLogicObj(logicApp);
 
+if (process.env.MYHOMECANTESTENV) {
+  require('log4js').getLogger().info('TESTENVIRONMENT ACTIVE !!!'); 
+}
+
+WeatherApp.update(); // once at startup
+setInterval(function () {
+  WeatherApp.update();
+}, 5 * 60 * 1000); // every n minutes
+
 // keep alive once a second
 setInterval(function () {
   procMsg.sendAlive();
