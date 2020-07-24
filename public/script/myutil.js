@@ -85,13 +85,12 @@
     }
   }
   function setStateColor4Elem (id, state) {
-    var elem;
-    elem = $('#'+id);
+    var elem = document.getElementById(id);
     if (elem) {
       if (state && state.toString() === '1') {
-        elem.css( 'backgroundColor', 'green');
+        elem.style.backgroundColor = 'green';
       } else {
-        elem.css( 'backgroundColor', '');
+        elem.style.backgroundColor = '';
       }
     }
   }

@@ -9,7 +9,7 @@
     socket.on('output_res', function (data) {
       if (data.circle) {
         for (var id in data.states) {
-          mu.setStateColor4Elem(id, data.states[id])
+          mu.setStateColor4Elem(id, data.states[id]);
         }
       } 
     });
