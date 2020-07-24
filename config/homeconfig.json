@@ -439,6 +439,13 @@
         "out_addr"      : "69.1.16",
         "on_addr"       : {"man": ["89.1.5"]},
         "off_addr"      : {"man": ["89.1.5"]}
+      },
+      "Pumpe2": {
+        "type"          : "pump",
+        "out_addr"      : "69.1.16",
+        "flow_addr"     : "89.1.10",
+        "press_addr"    : "89.1.9",
+        "min"           : {"addr":"89.1.6","logic":"NO"}
       }
     }
   }

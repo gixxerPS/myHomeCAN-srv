@@ -11,6 +11,14 @@
  border-radius: 1em;
   border: 1px solid;
 }
+.output_circleXS  {
+  width: 1em;
+  height: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  border-radius: 1em;
+   border: 1px solid;
+ }
 
  .valve_circle  {
  width: 2em;

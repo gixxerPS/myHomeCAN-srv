@@ -63,16 +63,43 @@ html
                                 div(class='output_circle' id= tankId+'_output_circle')
                               td
                                 p(id= tankId+'_starttime') 15:29:10 Uhr
-      div(class='w3-container w3-pale-blue')
-        table(class='w3-table w3-bordered w3-border w3-margin-bottom')
-          tbody
-            tr
-              td Durchfluss
-              td 
-                button(onClick="room.receptClick(this.id, 'ON')" type="button" id= item.out_addr) AN
-              td 
-                button(onClick="room.receptClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
-              td
-                div(class='output_circle' id= item.out_addr+'_output_circle')
+        each floor, fkey in homeObj
+          each room, rkey in floor
+            each item, ikey in room
+              if item.type === 'pump'
+                - var tankId = fkey+'_'+rkey+'_'+ikey
+                div(class='w3-panel w3-card w3-pale-blue')
+                  div(class='w3-row')
+                      div(class='w3-center w3-cell w3-cell-middle')
+                        img(src='./images/pumpe_ksb.jpg' height="42" width="42")
+                      div(class='w3-cell')
+                        div(class='w3-container')
+                          h3= 'Pumpe ' +fkey
+                        div(class='w3-container')
+                          table(class='w3-table w3-bordered w3-border w3-margin-bottom')
+                            tbody
+                              tr
+                                td 
+                                  button(onClick="watering.updateAllPumpStates()" type="button" id= item.out_addr) AN
+                                td 
+                                  button(onClick="watering.pumpClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                                td 
+                                  div(class='output_circle pumpOutput' id= item.out_addr+'_output_circle')
+                                td 
+                                  div(class='w3-cell-row')
+                                    div(class='w3-cell-middle w3-container')
+                                      div(class='output_circleXS pumpFlow' id= item.flow_addr+'_flow_circle')
+                                    div(class='w3-cell w3-cell-left')
+                                      p Durchfluss
+                                  div(class='w3-cell-row')
+                                    div(class='w3-cell-middle w3-container')
+                                      div(class='output_circleXS pumpPress' id= item.press_addr+'_pressure_circle')
+                                    div(class='w3-cell w3-cell-left')
+                                      p Druck
+                                  div(class='w3-cell-row')
+                                    div(class='w3-cell-middle w3-container')
+                                      div(class='output_circleXS pumpMinLvl' id= item.min.addr+'_minlvl_circle')
+                                    div(class='w3-cell w3-cell-left')
+                                      p Minimum
       include includes/footer.pug
 

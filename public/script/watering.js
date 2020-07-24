@@ -6,6 +6,37 @@
     socket = io.connect();
     // received states/info
     
+    // received output states
+    socket.on('output_res', function (data) {
+      var elem;
+      if (data.circle) {
+        for (var id in data.states) {
+          elem = document.getElementById(id);
+          if (elem) {
+            if (data.states[id] && data.states[id].toString() === '1') {
+              elem.style.backgroundColor = 'green';
+            } else {
+              elem.style.backgroundColor = '';
+            }
+          }
+        }
+      } 
+    });
+    socket.on('input_res', function (data) {
+      var elem;
+      if (data.circle) {
+        data.states.forEach(function (obj) {
+          elem = $('#'+obj.htmlid);
+          if (elem) {
+            if (obj.state && obj.state.toString() === '1') {
+              elem.css( 'backgroundColor', 'green');
+            } else {
+              elem.css( 'backgroundColor', '');
+            }
+          }
+        }); 
+      } 
+    });
     socket.on('tank_res', function (data) {
       // console.log('got tank_res: ');
       // console.log(data);
@@ -60,12 +91,41 @@
     socket.emit('tank_req', ids);
   }
 
+  /**
+   * for pumps */
+  function updateAllPumpStates () {
+    var ids = [];
+    $('.pumpOutput').each(function (i) {
+      ids.push(this.id); 
+    });
+    socket.emit('output_req_c', ids);
+
+    // collect input id's
+    ids = [];
+    $('.pumpFlow').each(function (i) {
+      ids.push({addr:this.id.split('_')[0], htmlid:this.id}); 
+    });
+    $('.pumpPress').each(function (i) {
+      ids.push({addr:this.id.split('_')[0], htmlid:this.id}); 
+    });
+    $('.pumpMinLvl').each(function (i) {
+      ids.push({addr:this.id.split('_')[0], htmlid:this.id}); 
+    });
+    socket.emit('input_req_c', ids);
+  }
+
+  function pumpClick() {
+
+  }
+
   window.onerror = function () {
     console.error('clear interval');
     clearInterval(intervalId);
   }
     
   exports.watering = {
-    lvlCmdClick : lvlCmdClick
+    lvlCmdClick : lvlCmdClick,
+    pumpClick : pumpClick,
+    updateAllPumpStates : updateAllPumpStates
   }
 })(this);
