@@ -6,34 +6,17 @@
     socket = io.connect();
     // received states/info
     
-    // received output states
     socket.on('output_res', function (data) {
-      var elem;
       if (data.circle) {
         for (var id in data.states) {
-          elem = document.getElementById(id);
-          if (elem) {
-            if (data.states[id] && data.states[id].toString() === '1') {
-              elem.style.backgroundColor = 'green';
-            } else {
-              elem.style.backgroundColor = '';
-            }
-          }
+          mu.setStateColor4Elem(id, data.states[id])
         }
       } 
     });
     socket.on('input_res', function (data) {
-      var elem;
       if (data.circle) {
         data.states.forEach(function (obj) {
-          elem = $('#'+obj.htmlid);
-          if (elem) {
-            if (obj.state && obj.state.toString() === '1') {
-              elem.css( 'backgroundColor', 'green');
-            } else {
-              elem.css( 'backgroundColor', '');
-            }
-          }
+          mu.setStateColor4Elem(obj.htmlid, obj.state)
         }); 
       } 
     });
@@ -61,8 +44,10 @@
     
     intervalId = setInterval(function () {
       updateAllTankStates();
+      updateAllPumpStates();
     }, 1000);
     updateAllTankStates();
+    updateAllPumpStates()
   });
   
   function lvlCmdClick (id, state) {
@@ -114,8 +99,8 @@
     socket.emit('input_req_c', ids);
   }
 
-  function pumpClick() {
-
+  function pumpClick(id, state) {
+    socket.emit('ctrl', { id: id, state: state, type:'receptacle'});
   }
 
   window.onerror = function () {

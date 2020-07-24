@@ -84,6 +84,17 @@
       case 6: return 'Sa';
     }
   }
+  function setStateColor4Elem (id, state) {
+    var elem;
+    elem = $('#'+id);
+    if (elem) {
+      if (state && state.toString() === '1') {
+        elem.css( 'backgroundColor', 'green');
+      } else {
+        elem.css( 'backgroundColor', '');
+      }
+    }
+  }
   exports.mu = {
     byte2BinArray : byte2BinArray,
     byteArray2BinArray : byteArray2BinArray,
@@ -91,6 +102,7 @@
     convertSec2HhMmSs : convertSec2HhMmSs,
     convertSec2ddHhMmSs : convertSec2ddHhMmSs,
     weekDay2String : weekDay2String,
-    weekDay2ShortString : weekDay2ShortString
+    weekDay2ShortString : weekDay2ShortString,
+    setStateColor4Elem : setStateColor4Elem  
   }
 })(this);
