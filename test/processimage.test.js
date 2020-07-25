@@ -182,6 +182,34 @@ suite('PROC IMG', function() {
     assert.deepEqual(ProcImg.getIoMap()['61'].out,
         Buffer.from([0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0]));
   });
+  test('get input 1 known iu', function() {
+    ProcImg.registerUnit({txStr:'89', txType:msghlp.uTypes.iu});
+    var idObj = {
+      prio: 4,
+      txType : msghlp.uTypes.iu,
+      txId : 18,
+      txStr : '89',
+      rxType : msghlp.uTypes.master,
+      rxId : 0,
+      code : 1
+    }
+    var data = {
+      iuIn : { states :
+          Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80 ])
+      } };
+    ProcImg.onMsgData(idObj, data);
+    var ret = ProcImg.getInput('89', 0);
+    assert.deepEqual(ret, 1);
+  });
+  test('get input 0 known iu', function() {
+    ProcImg.registerUnit({txStr:'89', txType:msghlp.uTypes.iu, code:1});
+    var ret = ProcImg.getInput('89', 0);
+    assert.deepEqual(ret, 0);
+  });
+  test('get input unknown iu', function() {
+    var ret = ProcImg.getInput('81', 0);
+    assert.deepEqual(ret, null);
+  });
   test('update input map iu with old state', function() {
     var idObj = {
         prio: 4,

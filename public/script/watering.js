@@ -14,6 +14,9 @@
       } 
     });
     socket.on('input_res', function (data) {
+      console.log(data.states[0]);
+      console.log(data.states[1]);
+      console.log(data.states[2]);
       if (data.circle) {
         data.states.forEach(function (obj) {
           mu.setStateColor4Elem(obj.htmlid, obj.state)
