@@ -182,6 +182,40 @@ suite('PROC IMG', function() {
     assert.deepEqual(ProcImg.getIoMap()['61'].out,
         Buffer.from([0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0]));
   });
+  test('convert offset input', function() {
+    var convOffs = ProcImg.convertOffsIn(0);
+    assert.deepEqual(convOffs, {idx:0, mask:0x1});
+    convOffs = ProcImg.convertOffsIn(1);
+    assert.deepEqual(convOffs, {idx:0, mask:0x2});
+    convOffs = ProcImg.convertOffsIn(2);
+    assert.deepEqual(convOffs, {idx:0, mask:0x4});
+    convOffs = ProcImg.convertOffsIn(3);
+    assert.deepEqual(convOffs, {idx:0, mask:0x8});
+    convOffs = ProcImg.convertOffsIn(4);
+    assert.deepEqual(convOffs, {idx:0, mask:0x10});
+    convOffs = ProcImg.convertOffsIn(5);
+    assert.deepEqual(convOffs, {idx:0, mask:0x20});
+    convOffs = ProcImg.convertOffsIn(6);
+    assert.deepEqual(convOffs, {idx:0, mask:0x40});
+    convOffs = ProcImg.convertOffsIn(7);
+    assert.deepEqual(convOffs, {idx:0, mask:0x80});
+    convOffs = ProcImg.convertOffsIn(8);
+    assert.deepEqual(convOffs, {idx:1, mask:0x1});
+    convOffs = ProcImg.convertOffsIn(9);
+    assert.deepEqual(convOffs, {idx:1, mask:0x2});
+    convOffs = ProcImg.convertOffsIn(10);
+    assert.deepEqual(convOffs, {idx:1, mask:0x4});
+    convOffs = ProcImg.convertOffsIn(11);
+    assert.deepEqual(convOffs, {idx:1, mask:0x8});
+    convOffs = ProcImg.convertOffsIn(12);
+    assert.deepEqual(convOffs, {idx:1, mask:0x10});
+    convOffs = ProcImg.convertOffsIn(13);
+    assert.deepEqual(convOffs, {idx:1, mask:0x20});
+    convOffs = ProcImg.convertOffsIn(14);
+    assert.deepEqual(convOffs, {idx:1, mask:0x40});
+    convOffs = ProcImg.convertOffsIn(15);
+    assert.deepEqual(convOffs, {idx:1, mask:0x80});
+  });
   test('get input 1 known iu', function() {
     ProcImg.registerUnit({txStr:'89', txType:msghlp.uTypes.iu});
     var idObj = {
@@ -194,8 +228,8 @@ suite('PROC IMG', function() {
       code : 1
     }
     var data = {
-      iuIn : { states :
-          Buffer.from([0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x80 ])
+      iuIn : { states : // inputs in normal order !
+          Buffer.from([0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 ])
       } };
     ProcImg.onMsgData(idObj, data);
     var ret = ProcImg.getInput('89', 0);
