@@ -68,7 +68,7 @@ html
           each room, rkey in floor
             each item, ikey in room
               if item.type === 'pump'
-                - var tankId = fkey+'_'+rkey+'_'+ikey
+                - var pumpId = fkey+'_'+rkey+'_'+ikey
                 div(class='w3-panel w3-card w3-pale-blue')
                   div(class='w3-row')
                       div(class='w3-center w3-cell w3-cell-middle')
@@ -76,7 +76,7 @@ html
                       div(class='w3-cell')
                         div(class='w3-container')
                           h3= 'Pumpe ' +fkey
-                        div(class='w3-container')
+                        div(class='w3-container pump' id= pumpId + '%container')
                           table(class='w3-table w3-bordered w3-border w3-margin-bottom')
                             tbody
                               tr
@@ -89,18 +89,65 @@ html
                                 td 
                                   div(class='w3-cell-row')
                                     div(class='w3-cell-middle w3-container')
-                                      div(class='output_circleXS pumpFlow' id= item.flow_addr+'_flow_circle')
+                                      div(class='output_circleXS pumpFlow' id= pumpId+'_flow_circle')
                                     div(class='w3-cell w3-cell-left')
                                       p Durchfluss
                                   div(class='w3-cell-row')
                                     div(class='w3-cell-middle w3-container')
-                                      div(class='output_circleXS pumpPress' id= item.press_addr+'_pressure_circle')
+                                      div(class='output_circleXS pumpPress' id= pumpId+'_pressure_circle')
                                     div(class='w3-cell w3-cell-left')
                                       p Druck
                                   div(class='w3-cell-row')
                                     div(class='w3-cell-middle w3-container')
-                                      div(class='output_circleXS pumpMinLvl' id= item.min.addr+'_minlvl_circle')
+                                      div(class='output_circleXS pumpMinLvl' id= pumpId+'_minlvl_circle')
                                     div(class='w3-cell w3-cell-left')
                                       p Minimum
+                                td
+                                  button(class='w3-button w3-border w3-green' onClick="watering.pumpOption('"+pumpId+"', {autoEnable:'toggle'})" type="button" id= pumpId+'_autoEnable') Einschaltautomatik ausschalten
+        each floor, fkey in homeObj
+          each room, rkey in floor
+            - var valveCount = 0
+            each item, ikey in room
+              if item.type === 'valve'
+                - valveCount = valveCount + 1
+            if valveCount > 0
+              div(class='w3-panel w3-card w3-pale-blue')
+                div(class='w3-row')
+                  div(class='w3-center w3-cell w3-cell-middle')
+                    img(src='./images/wasserhahn.png' height="42" width="42")
+                  div(class='w3-cell')
+                    div(class='w3-container')
+                      h3= 'Ventile ' +fkey + ' ' + rkey
+                    div(class='w3-container')
+                      table(class='w3-table w3-bordered w3-border w3-margin-bottom')
+                        thead
+                          tr
+                            th Ventile
+                            th AN
+                            th AUS
+                            th STATUS
+                            th Laufzeit [hh:mm]
+                            th Restlaufzeit
+                            th Startzeit
+                        tbody
+                          each item in room
+                            - var valveId = fkey+'_'+rkey+'_'+ikey
+                            if item.type === 'valve'
+                              tr
+                                td
+                                  = item.str
+                                td 
+                                  button(onClick="watering.valveClick(this.id, 'ON')" type="button" id= item.out_addr) AN
+                                td 
+                                  button(onClick="watering.valveClick(this.id, 'OFF')" type="button" id= item.out_addr) AUS
+                                td
+                                  div(class='valve_circle' id= item.out_addr+'_output_circle')
+                                td 
+                                  input(type="time" id= item.out_addr+'_valvetime' value="00:30" min="00:00" max="03:00" )
+                                td
+                                  p(id= item.out_addr+'_remaining') 29min10s
+                                td
+                                  p(id= item.out_addr+'_starttime') 15:29:10 Uhr
+                          
       include includes/footer.pug
 

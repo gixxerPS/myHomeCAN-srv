@@ -60,12 +60,19 @@ var testHomeConf = {
         },
         Tank : {
           type      : 'tank',
-          'levels'    : [
+          levels    : [
             {'addr':'89.1.6', 'val':20, 'logic':'NO'},
             {'addr':'89.1.7', 'val':50, 'logic':'NO'},
             {'addr':'89.1.8', 'val':80, 'logic':'NO'}
           ],
           'fill_addr' : '87.1.2'
+        },
+        Pumpe2: {
+          type          : 'pump',
+          out_addr      : '69.1.16',
+          flow_addr     : '89.1.10',
+          press_addr    : '89.1.9',
+          min           : {'addr':'89.1.6','logic':'NO'}
         }
       }
       
@@ -153,6 +160,13 @@ suite('LOGIC APP', function() {
       '73.1.2':{kind:'DOWN', mirrorAdr:'73.1.1'}
     });
   });
+  test('create pump map', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    assert.deepEqual(logicApp.pumpMap, {
+      'AUSSEN_Garten_Pumpe2':{opts:{autoEnable:false}, out_addr:'69.1.16', state:0, min:false, 
+      pressure:false, flow:false}
+    });
+  });
   test('create oninput map', function() {
     logicApp.createInternalMaps(testHomeConf);
     assert.deepEqual(logicApp.onInputMap, {
@@ -199,11 +213,17 @@ suite('LOGIC APP', function() {
         shutter:[{
           kind:'DOWN', out_up_addr:'73.1.1'}]},
       '89.1.6':{
-        tank:{id:'AUSSEN_Garten_Tank',val:20} },
+        tank:{id:'AUSSEN_Garten_Tank',val:20},
+        pump:{id:'AUSSEN_Garten_Pumpe2', sub:{min:{logic:'NO'}}}
+      },
       '89.1.7':{
         tank:{id:'AUSSEN_Garten_Tank',val:50} },
       '89.1.8':{
-        tank:{id:'AUSSEN_Garten_Tank',val:80} }
+        tank:{id:'AUSSEN_Garten_Tank',val:80} },
+      '89.1.9':{
+          pump:{id:'AUSSEN_Garten_Pumpe2',sub:{pressure:{}}} },
+      '89.1.10':{
+        pump:{id:'AUSSEN_Garten_Pumpe2',sub:{flow:{}}} }
     });
   });
   test('create test map check valve', function() {
@@ -530,6 +550,78 @@ suite('LOGIC APP', function() {
     assert.deepEqual( self.setOutSpy.args[1], ['87.1', 1, 0] );
 
     assert.deepEqual( self.setOutSpy.callCount, 2 );
+  });
+  test('onInput pump states', function() {
+    //this.getOutStub.returns(0);
+    logicApp.createInternalMaps(testHomeConf);
+    var idObj = {
+        prio: 0, txType: 0x4, txId: 0x1, txStr: '89',
+        rxType: 0x1, rxId: 0x1, rxStr: '1', code: 1
+      };
+    var data = {
+        // 89.1.6 ON min
+        // 89.1.9 ON press
+        // 89.1.10 ON flow
+        iuIn:{states:Buffer.from([0x20,0x3]),changed:Buffer.from([0x20,0x3]),
+          tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+      }};
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min, true);
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure, true);
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].flow, true);
+    data = {
+      // 89.1.6 OFF
+      iuIn:{states:Buffer.from([0x00,0x0]),changed:Buffer.from([0x20,0x3]),
+        tOn   :[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]
+    }};
+    logicApp.onInputEvent(idObj, data);
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min, false);
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure, false);
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].flow, false);
+  });
+  test('pump logic min', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
+    
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+    assert.deepEqual( this.setOutSpy.args[0], ['69.1', 15, 0] );
+  });
+  test('pump logic auto off', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = true;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].opts.autoEnable = false; // default
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+    assert.deepEqual( this.setOutSpy.args[0], ['69.1', 15, 0]  );
+  });
+  test('pump logic auto', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = true;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].opts.autoEnable = true; 
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+    //this.getOutStub.returns(1);
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 1);
+    assert.deepEqual( this.setOutSpy.args[0], ['69.1', 15, 1] );
+
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].flow = true;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = true;
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 1);
+    assert.deepEqual( this.setOutSpy.callCount, 1 ); // keep running
+
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].flow = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = true;
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 0);
+    assert.deepEqual( this.setOutSpy.args[1], ['69.1', 15, 0] );
+
+  });
+  test('pump option', function() {
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.setPumpOpt('AUSSEN_Garten_Pumpe2', {autoEnable:true});
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].opts.autoEnable, true);
   });
 });
 

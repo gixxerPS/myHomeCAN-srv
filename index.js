@@ -39,7 +39,7 @@ if (process.env.MYHOMECANTESTENV) {
 WeatherApp.update(); // once at startup
 setInterval(function () {
   WeatherApp.update();
-}, 5 * 60 * 1000); // every n minutes
+}, 10 * 60 * 1000); // every n minutes
 
 // keep alive once a second
 setInterval(function () {
