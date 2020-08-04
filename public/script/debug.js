@@ -16,7 +16,16 @@
             )
         );
       }
+
+
       $('body').scrollTop($('body')[0].scrollHeight);
+
+      if (data.fn) {
+        $('#debuglogContainer').append('<p>'+data.fn+'</p>');
+        $('#debuglogContainer').append(
+          '<pre class="log w3-border w3-round w3-sand w3-small">'
+          +data.content+'</pre>');
+      }
     });
   });
   exports.debug = {
