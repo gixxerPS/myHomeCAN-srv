@@ -87,7 +87,7 @@
   function setStateColor4Elem (id, state) {
     var elem = document.getElementById(id);
     if (elem) {
-      if (state && state.toString() === '1') {
+      if (state) {
         elem.style.backgroundColor = 'green';
       } else {
         elem.style.backgroundColor = '';
