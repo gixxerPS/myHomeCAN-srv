@@ -28,6 +28,10 @@ html
           button(onclick='myAccordion("debuglogContainer")' 
           class='w3-btn w3-block w3-theme-l3 w3-left-align ') <i class="fas fa-caret-down"></i> Debugausgaben
           div(id='debuglogContainer' class='w3-container w3-hide')
-            
+        div(class='w3-container w3-padding-16')
+          button(onclick='myAccordion("debugEnvVars")' 
+          class='w3-btn w3-block w3-theme-l3 w3-left-align ') <i class="fas fa-caret-down"></i> Umgebungsvariablen
+          div(id='debugEnvVars' class='w3-container w3-hide')
+            pre(class='log w3-border w3-round w3-sand w3-small')= JSON.stringify(envvars, null, '  ')
       include includes/footer.pug
           

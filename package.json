@@ -30,6 +30,7 @@
     "sprintf.js": "^0.1.4",
     "uuid": "^3.0.1",
     "serve-favicon": "2.5.0",
-    "os-utils": "^0.0.14"
+    "os-utils": "^0.0.14",
+    "modbus-stream": "^0.44.0"
   }
 }
