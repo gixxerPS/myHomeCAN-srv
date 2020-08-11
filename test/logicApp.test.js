@@ -11,8 +11,8 @@ var mu = require('../lib/myutil.js');
 var LogicApp = require('../lib/logicApp.js');
 var procImg = require('../lib/processimage.js');
 
-require('log4js').getLogger('logic').level = 'OFF';
-// require('log4js').getLogger('logic').level = 'DEBUG';
+// require('log4js').getLogger('logic').level = 'OFF';
+require('log4js').getLogger('logic').level = 'DEBUG';
 
 var testHomeConf = {
     EG:{
@@ -582,41 +582,63 @@ suite('LOGIC APP', function() {
   test('pump logic min', function() {
     logicApp.createInternalMaps(testHomeConf);
     logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = false;
-    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = true;
     
     logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
     assert.deepEqual( this.setOutSpy.args[0], ['69.1', 15, 0] );
   });
-  test('pump logic auto off', function() {
+  test('pump logic auto', function(done) {
+    var self = this;
     logicApp.createInternalMaps(testHomeConf);
     logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = true;
-    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
-    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].opts.autoEnable = false; // default
-    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
-    assert.deepEqual( this.setOutSpy.args[0], ['69.1', 15, 0]  );
-  });
-  test('pump logic auto', function() {
-    logicApp.createInternalMaps(testHomeConf);
-    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = true;
-    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = true;
     logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].opts.autoEnable = true; 
     logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
-    //this.getOutStub.returns(1);
     assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 1);
     assert.deepEqual( this.setOutSpy.args[0], ['69.1', 15, 1] );
 
     logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].flow = true;
-    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = true;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
     logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
     assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 1);
     assert.deepEqual( this.setOutSpy.callCount, 1 ); // keep running
 
+    // no pressure request and no flow ?
     logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].flow = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+    setTimeout(function () {
+      assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 0);
+      assert.deepEqual( self.setOutSpy.args[1], ['69.1', 15, 0] );
+      done();
+    }, 40);
+    // no immediate switch off but with delay
+    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 1);
+  });
+  test('pump logic start t off when pressure drops during timer', function(done) {
+    var self = this;
+    logicApp.createInternalMaps(testHomeConf);
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = true;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = true;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].opts.autoEnable = true; 
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+    
+    // no pressure request and no flow to start timeout
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].flow = false;
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = false;
+    logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
+
+    // timeout started. pressure request in between
+    logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].min = true;
     logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].pressure = true;
     logicApp.exePumpLogic('AUSSEN_Garten_Pumpe2');
-    assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 0);
-    assert.deepEqual( this.setOutSpy.args[1], ['69.1', 15, 0] );
 
+    setTimeout(function () {
+      assert.deepEqual(logicApp.pumpMap['AUSSEN_Garten_Pumpe2'].state, 1);
+      assert.deepEqual( self.setOutSpy.callCount, 2 ); 
+      assert.deepEqual( self.setOutSpy.args[1], ['69.1', 15, 1] );
+      done();
+    }, 40);
   });
   test('pump option', function() {
     logicApp.createInternalMaps(testHomeConf);
