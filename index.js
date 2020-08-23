@@ -15,6 +15,7 @@ var PvConnector = require('./lib/pvconnector.js');
 //-----------------------------------------------------------------------------
 var procMsg = new ProcMsg();
 var logicApp = new LogicApp(true);
+var pvConnector = new PvConnector();
 
 //-----------------------------------------------------------------------------
 // connect modules
@@ -51,3 +52,11 @@ setInterval(function () {
 setInterval(function () {
   ProcImg.checkAliveStates();
 }, 2000);
+
+setInterval(function () {
+  pvConnector.readPVdata()
+}, 1 * 60 * 1000); // every n minutes
+
+// setTimeout(function () {
+//   pvConnector.getPvData()
+// }, 1500);
