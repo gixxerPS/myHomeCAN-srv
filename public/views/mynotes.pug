@@ -209,7 +209,49 @@ html
             div(class='w3-code') rsync -nva --delete --stats /media/usbhdd/ pi@raspberry:/media/usbhdd
             br
             div(class='w3-code') rsync -va --delete --stats /media/usbhdd/ root@alarmpi:/media/usbhdd
-            p skript that can be used for daily cron (<em>/usr/local/bin/usbhddbackup.sh</em>):
+            p NEW (ssmtp) script that can be used for daily cron (<em>/usr/local/bin/usbhddbackup.sh</em>):
+            pre(class='w3-sand').
+                #!/bin/bash 
+                
+                MAIL_TO="boenkedaniel@gmail.com"
+                MAIL_FROM="srv-boenke@gmx.de"
+                MAILFILE=./tmpmail.txt
+                
+                rsync -hva --stats --exclude=mysql /media/usbhdd/  beagle@192.168.2.51:/media/usbhdd/ &amp;&gt; $0.log
+                retval1=$?
+                rsync -hva --stats --exclude=mysql /media/usbhdd2/  beagle@192.168.2.51:/media/usbhdd2/ &amp;&gt;&gt; $0.log
+                retval2=$?
+                
+                # test success
+                #touch ~/test &amp;&gt; $0.log
+                
+                # test error
+                #touch /root &amp;&gt; $0.log
+                
+                # MAILHEADER
+                echo "To: $MAIL_TO" &gt; $MAILFILE
+                echo "From: $MAIL_FROM" &gt;&gt; $MAILFILE
+                if [ "$retval1" -ne 0 -o "$retval2" -ne 0 ]; then 
+                  #error 
+                  #echo "Backup of $(hostname) completed with error on $(date)." | 
+                  echo "Subject: ERROR $(date +'%y-%m-%d %H:%M:%S') Backup of $(hostname)" &gt;&gt; $MAILFILE
+                else 
+                  #success 
+                  #echo "Backup of $(hostname) completed successfully on $(date)." | mail -s "Backup of $(hostname) SUCCESS" -r srv-boenke@gmx.de boenkedaniel@gmail.com 
+                echo "Subject: SUCCESS $(date +'%y-%m-%d %H:%M:%S') Backup of $(hostname)" &gt;&gt; $MAILFILE
+                fi 
+                
+                #MAILBODY
+                
+                echo "" &gt;&gt; $MAILFILE
+                cat $0.log &gt;&gt; $MAILFILE
+                echo "" &gt;&gt; $MAILFILE
+                
+                cat $MAILFILE | ssmtp $MAIL_TO
+                
+                rm $MAILFILE
+
+            p OLD (mail) script that can be used for daily cron (<em>/usr/local/bin/usbhddbackup.sh</em>):
             pre(class='w3-sand').
                 #!/bin/bash 
  
@@ -365,18 +407,22 @@ html
                         |#rewriteDomain=gmx.de
                         |
                         |# The full hostname
-                        |hostname=gmx.de
+                        |hostname=gmx.net
                         |
                         |# Are users allowed to set their own From: address?
                         |# YES - Allow the user to specify their own From: address
                         |# NO - Use the system generated From: address
                         |FromLineOverride=YES
                         |AuthUser=srv-boenke@gmx.de
-                        |AuthPass=A6yxQYIsAiIyeSVl3CmV
+                        |AuthPass=***
+                        |UseTLS=YES
                         |UseSTARTTLS=YES
-                p Test:
+                        |AuthMethod=LOGIN
+                p Test (option -v nur für verbose output kann weggelassen werden):
+                div(class='w3-code') echo "Hello world email body" | ssmtp -v boenkedaniel@gmail.com
+                p ACHTUNG ALT: (via Befehl mail klappt irgendwie nicht mehr)
                 div(class='w3-code') echo "Hello world email body" | mail -s "Test Subject" -r srv-boenke@gmx.de boenkedaniel@gmail.com
-                p Wichtig ist das -r srv-boenke@gmx.de ohne kommt:
+                p Wichtig ist das "-r srv-boenke@gmx.de", ohne kommt:
                 div(class='w3-code') send-mail: 550 Sender address is not allowed.
             
             h2(id='smb') samba
@@ -432,6 +478,9 @@ html
             h2(id='vim') vim
             p reindent entire file in vim
             div(class='w3-code') gg=G
+
+            p paste from clipboard
+            div(class='w3-code') shift+insert
 
             h2(id='mikrocontroller') mikrocontroller
             a(class='w3-button w3-theme-l3' target='_blank' href='http://eleccelerator.com/fusecalc/fusecalc.php?chip=atmega32&LOW=EF&HIGH=99&LOCKBIT=FF') http://eleccelerator.com/fusecalc/fusecalc.php?chip=atmega32&LOW=EF&HIGH=99&LOCKBIT=FF

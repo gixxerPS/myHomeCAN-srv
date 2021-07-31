@@ -4,7 +4,8 @@
   },
   "SERVER":{
 	  "PORT": 8080,
-	  "DIR": "/home/pi/myHomeCAN-srv/public"
+	  "DIR": "/home/mint/git/myHomeCAN-srv/public",
+	  "DDIR": "/home/pi/myHomeCAN-srv/public"
   },
   "COMM":{
       "TIMING":{

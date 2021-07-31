@@ -161,6 +161,34 @@ html
                             td
                               p(id= item.out_addr+'_starttime') 15:29:10 Uhr
                   
+          //- motion sensors
+          div(class='w3-panel w3-card w3-pale-yellow')
+            div(class='w3-row')
+              div(class='w3-center w3-cell w3-cell-middle')
+                img(src='./images/motion_man.jpg' height="42" width="42")
+              div(class='w3-cell')
+                div(class='w3-container')
+                  h3 Bewegungsmelder
+                div(class='w3-container')
+                  table(class='w3-table w3-bordered w3-border w3-margin-bottom')
+                    thead
+                      tr
+                        th
+                        th Status
+                        th Laufzeit [hh:mm:ss]
+                        th Restlaufzeit
+                    tbody
+                      each item in roomObj
+                        if item.type === 'motionSensor'
+                          tr
+                            td
+                              = item.str
+                            td
+                              div(class='output_circle' id= item.in_addr+'_output_circle')
+                            td 
+                              input(type="time" id= item.in_addr+'_ontime' value="00:01" min="00:00" max="03:00" )
+                            td
+                              p(id= item.in_addr+'_remaining') 3min00s
         
       include includes/footer.pug
 

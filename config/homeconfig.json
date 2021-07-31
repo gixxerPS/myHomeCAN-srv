@@ -81,6 +81,11 @@
         "out_addr"      : "63.1.1",
         "on_addr"       : {"man": []},
         "off_addr"      : {"man": []}
+      },
+      "Bewegung_Flur" : {
+        "type"      : "motionSensor",
+        "in_addr"   : "85.1.11",
+        "out_addr"  : ["62.1.14", "63.1.7"]  
       }
     },
     "GaesteWC" : {
